@@ -9,21 +9,23 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.motor.MotorFactory;
 
 public class Drivetrain extends SubsystemBase {
   WPI_TalonFX leftMas  = new WPI_TalonFX(Constants.Motor.leftMaster);
   WPI_TalonFX leftFol  = new WPI_TalonFX(Constants.Motor.leftMaster);
   WPI_TalonFX rightMas = new WPI_TalonFX(Constants.Motor.leftMaster);
   WPI_TalonFX rightFol = new WPI_TalonFX(Constants.Motor.leftMaster);
-
+ 
 
   /**
    * Creates a new Drivetrain.
    */
   public Drivetrain() {
+    MotorFactory.setFollower(leftMas, leftFol);
     
   }
 
