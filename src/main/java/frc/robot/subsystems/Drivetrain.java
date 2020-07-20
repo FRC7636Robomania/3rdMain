@@ -156,7 +156,9 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("rightDistants", getRigthtvelocity() * Constants.Motor.distancePerPulse);
     SmartDashboard.putNumber("Yaw", ahrs.getYaw());
   }
-
+  public Pose2d getPose2d(){
+    return pose;
+  }
   @Override
   public void periodic() {
     pose = odometry.update(getHeading(), 
