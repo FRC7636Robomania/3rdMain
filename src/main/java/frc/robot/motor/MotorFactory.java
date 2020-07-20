@@ -37,13 +37,16 @@ public class MotorFactory {
     }
 
     /**
-     * Set follower.
+     * Set follower.And initializing motor.
      * 
      * @param master
      * @param follower
      * @return master
      */
     public static TalonFX setFollower(final TalonFX master, final TalonFX follower) {
+        MotorFactory.init(master);
+        MotorFactory.init(follower);
+
         follower.follow(master);
         return master;
     }

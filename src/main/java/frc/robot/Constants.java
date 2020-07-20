@@ -21,5 +21,38 @@ public final class Constants {
         public static final int leftFollewer = 20;
         public static final int rightMaster = 21;
         public static final int rightFollower = 19;
+        public static final double distancePerPulse = 0.1524 * Math.PI / 2048 / 9.7;
+        public static final double wheelPitch = 0.7407;
+    }
+    public static class PowCon{
+        public static final int flywheel = 4;
+        public static final int conveyor = 2;
+        public static final int aimer = 8;
+        public static final int intakearmer = 0;
+
+        public static final double flywheel_kP = 0.1;
+        public static final double flywheel_kF = 0.0506;
+    }
+    public static class Button{
+        //Driverstation
+        /**____________________
+         * |                  |
+         * |    ○ ○  ○  ○     |              
+         * |                  |                      
+         * |    ○ ○  ○  ○     |
+         * |                  |
+         * ____________________
+         */
+        public static final int shoot = 1;
+
+        public static final int aim = 2;
+        public static final int turretleft = 3;
+        public static final int turretright = 4;
+
+        //Joystick
+        public static final int emergencyarmdown  = 7;
+        public static final int emergencyarmup    = 8;
+        public static final int emergencyintake   = 9;
+        public static final int emergencyshooter = 10;
     }
 }
