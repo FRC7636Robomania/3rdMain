@@ -5,58 +5,40 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.chassis;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.motor.MotorFactory;
 
-public class Drivetrain extends SubsystemBase {
-  WPI_TalonFX leftMas  = new WPI_TalonFX(Constants.Motor.leftMaster);
-  WPI_TalonFX leftFol  = new WPI_TalonFX(Constants.Motor.leftMaster);
-  WPI_TalonFX rightMas = new WPI_TalonFX(Constants.Motor.leftMaster);
-  WPI_TalonFX rightFol = new WPI_TalonFX(Constants.Motor.leftMaster);
-  AHRS ahrs = new AHRS(SPI.Port.kMXP);
+
+public class TrajectoryDrivetrain extends DrivetrainBase {
+
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
   private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.Motor.wheelPitch);
   private Pose2d pose;
+
   /**
    * Creates a new Drivetrain.
    */
-  public Drivetrain() {
-    MotorFactory.setFollower(leftMas, leftFol);
-    MotorFactory.setInvert(leftMas, InvertType.None);
-    MotorFactory.setPosion(leftMas, 0, 0, 10);
-    MotorFactory.setSensor(leftMas, FeedbackDevice.IntegratedSensor);
-    MotorFactory.setSensorPhase(leftMas, false);
-    MotorFactory.configLikePrevious(leftFol, false, InvertType.FollowMaster);
-    MotorFactory.setFollower(rightMas, rightFol);
-    MotorFactory.configLikePrevious(rightMas, true, InvertType.InvertMotorOutput);
-    MotorFactory.configLikePrevious(rightFol, true, InvertType.FollowMaster);
-    ahrs.reset();
-  }
+  public TrajectoryDrivetrain() {
 
+  }
+  
   /**
    * Returns the currently-estimated pose of the robot.
    *
    * @return The pose.
    */
   public Pose2d getPose() {
-    return odometry.getPoseMeters();
+    return pose;
   }
+
   /**
    * set odmetry,let the starting position 
    * of the robot be the starting point of the trajectory
@@ -86,6 +68,10 @@ public class Drivetrain extends SubsystemBase {
     return (leftMas.getSelectedSensorVelocity() + leftFol.getSelectedSensorVelocity()) / 2.0 * Constants.Motor.distancePerPulse;
   }
 
+  public double getLeftPosition(){
+    return (leftMas.getSelectedSensorPosition() + leftFol.getSelectedSensorPosition()) / 2.0 * Constants.Motor.distancePerPulse;
+  }
+
   /**
    * Returns right velocity
    * @return
@@ -93,6 +79,14 @@ public class Drivetrain extends SubsystemBase {
   public double getRigthtvelocity(){
     return (rightMas.getSelectedSensorVelocity() + rightFol.getSelectedSensorVelocity()) / 2.0 * Constants.Motor.distancePerPulse;
   }
+  /**
+   * Returns right velocity
+   * @return
+   */
+  public double getRigthtPosition(){
+    return (rightMas.getSelectedSensorPosition() + rightFol.getSelectedSensorPosition()) / 2.0 * Constants.Motor.distancePerPulse;
+  }
+  
 
   /**
    * Provide kinematics object, contain track width
@@ -102,6 +96,7 @@ public class Drivetrain extends SubsystemBase {
   public  DifferentialDriveKinematics getKinematics() {
     return kinematics;
   }
+
   /**
    * get "X" from odmetry
    * 
@@ -120,22 +115,15 @@ public class Drivetrain extends SubsystemBase {
     return odometry.getPoseMeters().getTranslation().getY();
   }
 
-  /**
-   * set motor output, change "voltage" to "PercentOutput"
-   * 
-   * @param leftVolts    left voltages
-   * @param rightVolts   right voltages
-   */
-  public void setOutput(double leftVolts, double rightVolts) {
-    leftMas.set(ControlMode.PercentOutput, leftVolts / 12);
-    rightMas.set(ControlMode.PercentOutput, rightVolts / 12);
+  
+  public void setOutput(double left, double right) {
+    leftMas.set(ControlMode.Velocity, left / Constants.Motor.distancePerPulse);
+    rightMas.set(ControlMode.PercentOutput, right / Constants.Motor.distancePerPulse);
 
-    SmartDashboard.putNumber("leftOutput ", leftVolts /12);
-    SmartDashboard.putNumber("rightOutput", rightVolts / 12);
+    SmartDashboard.putNumber("leftOutput ", left / Constants.Motor.distancePerPulse);
+    SmartDashboard.putNumber("rightOutput", right / Constants.Motor.distancePerPulse);
   }
  
-
-
   /**
    * Returns the heading of the robot.
    *
@@ -144,6 +132,7 @@ public class Drivetrain extends SubsystemBase {
   public Rotation2d getHeading() {
     return Rotation2d.fromDegrees(-ahrs.getAngle());
   }
+
   /**
    * Show message
    */
@@ -151,19 +140,21 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("x", getX());
     SmartDashboard.putNumber("Y", getY());
     //distants
-    
     SmartDashboard.putNumber("leftDistants", getLeftvelocity() * Constants.Motor.distancePerPulse);
     SmartDashboard.putNumber("rightDistants", getRigthtvelocity() * Constants.Motor.distancePerPulse);
     SmartDashboard.putNumber("Yaw", ahrs.getYaw());
   }
+  /**
+   * Returns current pose
+   */
   public Pose2d getPose2d(){
     return pose;
   }
   @Override
   public void periodic() {
     pose = odometry.update(getHeading(), 
-    getLeftvelocity() * Constants.Motor.distancePerPulse,
-    getRigthtvelocity() * Constants.Motor.distancePerPulse);
+    leftMas.getSelectedSensorPosition() * Constants.Motor.distancePerPulse,
+    rightMas.getSelectedSensorPosition() * Constants.Motor.distancePerPulse);
     message();
   }
 }

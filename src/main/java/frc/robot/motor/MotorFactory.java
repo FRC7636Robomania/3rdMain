@@ -105,6 +105,16 @@ public class MotorFactory {
         motor.setInverted(invertType);
         return motor;
     }
+    /**
+     * Set invertType
+     * @param motor
+     * @param invert
+     * @return motor
+     */
+    public static TalonFX setInvert(final TalonFX motor, boolean invert) {
+        motor.setInverted(invert);
+        return motor;
+    }
 
     /**
      * Set motor like previous.
@@ -118,6 +128,12 @@ public class MotorFactory {
         motor.setSelectedSensorPosition(MotorConfig.sensorPosition, MotorConfig.pidSlot, MotorConfig.timeoutMs);
         motor.setSensorPhase(sensorPhase);
         motor.setInverted(invertType);
+    }
+    public static void configLikePrevious(final TalonFX motor, final boolean sensorPhase, final boolean invert) {
+        motor.configSelectedFeedbackSensor(MotorConfig.sensor);
+        motor.setSelectedSensorPosition(MotorConfig.sensorPosition, MotorConfig.pidSlot, MotorConfig.timeoutMs);
+        motor.setSensorPhase(sensorPhase);
+        motor.setInverted(invert);
     }
 
     /**

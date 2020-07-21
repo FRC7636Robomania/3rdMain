@@ -23,6 +23,11 @@ public final class Constants {
         public static final int rightFollower = 19;
         public static final double distancePerPulse = 0.1524 * Math.PI / 2048 / 9.7;
         public static final double wheelPitch = 0.7407;
+
+        public static final boolean isRightMotorInvert = true;
+        public static final boolean isLeftMotorInvert = false;
+        public static final boolean isRightPhaseInvert = true;
+        public static final boolean isLeftPhaseInvert = false;
     }
     public static class PowCon{
         public static final int flywheel = 4;

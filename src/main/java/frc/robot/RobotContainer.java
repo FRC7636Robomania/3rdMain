@@ -10,13 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.Constants.Button;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Fastshoot;
-import frc.robot.subsystems.Drivetrain;
+import frc.robot.commands.auto.LeftUp;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -25,9 +19,8 @@ import frc.robot.subsystems.Drivetrain;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final Drivetrain       m_drivetrain       = new Drivetrain();
-  private final Shooter          m_shooter          = new Shooter();
-  private final Joystick         joystick           = new Joystick(0);
+  // private final Shooter          m_shooter          = new Shooter();
+  // private final Joystick         joystick           = new Joystick(0);
   // The robot's subsystems and commands are defined here...
 
 
@@ -49,7 +42,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick, Button.emergencyshooter)       .whenHeld(new Fastshoot(m_shooter));
+    // new JoystickButton(joystick, Button.emergencyshooter)       .whenHeld(new Fastshoot(m_shooter));
   }
 
 
@@ -60,6 +53,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return new LeftUp(Robot.trajectoryDrivetrain);
   }
 }
