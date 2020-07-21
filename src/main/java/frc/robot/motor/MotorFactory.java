@@ -24,7 +24,7 @@ public class MotorFactory {
         public static int sensorPosition;
         public static int pidSlot;
         public static int timeoutMs;
-    
+        public static int slotIdx;
     }
     /**
      * Initializing motor
@@ -109,7 +109,7 @@ public class MotorFactory {
     /**
      * Set motor like previous.
      * 
-     * @param motor
+     * @param motor 
      * @param sensorPhase
      * @param invertType  {@link MotorConfig}
      */
@@ -120,5 +120,34 @@ public class MotorFactory {
         motor.setInverted(invertType);
     }
 
+    /**
+     * set motor PID 設置馬達PID
+     * 
+     * @param motor 設置馬達
+     * @param kP kP值(大約為5分之一kF) 調越大 對誤差的調整更靈敏
+     * @param kF kF值 大約為1023(talon滿輸出)/全速運轉的速度單位(以falcon來說大約為21600) 
+     * @param slotIdx 閉迴控制位置(0,1,2)
+     */
+    public static TalonFX configPID(final TalonFX motor,double kP,double kF,int slotIdx){
+        motor.config_kP(slotIdx, kP);
+        motor.config_kF(slotIdx, kF);
+        return motor;
+    }
 
+    /**
+     * set motor limit 設置馬達限制
+     * @param deadband 設置死區
+     * @param percentOut 設置百分比輸出
+     * @param percentOut2 
+     * @param Ramp 設置完全加速時間
+     * @param timeoutMs 設置報錯時間
+     */
+    public static TalonFX configmotorlimit(final TalonFX motor,double deadband,double percentOut,double percentOut2,double Ramp,int timeoutMs){
+        motor.configFactoryDefault();
+        motor.configNeutralDeadband(deadband);
+        motor.configPeakOutputForward(percentOut,timeoutMs);
+        motor.configPeakOutputReverse(percentOut2,timeoutMs);
+        motor.configClosedloopRamp(Ramp);
+        return motor;
+    }
 }

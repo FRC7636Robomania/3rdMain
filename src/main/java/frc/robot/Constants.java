@@ -29,6 +29,7 @@ public final class Constants {
         public static final int conveyor = 2;
         public static final int aimer = 8;
         public static final int intakearmer = 0;
+        public static final int wide = 2;
 
         public static final double flywheel_kP = 0.1;
         public static final double flywheel_kF = 0.0506;

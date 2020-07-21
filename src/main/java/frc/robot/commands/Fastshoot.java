@@ -35,7 +35,7 @@ public class Fastshoot extends CommandBase {
   @Override
   public void execute() {
     m_Shooter.flywheelspinup(12000);
-    //m_Shooter.fastconveyor();
+    m_Shooter.fastconveyor();
     i++;
     SmartDashboard.putString("FlyWheelstatus", "flywheelSpin");
     
@@ -45,7 +45,7 @@ public class Fastshoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Shooter.flywheelstop();
-   // m_Shooter.conveyorstop();
+    m_Shooter.conveyorstop();
     SmartDashboard.putString("FlyWheelstatus", "flywheelStop");
     i=0;
   }
