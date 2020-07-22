@@ -8,9 +8,15 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.Button;
+import frc.robot.commands.Fastshoot;
 import frc.robot.commands.auto.LeftUp;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.chassis.MusicDrivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -19,20 +25,17 @@ import frc.robot.commands.auto.LeftUp;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // private final Shooter          m_shooter          = new Shooter();
-  // private final Joystick         joystick           = new Joystick(0);
+  private final Shooter          m_shooter          = new Shooter();
+  private final Joystick         joystick           = new Joystick(0);
+
   // The robot's subsystems and commands are defined here...
-
-
-
-
-
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
+    MusicDrivetrain.start("noise.chrp");
     configureButtonBindings();
   }
   /**
@@ -42,7 +45,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // new JoystickButton(joystick, Button.emergencyshooter)       .whenHeld(new Fastshoot(m_shooter));
+    new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
   }
 
 

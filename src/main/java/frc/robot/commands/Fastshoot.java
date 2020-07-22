@@ -34,11 +34,11 @@ public class Fastshoot extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Shooter.flywheelspinup(12000);
+    m_Shooter.flywheelspinup();
     m_Shooter.fastconveyor();
     i++;
     SmartDashboard.putString("FlyWheelstatus", "flywheelSpin");
-    
+    SmartDashboard.putNumber("i", i);
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +48,7 @@ public class Fastshoot extends CommandBase {
     m_Shooter.conveyorstop();
     SmartDashboard.putString("FlyWheelstatus", "flywheelStop");
     i=0;
+    SmartDashboard.putNumber("i", i);
   }
 
   // Returns true when the command should end.

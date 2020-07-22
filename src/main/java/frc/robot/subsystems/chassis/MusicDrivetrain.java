@@ -27,6 +27,10 @@ public class MusicDrivetrain extends DrivetrainBase{
     public static void stop(){
         orchestra.stop();
     }
+    @Override
+    public void periodic(){
+        
+    }
     
 
 }
