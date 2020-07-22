@@ -20,9 +20,9 @@ import frc.robot.motor.MotorFactory;
  */
 public class DrivetrainBase extends SubsystemBase {
   protected static WPI_TalonFX leftMas  = new WPI_TalonFX(Constants.Motor.leftMaster);
-  protected static WPI_TalonFX leftFol  = new WPI_TalonFX(Constants.Motor.leftMaster);
-  protected static WPI_TalonFX rightMas = new WPI_TalonFX(Constants.Motor.leftMaster);
-  protected static WPI_TalonFX rightFol = new WPI_TalonFX(Constants.Motor.leftMaster);
+  protected static WPI_TalonFX leftFol  = new WPI_TalonFX(Constants.Motor.leftFollewer);
+  protected static WPI_TalonFX rightMas = new WPI_TalonFX(Constants.Motor.rightMaster);
+  protected static WPI_TalonFX rightFol = new WPI_TalonFX(Constants.Motor.rightFollower);
   protected static AHRS ahrs = new AHRS(SPI.Port.kMXP);
   
   private   static boolean isFirst = true; 
@@ -47,6 +47,14 @@ public class DrivetrainBase extends SubsystemBase {
     MotorFactory.setFollower(rightMas, rightFol);
     MotorFactory.configLikePrevious(rightMas, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
     MotorFactory.configLikePrevious(rightFol, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
+    ahrs.reset();
+  }
+
+  public static void resetSensor(){
+    MotorFactory.setPosion(leftMas, 0, 0, 0);
+    MotorFactory.setPosion(rightMas, 0, 0, 0);
+    MotorFactory.setPosion(leftFol, 0, 0, 0);
+    MotorFactory.setPosion(rightFol, 0, 0, 0);
     ahrs.reset();
   }
 

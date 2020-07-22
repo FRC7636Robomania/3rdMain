@@ -37,6 +37,7 @@ public class TrajectoryFactory extends SubsystemBase {
   }
   public static void initPose(TrajectoryDrivetrain drivetrain){
     if(trajectory != null){
+      TrajectoryDrivetrain.resetSensor();
       drivetrain.setOdmetry(trajectory.getInitialPose());
     }
   }

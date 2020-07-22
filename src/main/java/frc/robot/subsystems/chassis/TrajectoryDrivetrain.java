@@ -25,10 +25,10 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
   private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.Motor.wheelPitch);
   private Pose2d pose;
-  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.143, 2.23, 0.372);
+  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.04, 2.23, -0.007);
 
-  PIDController lpidcontroller = new PIDController(1.5, 0, 0);
-  PIDController rpidcontroller = new PIDController(1.5, 0, 0);
+  PIDController lpidcontroller = new PIDController(2.2, 0, 0.00001);
+  PIDController rpidcontroller = new PIDController(2.2, 0, 0.00001);
   /**
    * Creates a new Drivetrain.
    */
@@ -109,11 +109,11 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
    * @return
    */
   public double getLeftvelocity(){
-    return (leftMas.getSelectedSensorVelocity() + leftFol.getSelectedSensorVelocity()) / 2.0 * Constants.Motor.distancePerPulse;
+    return ((leftMas.getSelectedSensorVelocity() + leftFol.getSelectedSensorVelocity()) / 2.0) * Constants.Motor.distancePerPulse;
   }
 
   public double getLeftPosition(){
-    return (leftMas.getSelectedSensorPosition() + leftFol.getSelectedSensorPosition()) / 2.0 * Constants.Motor.distancePerPulse;
+    return ((leftMas.getSelectedSensorPosition() + leftFol.getSelectedSensorPosition()) / 2.0) * Constants.Motor.distancePerPulse;
   }
 
   /**
@@ -121,14 +121,14 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
    * @return
    */
   public double getRigthtvelocity(){
-    return (rightMas.getSelectedSensorVelocity() + rightFol.getSelectedSensorVelocity()) / 2.0 * Constants.Motor.distancePerPulse;
+    return ((rightMas.getSelectedSensorVelocity() + rightFol.getSelectedSensorVelocity()) / 2.0) * Constants.Motor.distancePerPulse;
   }
   /**
    * Returns right velocity
    * @return
    */
   public double getRigthtPosition(){
-    return (rightMas.getSelectedSensorPosition() + rightFol.getSelectedSensorPosition()) / 2.0 * Constants.Motor.distancePerPulse;
+    return ((rightMas.getSelectedSensorPosition() + rightFol.getSelectedSensorPosition()) / 2.0) * Constants.Motor.distancePerPulse;
   }
   
 
@@ -161,11 +161,11 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
 
   
   public void setOutput(double left, double right) {
-    leftMas.set(ControlMode.PercentOutput, left);
-    rightMas.set(ControlMode.PercentOutput, right);
+    leftMas.set(ControlMode.PercentOutput, left / 12);
+    rightMas.set(ControlMode.PercentOutput, right / 12);
 
-    SmartDashboard.putNumber("leftOutput ", left );
-    SmartDashboard.putNumber("rightOutput", right);
+    SmartDashboard.putNumber("leftOutput ", left / 12);
+    SmartDashboard.putNumber("rightOutput", right / 12);
   }
  
   /**
@@ -184,8 +184,8 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
     SmartDashboard.putNumber("x", getX());
     SmartDashboard.putNumber("Y", getY());
     //distants
-    SmartDashboard.putNumber("leftDistants", getLeftvelocity() * Constants.Motor.distancePerPulse);
-    SmartDashboard.putNumber("rightDistants", getRigthtvelocity() * Constants.Motor.distancePerPulse);
+    SmartDashboard.putNumber("leftDistants", getLeftPosition() * Constants.Motor.distancePerPulse);
+    SmartDashboard.putNumber("rightDistants", getRigthtPosition() * Constants.Motor.distancePerPulse);
     SmartDashboard.putNumber("Yaw", ahrs.getYaw());
   }
   /**
