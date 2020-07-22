@@ -8,6 +8,9 @@
 package frc.robot.subsystems.chassis;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+
+import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
@@ -22,13 +25,17 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
   private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.Motor.wheelPitch);
   private Pose2d pose;
+  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.143, 2.23, 0.372);
 
+  PIDController lpidcontroller = new PIDController(1.5, 0, 0);
+  PIDController rpidcontroller = new PIDController(1.5, 0, 0);
   /**
    * Creates a new Drivetrain.
    */
   public TrajectoryDrivetrain() {
 
   }
+
   
   /**
    * Returns the currently-estimated pose of the robot.
@@ -37,6 +44,43 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
    */
   public Pose2d getPose() {
     return pose;
+  }
+  /**
+   * Provide feedforward controller
+   * 
+   * @return feedForward controlller 
+   */
+  public SimpleMotorFeedforward getFeedforward() {
+    return feedForward;
+  }
+  /**
+   * Provide PID controller
+   * 
+   * @return left PID controller
+   */
+  public PIDController getlpidcontroller() {
+    return lpidcontroller;
+  }
+  /**
+   * encoder velocity to chassis speed
+   * 
+   * @return current chassis speed
+   */
+  public DifferentialDriveWheelSpeeds getSpeed() {
+    SmartDashboard.putNumber("leftRate", getLeftvelocity() * Constants.Motor.distancePerPulse);
+    SmartDashboard.putNumber("rightRate", getRigthtvelocity() * Constants.Motor.distancePerPulse);
+    return new DifferentialDriveWheelSpeeds(
+      getLeftvelocity() * Constants.Motor.distancePerPulse, 
+      getRigthtvelocity() * Constants.Motor.distancePerPulse
+      );
+  }
+  /**
+   * Provide PID controller
+   * 
+   * @return right PID controller
+   */
+  public PIDController getrpidcontroller() {
+    return rpidcontroller;
   }
 
   /**
@@ -117,11 +161,11 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
 
   
   public void setOutput(double left, double right) {
-    leftMas.set(ControlMode.Velocity, left / Constants.Motor.distancePerPulse);
-    rightMas.set(ControlMode.PercentOutput, right / Constants.Motor.distancePerPulse);
+    leftMas.set(ControlMode.PercentOutput, left);
+    rightMas.set(ControlMode.PercentOutput, right);
 
-    SmartDashboard.putNumber("leftOutput ", left / Constants.Motor.distancePerPulse);
-    SmartDashboard.putNumber("rightOutput", right / Constants.Motor.distancePerPulse);
+    SmartDashboard.putNumber("leftOutput ", left );
+    SmartDashboard.putNumber("rightOutput", right);
   }
  
   /**

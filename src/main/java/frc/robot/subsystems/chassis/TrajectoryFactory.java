@@ -12,6 +12,7 @@ import java.nio.file.Path;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,6 +29,7 @@ public class TrajectoryFactory extends SubsystemBase {
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(mapPath);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      SmartDashboard.putNumber("TotalTime", trajectory.getTotalTimeSeconds());
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + mapPath, ex.getStackTrace());
     }
