@@ -10,36 +10,34 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PowCon;
 
 public class Shooter extends SubsystemBase {
-  private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true,
-      40, 50, 1);
+  private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true, 40, 50, 1);
   private TalonFX flywheel = new TalonFX(PowCon.flywheel);
   private WPI_VictorSPX conveyor = new WPI_VictorSPX(PowCon.conveyor);
-  private WPI_VictorSPX widemas = new WPI_VictorSPX(PowCon.wide);
+  private WPI_VictorSPX wideleft = new WPI_VictorSPX(PowCon.wideleft);
+  private WPI_VictorSPX wideright = new WPI_VictorSPX(PowCon.wideright);
   double setVel = 0;
 
   public Shooter() {
     MotorFactory.setSensor(flywheel,FeedbackDevice.IntegratedSensor);
-    MotorFactory.setSensorPhase(flywheel, false);
-    MotorFactory.configPID(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,1);
-    MotorFactory.configmotorlimit(flywheel,0.001, 1, -1, 1, 30);
+    MotorFactory.setSensor(conveyor,FeedbackDevice.CTRE_MagEncoder_Relative);
+    MotorFactory.configPID(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,0);
+    //MotorFactory.configmotorlimit(flywheel,0.001, 1, -1, 1, 30);
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
-
-  }
+    MotorFactory.setFollower(wideleft, wideright);
     
-  public double getflywheelspeed(){
-    return flywheel.getSelectedSensorVelocity(0);
   }
-  public void flywheelspinup(double vel){
-    flywheel.set(ControlMode.Velocity, vel);
-    SmartDashboard.putNumber("flyvel", flywheel.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("flyvol", flywheel.getMotorOutputVoltage());
+
+  public double getflywheelspeed(){
+    return flywheel.getSelectedSensorVelocity();
+  }
+  public void flywheelspinup(){
+    double vel = 1* 2000.0 * 2048.0 / 600.0;
+    flywheel.set(ControlMode.Velocity,vel);
     setVel = vel;
   }
       
   public void flywheelstop(){
     flywheel.set(ControlMode.PercentOutput, 0);
-    SmartDashboard.putNumber("flyvel", flywheel.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("flyvel", flywheel.getSelectedSensorVelocity());
   }
  
   public void fastconveyor(){
@@ -66,13 +64,19 @@ public class Shooter extends SubsystemBase {
   
 
   public void widein(){
-    widemas.set(-0.5);
+    wideleft.set(-0.5);
 
   }
 
   public void wideout(){
-    widemas.set(0);
+    wideleft.set(0);
+  }  
+@Override
+  public void periodic() {
+    SmartDashboard.putNumber("flyvel", flywheel.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("flyvol", flywheel.getMotorOutputVoltage());
+    // This method will be called once per scheduler run
   }
-}  
+}
 
 

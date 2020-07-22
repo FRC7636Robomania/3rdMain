@@ -10,7 +10,13 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.auto.LeftUp;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants.Button;
+import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.subsystems.Shooter;
+import frc.robot.commands.Fastshoot;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -19,8 +25,9 @@ import frc.robot.commands.auto.LeftUp;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // private final Shooter          m_shooter          = new Shooter();
-  // private final Joystick         joystick           = new Joystick(0);
+  private final Drivetrain       m_drivetrain       = new Drivetrain();
+  private final Shooter          m_shooter          = new Shooter();
+  private final Joystick         joystick           = new Joystick(0);
   // The robot's subsystems and commands are defined here...
 
 
@@ -34,6 +41,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+    
   }
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -42,7 +50,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    // new JoystickButton(joystick, Button.emergencyshooter)       .whenHeld(new Fastshoot(m_shooter));
+    
+    new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
   }
 
 
@@ -53,6 +62,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new LeftUp(Robot.trajectoryDrivetrain);
+    return null;
   }
 }

@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.chassis;
+package frc.robot.subsystems;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -33,7 +33,7 @@ public class TrajectoryFactory extends SubsystemBase {
     }
     return trajectory;
   }
-  public static void initPose(TrajectoryDrivetrain drivetrain){
+  public static void initPose(Drivetrain drivetrain){
     if(trajectory != null){
       drivetrain.setOdmetry(trajectory.getInitialPose());
     }
