@@ -10,6 +10,7 @@ package frc.robot.motor;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 /**
  * Config motor, using "Fluent Interface".
@@ -35,6 +36,15 @@ public class MotorFactory {
         motor.configFactoryDefault();
         return motor;
     }
+    /**
+     * Initializing motor
+     * @param Victor_motor
+     * @return motor
+     */
+    public static WPI_VictorSPX init(final WPI_VictorSPX Victor_motor) {
+        Victor_motor.configFactoryDefault();
+        return Victor_motor;
+    }
 
     /**
      * Set follower.And initializing motor.
@@ -50,6 +60,20 @@ public class MotorFactory {
         follower.follow(master);
         return master;
     }
+     /**
+     * Set follower.And initializing motor.
+     * 
+     * @param Victor_master
+     * @param Victor_follower
+     * @return master
+     */
+    public static WPI_VictorSPX setFollower(final WPI_VictorSPX Victor_master, final WPI_VictorSPX Victor_follower) {
+        MotorFactory.init(Victor_master);
+        MotorFactory.init(Victor_follower);
+
+        Victor_follower.follow(Victor_master);
+        return Victor_master;
+    }
 
     /**
      * Set sensor type
@@ -59,6 +83,18 @@ public class MotorFactory {
      * @return motor {@link com.ctre.phoenix.motorcontrol.FeedbackDevice}
      */
     public static TalonFX setSensor(final TalonFX motor, final FeedbackDevice sensorType) {
+        MotorConfig.sensor = sensorType;
+        motor.configSelectedFeedbackSensor(sensorType);
+        return motor;
+    }
+    /**
+     * Set sensor type
+     * 
+     * @param motor
+     * @param sensorType
+     * @return motor {@link com.ctre.phoenix.motorcontrol.FeedbackDevice}
+     */
+    public static WPI_VictorSPX setSensor(final WPI_VictorSPX motor, final FeedbackDevice sensorType) {
         MotorConfig.sensor = sensorType;
         motor.configSelectedFeedbackSensor(sensorType);
         return motor;

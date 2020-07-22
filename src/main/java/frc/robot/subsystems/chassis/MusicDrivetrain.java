@@ -7,8 +7,26 @@
 
 package frc.robot.subsystems.chassis;
 
+import com.ctre.phoenix.music.Orchestra;
+
 /**
  * Add your docs here.
  */
-public class MusicDrivetrain {
+public class MusicDrivetrain extends DrivetrainBase{
+    static Orchestra orchestra = new Orchestra();
+    static{
+        orchestra.addInstrument(leftMas);
+        orchestra.addInstrument(leftFol);
+        orchestra.addInstrument(rightMas);
+        orchestra.addInstrument(rightFol);
+    }
+    public static void start(String path){
+        orchestra.loadMusic(path);
+        orchestra.play();
+    }
+    public static void stop(){
+        orchestra.stop();
+    }
+    
+
 }

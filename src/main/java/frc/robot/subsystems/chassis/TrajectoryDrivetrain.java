@@ -109,11 +109,11 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
    * @return
    */
   public double getLeftvelocity(){
-    return ((leftMas.getSelectedSensorVelocity() + leftFol.getSelectedSensorVelocity()) / 2.0) * Constants.Motor.distancePerPulse;
+    return ((leftMas.getSelectedSensorVelocity() + leftFol.getSelectedSensorVelocity()) / 2.0);
   }
 
   public double getLeftPosition(){
-    return ((leftMas.getSelectedSensorPosition() + leftFol.getSelectedSensorPosition()) / 2.0) * Constants.Motor.distancePerPulse;
+    return ((leftMas.getSelectedSensorPosition() + leftFol.getSelectedSensorPosition()) / 2.0) ;
   }
 
   /**
@@ -121,14 +121,14 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
    * @return
    */
   public double getRigthtvelocity(){
-    return ((rightMas.getSelectedSensorVelocity() + rightFol.getSelectedSensorVelocity()) / 2.0) * Constants.Motor.distancePerPulse;
+    return ((rightMas.getSelectedSensorVelocity() + rightFol.getSelectedSensorVelocity()) / 2.0);
   }
   /**
    * Returns right velocity
    * @return
    */
   public double getRigthtPosition(){
-    return ((rightMas.getSelectedSensorPosition() + rightFol.getSelectedSensorPosition()) / 2.0) * Constants.Motor.distancePerPulse;
+    return ((rightMas.getSelectedSensorPosition() + rightFol.getSelectedSensorPosition()) / 2.0) ;
   }
   
 
@@ -197,8 +197,8 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
   @Override
   public void periodic() {
     pose = odometry.update(getHeading(), 
-    leftMas.getSelectedSensorPosition() * Constants.Motor.distancePerPulse,
-    rightMas.getSelectedSensorPosition() * Constants.Motor.distancePerPulse);
+    getLeftPosition() * Constants.Motor.distancePerPulse,
+    getRigthtPosition() * Constants.Motor.distancePerPulse);
     message();
   }
 }
