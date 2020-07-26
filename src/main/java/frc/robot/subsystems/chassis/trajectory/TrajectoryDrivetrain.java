@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.chassis;
+package frc.robot.subsystems.chassis.trajectory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -18,9 +18,10 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
+import frc.robot.subsystems.chassis.DrivetrainBase;
 
 
-public class TrajectoryDrivetrain extends DrivetrainBase {
+public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySystem{
 
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
   private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.Motor.wheelPitch);
@@ -29,6 +30,7 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
 
   PIDController lpidcontroller = new PIDController(2.2, 0, 0.00001);
   PIDController rpidcontroller = new PIDController(2.2, 0, 0.00001);
+
   /**
    * Creates a new Drivetrain.
    */
@@ -36,7 +38,6 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
 
   }
 
-  
   /**
    * Returns the currently-estimated pose of the robot.
    *
@@ -58,7 +59,7 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
    * 
    * @return left PID controller
    */
-  public PIDController getlpidcontroller() {
+  public PIDController getLeftPidController() {
     return lpidcontroller;
   }
   /**
@@ -67,19 +68,20 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
    * @return current chassis speed
    */
   public DifferentialDriveWheelSpeeds getSpeed() {
-    SmartDashboard.putNumber("leftRate", getLeftvelocity() * Constants.Motor.distancePerPulse);
-    SmartDashboard.putNumber("rightRate", getRigthtvelocity() * Constants.Motor.distancePerPulse);
+    SmartDashboard.putNumber("leftRate", getLeftVelocity() * Constants.Motor.distancePerPulse);
+    SmartDashboard.putNumber("rightRate", getRigthtVelocity() * Constants.Motor.distancePerPulse);
     return new DifferentialDriveWheelSpeeds(
-      getLeftvelocity() * Constants.Motor.distancePerPulse, 
-      getRigthtvelocity() * Constants.Motor.distancePerPulse
+      getLeftVelocity(), //* Constants.Motor.distancePerPulse, 
+      getRigthtVelocity() //* Constants.Motor.distancePerPulse
       );
   }
+
   /**
    * Provide PID controller
    * 
    * @return right PID controller
    */
-  public PIDController getrpidcontroller() {
+  public PIDController getRightPidController() {
     return rpidcontroller;
   }
 
@@ -94,44 +96,33 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
   }
   
   /**
-   * Returns the current wheel speeds of the robot.
-   *
-   * @return The current wheel speeds.
-   */
-  public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-    SmartDashboard.putNumber("leftRate", getLeftvelocity() * Constants.Motor.distancePerPulse);
-    SmartDashboard.putNumber("rightRate", getRigthtvelocity() * Constants.Motor.distancePerPulse);
-    return new DifferentialDriveWheelSpeeds(getLeftvelocity(), getRigthtvelocity());
-  }
-
-  /**
    * Returns left velocity
    * @return
    */
-  public double getLeftvelocity(){
-    return ((leftMas.getSelectedSensorVelocity() + leftFol.getSelectedSensorVelocity()) / 2.0);
+  public double getLeftVelocity(){
+    return ((leftMas.getSelectedSensorVelocity()));
   }
 
   public double getLeftPosition(){
-    return ((leftMas.getSelectedSensorPosition() + leftFol.getSelectedSensorPosition()) / 2.0) ;
+    return ((leftMas.getSelectedSensorPosition()));
   }
 
   /**
    * Returns right velocity
    * @return
    */
-  public double getRigthtvelocity(){
-    return ((rightMas.getSelectedSensorVelocity() + rightFol.getSelectedSensorVelocity()) / 2.0);
+  public double getRigthtVelocity(){
+    return ((rightMas.getSelectedSensorVelocity()));
   }
+
   /**
    * Returns right velocity
    * @return
    */
   public double getRigthtPosition(){
-    return ((rightMas.getSelectedSensorPosition() + rightFol.getSelectedSensorPosition()) / 2.0) ;
+    return ((rightMas.getSelectedSensorPosition()));
   }
   
-
   /**
    * Provide kinematics object, contain track width
    * 
@@ -147,7 +138,7 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
    * @return current "X"
    */
   public double getX(){
-    return odometry.getPoseMeters().getTranslation().getX();
+    return odometry.getPoseMeters().getTranslation().getX() * Constants.Motor.distancePerPulse;
   }  
 
   /**
@@ -156,7 +147,7 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
    * @return current "Y"
    */
   public double getY(){
-    return odometry.getPoseMeters().getTranslation().getY();
+    return odometry.getPoseMeters().getTranslation().getY() * Constants.Motor.distancePerPulse;
   }
 
   
@@ -188,17 +179,12 @@ public class TrajectoryDrivetrain extends DrivetrainBase {
     SmartDashboard.putNumber("rightDistants", getRigthtPosition() * Constants.Motor.distancePerPulse);
     SmartDashboard.putNumber("Yaw", ahrs.getYaw());
   }
-  /**
-   * Returns current pose
-   */
-  public Pose2d getPose2d(){
-    return pose;
-  }
+
   @Override
   public void periodic() {
     pose = odometry.update(getHeading(), 
-    getLeftPosition() * Constants.Motor.distancePerPulse,
-    getRigthtPosition() * Constants.Motor.distancePerPulse);
+    getLeftPosition(),
+    getRigthtPosition());
     message();
   }
 }

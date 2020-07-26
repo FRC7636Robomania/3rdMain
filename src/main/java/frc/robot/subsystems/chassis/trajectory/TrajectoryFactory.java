@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems.chassis;
+package frc.robot.subsystems.chassis.trajectory;
 
 import java.io.IOException;
 import java.nio.file.Path;
