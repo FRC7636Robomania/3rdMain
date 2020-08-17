@@ -151,11 +151,11 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
 
   
   public void setOutput(double left, double right) {
-    leftMas.set(ControlMode.PercentOutput, left / 10);
-    rightMas.set(ControlMode.PercentOutput, right / 10);
+    leftMas.set(ControlMode.Velocity, left);
+    rightMas.set(ControlMode.Velocity, right);
 
-    SmartDashboard.putNumber("leftOutput ", left / 10);
-    SmartDashboard.putNumber("rightOutput", right / 10);
+    SmartDashboard.putNumber("leftOutput ", left);
+    SmartDashboard.putNumber("rightOutput", right);
   }
  
   /**
