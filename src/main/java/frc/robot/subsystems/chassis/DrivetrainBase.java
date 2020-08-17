@@ -15,6 +15,16 @@ import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.motor.MotorFactory;
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 /**
  * Must be sure these objects will be instantiated only once
  */
@@ -24,7 +34,7 @@ public class DrivetrainBase extends SubsystemBase {
   protected static WPI_TalonFX rightMas = new WPI_TalonFX(Constants.Motor.rightMaster);
   protected static WPI_TalonFX rightFol = new WPI_TalonFX(Constants.Motor.rightFollower);
   protected static AHRS ahrs = new AHRS(SPI.Port.kMXP);
-  
+  Joystick joy1 = new Joystick(0);
   private   static boolean isFirst = true; 
   
   /**
@@ -47,6 +57,8 @@ public class DrivetrainBase extends SubsystemBase {
     MotorFactory.setFollower(rightMas, rightFol);
     MotorFactory.configLikePrevious(rightMas, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
     MotorFactory.configLikePrevious(rightFol, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
+    MotorFactory.voltageCompSaturation(rightMas, 10);
+    MotorFactory.voltageCompSaturation(leftMas, 10);
     ahrs.reset();
   }
 

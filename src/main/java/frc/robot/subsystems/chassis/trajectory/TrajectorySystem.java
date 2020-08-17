@@ -24,7 +24,7 @@ public interface TrajectorySystem extends Subsystem{
      * 
      * @return kinematics
      */
-    public  DifferentialDriveKinematics getKinematics();
+    public DifferentialDriveKinematics getKinematics();
 
     /**
      * encoder velocity to chassis speed

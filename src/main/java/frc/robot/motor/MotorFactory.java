@@ -25,7 +25,6 @@ public class MotorFactory {
         public static int sensorPosition;
         public static int pidSlot;
         public static int timeoutMs;
-        public static int slotIdx;
     }
     /**
      * Initializing motor
@@ -183,6 +182,18 @@ public class MotorFactory {
     public static TalonFX configPID(final TalonFX motor,double kP,double kF,int slotIdx){
         motor.config_kP(slotIdx, kP);
         motor.config_kF(slotIdx, kF);
+        return motor;
+    }
+
+    /**
+     * Config motor voltage.
+     * @param motor
+     * @param voltage
+     * @return
+     */
+    public static TalonFX voltageCompSaturation(TalonFX motor, float voltage){
+        motor.configVoltageCompSaturation(voltage);
+        motor.enableVoltageCompensation(true);
         return motor;
     }
 
