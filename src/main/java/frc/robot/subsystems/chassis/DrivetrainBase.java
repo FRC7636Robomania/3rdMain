@@ -59,6 +59,10 @@ public class DrivetrainBase extends SubsystemBase {
     MotorFactory.configLikePrevious(rightFol, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
     MotorFactory.voltageCompSaturation(rightMas, 10);
     MotorFactory.voltageCompSaturation(leftMas, 10);
+
+    MotorFactory.configPID(leftMas, 0.009, 0.0473, 0);
+    MotorFactory.configPID(rightMas, 0.009, 0.0473, 0);
+
     ahrs.reset();
   }
 

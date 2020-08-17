@@ -45,8 +45,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick, 3).whenHeld(()->    MusicDrivetrain.start("noise.chrp");
-    );
+ 
     new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
   }
 

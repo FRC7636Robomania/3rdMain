@@ -32,11 +32,7 @@ public class LeftUp extends SequentialCommandGroup {
       new RamseteCommand(TrajectoryFactory.getTrajectory("output/LeftUp.wpilib.json"), 
                           drivetrain::getPose, 
                           new RamseteController(2.0, 0.7), 
-                          drivetrain.getFeedforward(), 
                           drivetrain.getKinematics(), 
-                          drivetrain::getSpeed, 
-                          drivetrain.getLeftPidController(), 
-                          drivetrain.getRightPidController(), 
                           drivetrain::setOutput, 
                           drivetrain)
             .andThen(()->drivetrain.setOutput(0, 0)),
