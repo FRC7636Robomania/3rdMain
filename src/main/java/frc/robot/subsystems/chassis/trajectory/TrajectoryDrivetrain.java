@@ -29,8 +29,8 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
   //0.04, 2.23, -0.007
   SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.04, 2.23, -0.007);
 
-  PIDController lpidcontroller = new PIDController(1.5, 0, 0.0000);
-  PIDController rpidcontroller = new PIDController(1.5, 0, 0.0000);
+  PIDController lpidcontroller = new PIDController(0.9, 0, 0.0000);
+  PIDController rpidcontroller = new PIDController(0.9, 0, 0.0000);
 
   /**
    * Creates a new Drivetrain.
@@ -154,8 +154,10 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
     leftMas.set(ControlMode.Velocity, left / Constants.Motor.distancePerPulse / 10);
     rightMas.set(ControlMode.Velocity, right / Constants.Motor.distancePerPulse / 10);
 
-    SmartDashboard.putNumber("leftOutput ", left / Constants.Motor.distancePerPulse);
-    SmartDashboard.putNumber("rightOutput", right / Constants.Motor.distancePerPulse);
+    // leftMas.set(ControlMode.PercentOutput, left);
+    // rightMas.set(ControlMode.PercentOutput, right);
+    SmartDashboard.putNumber("leftOutput ", left / Constants.Motor.distancePerPulse / 10);
+    SmartDashboard.putNumber("rightOutput", right / Constants.Motor.distancePerPulse / 10);
   }
  
   /**

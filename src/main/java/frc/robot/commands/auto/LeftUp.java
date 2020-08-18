@@ -28,10 +28,10 @@ public class LeftUp extends SequentialCommandGroup {
     super(
       new InstantCommand(()-> TrajectoryFactory.getTrajectory("output/LeftUp.wpilib.json")),
       new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-
+    //20, 0.95
       new RamseteCommand(TrajectoryFactory.getTrajectory("output/LeftUp.wpilib.json"), 
                           drivetrain::getPose, 
-                          new RamseteController(2.0, 0.7), 
+                          new RamseteController(20.0, 0.95), // kp, kf
                           drivetrain.getKinematics(), 
                           drivetrain::setOutput, 
                           drivetrain)

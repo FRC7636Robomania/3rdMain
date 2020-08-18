@@ -34,7 +34,7 @@ public class DrivetrainBase extends SubsystemBase {
   protected static WPI_TalonFX rightMas = new WPI_TalonFX(Constants.Motor.rightMaster);
   protected static WPI_TalonFX rightFol = new WPI_TalonFX(Constants.Motor.rightFollower);
   protected static AHRS ahrs = new AHRS(SPI.Port.kMXP);
-  Joystick joy1 = new Joystick(0);
+  // Joystick joy1 = new Joystick(0);
   private   static boolean isFirst = true; 
   
   /**
@@ -59,12 +59,12 @@ public class DrivetrainBase extends SubsystemBase {
     MotorFactory.configLikePrevious(rightFol, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
     MotorFactory.voltageCompSaturation(rightMas, 10);
     MotorFactory.voltageCompSaturation(leftMas, 10);
-
-    MotorFactory.configPID(leftMas, 0.009, 0.0473, 0);
-    MotorFactory.configPID(rightMas, 0.009, 0.0473, 0);
-    leftMas.configClosedloopRamp(500, 10);
-    rightMas.configClosedloopRamp(500, 10);
-
+    // MotorFactory.configPID(leftMas, 20.3, 10, 0);
+    // MotorFactory.configPID(rightMas, 20.3, 10, 0);
+    // leftMas.config_kP(0, 10);
+    // rightMas.config_kP(0, 10);
+    
+    
     ahrs.reset();
   }
 

@@ -25,14 +25,15 @@ import frc.robot.subsystems.chassis.MusicDrivetrain;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final Shooter          m_shooter          = new Shooter();
-  private final Joystick         joystick           = new Joystick(0);
+  private final       Shooter    m_shooter          = new Shooter();
+  public final static Joystick   joystick           = new Joystick(0);
 
   // The robot's subsystems and commands are defined here...
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
+  
   public RobotContainer() {
     // Configure the button bindings
     MusicDrivetrain.start("noise.chrp");
@@ -45,7 +46,6 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
- 
     new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
   }
 
