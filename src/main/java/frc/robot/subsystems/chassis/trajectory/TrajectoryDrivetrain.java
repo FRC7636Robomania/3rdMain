@@ -70,8 +70,8 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
    */
   public DifferentialDriveWheelSpeeds getSpeed() {
     return new DifferentialDriveWheelSpeeds(
-      getLeftVelocity() * Constants.Motor.distancePerPulse, 
-      getRigthtVelocity() * Constants.Motor.distancePerPulse
+      leftMas.getSelectedSensorVelocity() * Constants.Motor.distancePerPulse, 
+      rightMas.getSelectedSensorVelocity() * Constants.Motor.distancePerPulse
       );
   }
 
@@ -151,11 +151,11 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
 
   
   public void setOutput(double left, double right) {
-    leftMas.set(ControlMode.Velocity, left);
-    rightMas.set(ControlMode.Velocity, right);
+    leftMas.set(ControlMode.Velocity, left / Constants.Motor.distancePerPulse / 10);
+    rightMas.set(ControlMode.Velocity, right / Constants.Motor.distancePerPulse / 10);
 
-    SmartDashboard.putNumber("leftOutput ", left);
-    SmartDashboard.putNumber("rightOutput", right);
+    SmartDashboard.putNumber("leftOutput ", left / Constants.Motor.distancePerPulse);
+    SmartDashboard.putNumber("rightOutput", right / Constants.Motor.distancePerPulse);
   }
  
   /**
@@ -182,8 +182,8 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
   @Override
   public void periodic() {
     pose = odometry.update(getHeading(), 
-    getLeftPosition() * Constants.Motor.distancePerPulse,
-    getRigthtPosition() * Constants.Motor.distancePerPulse);
+    leftMas.getSelectedSensorPosition()  * Constants.Motor.distancePerPulse,
+    rightMas.getSelectedSensorPosition() * Constants.Motor.distancePerPulse);
     message();
   }
 }

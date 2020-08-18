@@ -62,6 +62,8 @@ public class DrivetrainBase extends SubsystemBase {
 
     MotorFactory.configPID(leftMas, 0.009, 0.0473, 0);
     MotorFactory.configPID(rightMas, 0.009, 0.0473, 0);
+    leftMas.configClosedloopRamp(500, 10);
+    rightMas.configClosedloopRamp(500, 10);
 
     ahrs.reset();
   }
