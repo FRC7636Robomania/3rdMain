@@ -8,19 +8,16 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.Joystick;
+
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
-import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.subsystems.Shooter;
 import frc.robot.commands.Shoot.shoot.Fastshoot;
-import frc.robot.commands.Shoot.shoot.Stopshoot;
-import frc.robot.commands.Shoot.conveyor.Wideon;
-import frc.robot.commands.Shoot.conveyor.Wideoff;
-import frc.robot.subsystems.Drivetrain;
-
+import frc.robot.commands.auto.LeftUp;
+import frc.robot.subsystems.Shooter;
+//import frc.robot.subsystems.chassis.MusicDrivetrain;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -28,21 +25,18 @@ import frc.robot.subsystems.Drivetrain;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final Drivetrain       m_drivetrain       = new Drivetrain();
   private final Shooter          m_shooter          = new Shooter();
   private final Joystick         joystick           = new Joystick(0);
+
+
   // The robot's subsystems and commands are defined here...
-
-
-
-
-
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
     // Configure the button bindings
+    //MusicDrivetrain.start("noise.chrp");
     configureButtonBindings();
     
   }
@@ -53,11 +47,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
-    new JoystickButton(joystick, Button.shoot_on)  .whenPressed(new Fastshoot(m_shooter));
-    new JoystickButton(joystick, Button.shoot_off) .whenPressed(new Stopshoot(m_shooter));
-    new JoystickButton(joystick, Button.wide_on) .whenPressed(new Wideon(m_shooter));
-    new JoystickButton(joystick, Button.wide_off) .whenPressed(new Wideoff(m_shooter));
+    //new JoystickButton(joystick, 3).whenHeld(()->    MusicDrivetrain.start("noise.chrp"));
+    new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
   }
 
 
@@ -68,6 +59,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return null;
+    return new LeftUp(Robot.trajectoryDrivetrain);
   }
 }

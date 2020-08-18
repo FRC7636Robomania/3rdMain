@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import frc.robot.commands.Shoot.conveyor.Wideon;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -23,6 +25,11 @@ public final class Constants {
         public static final int rightFollower = 19;
         public static final double distancePerPulse = 0.1524 * Math.PI / 2048 / 9.7;
         public static final double wheelPitch = 0.7407;
+
+        public static final boolean isRightMotorInvert = false;
+        public static final boolean isLeftMotorInvert = true;
+        public static final boolean isRightPhaseInvert = false;
+        public static final boolean isLeftPhaseInvert = true;
     }
     public static class PowCon{
         public static final int flywheel = 4;
@@ -30,7 +37,7 @@ public final class Constants {
         public static final int aimer = 8;
         public static final int intakearmer = 0;
         public static final int wideright = 2;
-        public static final int wideleft = 5;
+        public static final int wideleft = 3;
         public static final double flywheel_kP = 0.1;
         public static final double flywheel_kF = 0.0506;
     }
@@ -51,10 +58,11 @@ public final class Constants {
         public static final int turretright = 4;
 
         //Joystick
-        public static int shoot_on = 1;
-        public static int shoot_off = 2;
-        public static int wide_on = 3;
-        public static int wide_off = 4;
+
+        public static final int emergencyarmdown  = 7;
+        public static final int emergencyarmup    = 8;
+        public static final int emergencyintake   = 9;
+        public static final int emergencyshooter = 1;
 
     }
 }

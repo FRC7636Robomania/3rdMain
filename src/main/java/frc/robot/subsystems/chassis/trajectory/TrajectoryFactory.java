@@ -5,13 +5,14 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.subsystems;
+package frc.robot.subsystems.chassis.trajectory;
 
 import java.io.IOException;
 import java.nio.file.Path;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,13 +29,15 @@ public class TrajectoryFactory extends SubsystemBase {
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(mapPath);
       trajectory = TrajectoryUtil.fromPathweaverJson(trajectoryPath);
+      SmartDashboard.putNumber("TotalTime", trajectory.getTotalTimeSeconds());
     } catch (IOException ex) {
       DriverStation.reportError("Unable to open trajectory: " + mapPath, ex.getStackTrace());
     }
     return trajectory;
   }
-  public static void initPose(Drivetrain drivetrain){
+  public static void initPose(TrajectoryDrivetrain drivetrain){
     if(trajectory != null){
+      TrajectoryDrivetrain.resetSensor();
       drivetrain.setOdmetry(trajectory.getInitialPose());
     }
   }

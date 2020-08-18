@@ -134,25 +134,25 @@ public class MotorFactory {
     /**
      * Set invertType
      * 
-     * @param invertType
+     * @param isleftmotorinvert
      * @param motor
      * @return motor
      */
-    public static TalonFX setInvert(final TalonFX motor, final InvertType invertType) {
-        motor.setInverted(invertType);
+    public static TalonFX setInvert(final TalonFX motor, final boolean isleftmotorinvert) {
+        motor.setInverted(isleftmotorinvert);
         return motor;
     }
 
     /**
      * Set invertType
      * 
-     * @param motor
+     * @param Victor_master
      * @param invertType
-     * @return motor
+     * @return Victor_master
      */
-    public static WPI_VictorSPX setInvert(final WPI_VictorSPX motor, final InvertType invertType) {
-        motor.setInverted(invertType);
-        return motor;
+    public static WPI_VictorSPX setInvert(final WPI_VictorSPX Victor_master, final InvertType invertType) {
+        Victor_master.setInverted(invertType);
+        return Victor_master;
     }
 
 
@@ -161,13 +161,13 @@ public class MotorFactory {
      * 
      * @param motor 
      * @param sensorPhase
-     * @param invertType  {@link MotorConfig}
+     * @param isleftmotorinvert  {@link MotorConfig}
      */
-    public static void configLikePrevious(final TalonFX motor, final boolean sensorPhase, final InvertType invertType) {
+    public static void configLikePrevious(final TalonFX motor, final boolean sensorPhase, final boolean isleftmotorinvert) {
         motor.configSelectedFeedbackSensor(MotorConfig.sensor);
         motor.setSelectedSensorPosition(MotorConfig.sensorPosition, MotorConfig.pidSlot, MotorConfig.timeoutMs);
         motor.setSensorPhase(sensorPhase);
-        motor.setInverted(invertType);
+        motor.setInverted(isleftmotorinvert);
     }
 
     /**
@@ -187,14 +187,27 @@ public class MotorFactory {
     /**
      * set motor PID 設置馬達PID
      * 
-     * @param motor 設置馬達
-     * @param kP kP值(大約為5分之一kF) 調越大 對誤差的調整更靈敏
+     * @param Victor_master 設置馬達
+
+ˇˋ     * @param kP kP值(大約為5分之一kF) 調越大 對誤差的調整更靈敏
      * @param kF kF值 大約為1023(talon滿輸出)/全速運轉的速度單位(以falcon來說大約為21600) 
      * @param slotIdx 閉迴控制位置(0,1,2)
      */
-    public static WPI_VictorSPX configPID(final WPI_VictorSPX motor,double kP,double kF,int slotIdx){
-        motor.config_kP(slotIdx, kP);
-        motor.config_kF(slotIdx, kF);
+    public static WPI_VictorSPX configPID(final WPI_VictorSPX Victor_master,double kP,double kF,int slotIdx){
+        Victor_master.config_kP(slotIdx, kP);
+        Victor_master.config_kF(slotIdx, kF);
+        return Victor_master;
+    }
+    
+    /** 
+     * Config motor voltage.
+     * @param motor
+     * @param voltage
+     * @return
+     */
+    public static TalonFX voltageCompSaturation(TalonFX motor, float voltage){
+        motor.configVoltageCompSaturation(voltage);
+        motor.enableVoltageCompensation(true);
         return motor;
     }
 
