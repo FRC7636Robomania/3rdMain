@@ -30,7 +30,7 @@ public final class Constants {
         public static final int aimer = 8;
         public static final int intakearmer = 0;
         public static final int wideright = 2;
-        public static final int wideleft = 3;
+        public static final int wideleft = 5;
         public static final double flywheel_kP = 0.1;
         public static final double flywheel_kF = 0.0506;
     }
@@ -51,9 +51,10 @@ public final class Constants {
         public static final int turretright = 4;
 
         //Joystick
-        public static final int emergencyarmdown  = 7;
-        public static final int emergencyarmup    = 8;
-        public static final int emergencyintake   = 9;
-        public static final int emergencyshooter = 1;
+        public static int shoot_on = 1;
+        public static int shoot_off = 2;
+        public static int wide_on = 3;
+        public static int wide_off = 4;
+
     }
 }

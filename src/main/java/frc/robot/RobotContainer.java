@@ -15,7 +15,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
 import edu.wpi.first.wpilibj.XboxController;
 import frc.robot.subsystems.Shooter;
-import frc.robot.commands.Fastshoot;
+import frc.robot.commands.Shoot.shoot.Fastshoot;
+import frc.robot.commands.Shoot.shoot.Stopshoot;
+import frc.robot.commands.Shoot.conveyor.Wideon;
+import frc.robot.commands.Shoot.conveyor.Wideoff;
 import frc.robot.subsystems.Drivetrain;
 
 /**
@@ -51,7 +54,10 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
+    new JoystickButton(joystick, Button.shoot_on)  .whenPressed(new Fastshoot(m_shooter));
+    new JoystickButton(joystick, Button.shoot_off) .whenPressed(new Stopshoot(m_shooter));
+    new JoystickButton(joystick, Button.wide_on) .whenPressed(new Wideon(m_shooter));
+    new JoystickButton(joystick, Button.wide_off) .whenPressed(new Wideoff(m_shooter));
   }
 
 

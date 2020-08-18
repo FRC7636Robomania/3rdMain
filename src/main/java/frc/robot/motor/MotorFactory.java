@@ -134,14 +134,27 @@ public class MotorFactory {
     /**
      * Set invertType
      * 
-     * @param motor
      * @param invertType
+     * @param motor
      * @return motor
      */
     public static TalonFX setInvert(final TalonFX motor, final InvertType invertType) {
         motor.setInverted(invertType);
         return motor;
     }
+
+    /**
+     * Set invertType
+     * 
+     * @param motor
+     * @param invertType
+     * @return motor
+     */
+    public static WPI_VictorSPX setInvert(final WPI_VictorSPX motor, final InvertType invertType) {
+        motor.setInverted(invertType);
+        return motor;
+    }
+
 
     /**
      * Set motor like previous.

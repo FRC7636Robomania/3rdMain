@@ -23,6 +23,7 @@ public class Shooter extends SubsystemBase {
     MotorFactory.configPID(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,0);
     //MotorFactory.configmotorlimit(flywheel,0.001, 1, -1, 1, 30);
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
+    MotorFactory.setInvert(wideleft,InvertType.InvertMotorOutput);
     MotorFactory.setFollower(wideleft, wideright);
     
   }
@@ -65,7 +66,6 @@ public class Shooter extends SubsystemBase {
 
   public void widein(){
     wideleft.set(-0.5);
-
   }
 
   public void wideout(){
