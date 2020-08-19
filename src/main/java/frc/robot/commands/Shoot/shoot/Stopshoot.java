@@ -36,6 +36,7 @@ public class Stopshoot extends CommandBase {
   public void execute() {
     m_Shooter.flywheelstop();
     m_Shooter.conveyorstop();
+    m_Shooter.widestop();
     SmartDashboard.putString("FlyWheelstatus", "flywheelStop");
     SmartDashboard.putNumber("i", i);
   }

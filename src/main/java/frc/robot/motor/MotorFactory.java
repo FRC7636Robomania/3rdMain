@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
  * Config motor, using "Fluent Interface".
@@ -91,14 +92,27 @@ public class MotorFactory {
     /**
      * Set sensor type
      * 
-     * @param motor
+     * @param Victor_master
      * @param sensorType
      * @return motor {@link com.ctre.phoenix.motorcontrol.FeedbackDevice}
      */
-    public static WPI_VictorSPX setSensor(final WPI_VictorSPX motor, final FeedbackDevice sensorType) {
+    public static WPI_VictorSPX setSensor(final WPI_VictorSPX Victor_master, final FeedbackDevice sensorType) {
         MotorConfig.sensor = sensorType;
-        motor.configSelectedFeedbackSensor(sensorType);
-        return motor;
+        Victor_master.configSelectedFeedbackSensor(sensorType);
+        return Victor_master;
+    }
+
+    /**
+     * Set sensor type
+     * 
+     * @param TalonSRX_master
+     * @param sensorType
+     * @return motor {@link com.ctre.phoenix.motorcontrol.FeedbackDevice}
+     */
+    public static TalonSRX setSensor(final TalonSRX TalonSRX_master, final FeedbackDevice sensorType) {
+        MotorConfig.sensor = sensorType;
+        TalonSRX_master.configSelectedFeedbackSensor(sensorType);
+        return  TalonSRX_master;
     }
 
     /**

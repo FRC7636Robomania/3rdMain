@@ -14,9 +14,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
+import frc.robot.commands.Tower_set;
+import frc.robot.commands.Tower_set2;
 import frc.robot.commands.Shoot.shoot.Fastshoot;
 import frc.robot.commands.auto.LeftUp;
-import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.*;
 //import frc.robot.subsystems.chassis.MusicDrivetrain;
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -26,7 +28,9 @@ import frc.robot.subsystems.Shooter;
  */
 public class RobotContainer {
   private final Shooter          m_shooter          = new Shooter();
+  private final Tower            m_Tower            = new Tower();
   private final Joystick         joystick           = new Joystick(0);
+
 
 
   // The robot's subsystems and commands are defined here...
@@ -49,6 +53,8 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //new JoystickButton(joystick, 3).whenHeld(()->    MusicDrivetrain.start("noise.chrp"));
     new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
+    new JoystickButton(joystick, Button.tower1)  .whenHeld(new Tower_set(m_Tower));    
+    new JoystickButton(joystick, Button.tower2)  .whenHeld(new Tower_set2(m_Tower));    
   }
 
 

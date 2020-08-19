@@ -36,6 +36,7 @@ public class Fastshoot extends CommandBase {
   public void execute() {
     m_Shooter.flywheelspinup();
     m_Shooter.fastconveyor();
+    m_Shooter.widein();
     i++;
     SmartDashboard.putString("FlyWheelstatus", "flywheelSpin");
     SmartDashboard.putNumber("i", i);
@@ -44,6 +45,10 @@ public class Fastshoot extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_Shooter.flywheelstop();
+    SmartDashboard.putString("FlyWheelstatus", "flywheelstop");
+    SmartDashboard.putNumber("i", i);
+    m_Shooter.widestop();
   }
 
   // Returns true when the command should end.
