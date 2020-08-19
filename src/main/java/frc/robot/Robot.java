@@ -23,7 +23,6 @@ import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static TrajectoryDrivetrain trajectoryDrivetrain = new TrajectoryDrivetrain();
-  public static ControlDrivetrain    controlDrivetrain    = new ControlDrivetrain();
   private RobotContainer m_robotContainer;
 
   /**
@@ -62,6 +61,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
+    System.out.println("disable");
   }
 
   /**

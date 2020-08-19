@@ -9,13 +9,17 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
 import frc.robot.commands.Fastshoot;
 import frc.robot.commands.auto.LeftUp;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.chassis.ControlDrivetrain;
 import frc.robot.subsystems.chassis.MusicDrivetrain;
 
 /**
@@ -25,8 +29,10 @@ import frc.robot.subsystems.chassis.MusicDrivetrain;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final       Shooter    m_shooter          = new Shooter();
-  public final static Joystick   joystick           = new Joystick(0);
+  private final        Shooter              m_shooter            = new Shooter();
+  public  final static Joystick             joystick             = new Joystick(0);
+  public  static       ControlDrivetrain    controlDrivetrain    = new ControlDrivetrain();
+  private              SendableChooser<Command>    chooser       = new SendableChooser<Command>();
 
   // The robot's subsystems and commands are defined here...
 
@@ -38,6 +44,9 @@ public class RobotContainer {
     // Configure the button bindings
     MusicDrivetrain.start("noise.chrp");
     configureButtonBindings();
+
+    controlDrivetrain.setDefaultCommand(new RunCommand(()-> controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain));
+    chooser.addOption("Left Up ", new LeftUp(Robot.trajectoryDrivetrain));
   }
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -46,7 +55,7 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
+    new JoystickButton(joystick, Button.emergencyshooter).whenHeld(new Fastshoot(m_shooter));
   }
 
 
@@ -57,6 +66,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new LeftUp(Robot.trajectoryDrivetrain);
+    return chooser.getSelected();
   }
 }
