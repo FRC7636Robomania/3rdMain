@@ -7,11 +7,15 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.chassis.ControlDrivetrain;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
+import frc.robot.subsystems.Tower;
 
 
 /**
@@ -23,6 +27,11 @@ import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static TrajectoryDrivetrain trajectoryDrivetrain = new TrajectoryDrivetrain();
+<<<<<<< HEAD
+=======
+  public static ControlDrivetrain    controlDrivetrain    = new ControlDrivetrain();
+  public static Tower tower =new Tower();
+>>>>>>> e0e19a0a9866129a73f9b4ebd1d120e43f2d7f23
   private RobotContainer m_robotContainer;
 
   /**
@@ -57,11 +66,16 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void disabledInit() {
+
   }
 
   @Override
   public void disabledPeriodic() {
+<<<<<<< HEAD
     System.out.println("disable");
+=======
+    
+>>>>>>> e0e19a0a9866129a73f9b4ebd1d120e43f2d7f23
   }
 
   /**

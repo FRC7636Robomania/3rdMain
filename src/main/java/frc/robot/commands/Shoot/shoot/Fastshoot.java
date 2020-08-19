@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.Shoot.shoot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -36,6 +36,7 @@ public class Fastshoot extends CommandBase {
   public void execute() {
     m_Shooter.flywheelspinup();
     m_Shooter.fastconveyor();
+    m_Shooter.widein();
     i++;
     SmartDashboard.putString("FlyWheelstatus", "flywheelSpin");
     SmartDashboard.putNumber("i", i);
@@ -45,10 +46,9 @@ public class Fastshoot extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     m_Shooter.flywheelstop();
-    m_Shooter.conveyorstop();
-    SmartDashboard.putString("FlyWheelstatus", "flywheelStop");
-    i=0;
+    SmartDashboard.putString("FlyWheelstatus", "flywheelstop");
     SmartDashboard.putNumber("i", i);
+    m_Shooter.widestop();
   }
 
   // Returns true when the command should end.

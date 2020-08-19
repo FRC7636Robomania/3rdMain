@@ -16,13 +16,15 @@ public class Shooter extends SubsystemBase {
   private WPI_VictorSPX wideleft = new WPI_VictorSPX(PowCon.wideleft);
   private WPI_VictorSPX wideright = new WPI_VictorSPX(PowCon.wideright);
   double setVel = 0;
+  double vel;
 
   public Shooter() {
     MotorFactory.setSensor(flywheel,FeedbackDevice.IntegratedSensor);
-    MotorFactory.setSensor(conveyor, FeedbackDevice.CTRE_MagEncoder_Relative);
+    MotorFactory.setSensor(conveyor,FeedbackDevice.CTRE_MagEncoder_Relative);
     MotorFactory.configPID(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,0);
     //MotorFactory.configmotorlimit(flywheel,0.001, 1, -1, 1, 30);
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
+    MotorFactory.setInvert(wideleft,InvertType.InvertMotorOutput);
     MotorFactory.setFollower(wideleft, wideright);
     
   }
@@ -31,18 +33,18 @@ public class Shooter extends SubsystemBase {
     return flywheel.getSelectedSensorVelocity();
   }
   public void flywheelspinup(){
-    double vel = 1* 2000.0 * 2048.0 / 600.0;
+    vel = 1* 2000.0 * 2048.0 / 600.0;
     flywheel.set(ControlMode.Velocity,vel);
     setVel = vel;
   }
       
   public void flywheelstop(){
-    flywheel.set(ControlMode.PercentOutput, 0);
+    flywheel.set(ControlMode.Velocity,0);
   }
  
   public void fastconveyor(){
     if(getflywheelspeed()>0.95*setVel){
-      conveyor.set(ControlMode.PercentOutput,0.8);
+      conveyor.set(ControlMode.PercentOutput,0.3);
     }
     else if(getflywheelspeed()<0.85*setVel){
       conveyor.set(ControlMode.PercentOutput,0);
@@ -65,12 +67,14 @@ public class Shooter extends SubsystemBase {
 
   public void widein(){
     wideleft.set(-0.5);
-
   }
 
   public void wideout(){
-    wideleft.set(0);
+    wideleft.set(0.1);
   }  
+  public void widestop(){
+    wideleft.set(0);
+  }
 @Override
   public void periodic() {
     SmartDashboard.putNumber("flyvel", flywheel.getSelectedSensorVelocity());
