@@ -11,8 +11,10 @@ import edu.wpi.first.wpilibj.controller.RamseteController;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryFactory;
+
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -24,17 +26,10 @@ public class LeftUp extends SequentialCommandGroup {
   public LeftUp(TrajectoryDrivetrain drivetrain) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    // GO GO 
     super(
-      new InstantCommand(()-> TrajectoryFactory.getTrajectory("output/LeftUp.wpilib.json")),
+      new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.three)),
       new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-    //20, 0.95
-      new RamseteCommand(TrajectoryFactory.getTrajectory("output/LeftUp.wpilib.json"), 
-                          drivetrain::getPose, 
-                          new RamseteController(20.0, 0.95), // kp, kf
-                          drivetrain.getKinematics(), 
-                          drivetrain::setOutput, 
-                          drivetrain)
+      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.three), drivetrain)
             .andThen(()->drivetrain.setOutput(0, 0)),
 
       new InstantCommand(()-> drivetrain.setOutput(0, 0)

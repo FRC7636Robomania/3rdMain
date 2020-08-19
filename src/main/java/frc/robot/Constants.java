@@ -7,8 +7,6 @@
 
 package frc.robot;
 
-import frc.robot.commands.Shoot.conveyor.Wideon;
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants.  This class should not be used for any other purpose.  All constants should be
@@ -18,9 +16,14 @@ import frc.robot.commands.Shoot.conveyor.Wideon;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static class Trajectory{
+        public static final String three = "output/ThreeBall.wpilib.json";
+        public static final String two   = "output/TeoBall.wpilib.json";
+        public static final String OneMeter = "output/OneMwter.wpilib.json";
+    }
     public static class Motor{
-        public static final int leftMaster = 21;
-        public static final int leftFollewer = 19;
+        public static final int leftMaster = 19;
+        public static final int leftFollewer = 21;
         public static final int rightMaster = 18;
         public static final int rightFollower = 20;
         public static final double distancePerPulse = 0.1524 * Math.PI / 2048 / 9.7;

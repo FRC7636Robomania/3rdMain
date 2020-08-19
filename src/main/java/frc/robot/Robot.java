@@ -27,11 +27,8 @@ import frc.robot.subsystems.Tower;
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static TrajectoryDrivetrain trajectoryDrivetrain = new TrajectoryDrivetrain();
-<<<<<<< HEAD
-=======
   public static ControlDrivetrain    controlDrivetrain    = new ControlDrivetrain();
   public static Tower tower =new Tower();
->>>>>>> e0e19a0a9866129a73f9b4ebd1d120e43f2d7f23
   private RobotContainer m_robotContainer;
 
   /**
@@ -71,11 +68,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-<<<<<<< HEAD
     System.out.println("disable");
-=======
-    
->>>>>>> e0e19a0a9866129a73f9b4ebd1d120e43f2d7f23
   }
 
   /**
