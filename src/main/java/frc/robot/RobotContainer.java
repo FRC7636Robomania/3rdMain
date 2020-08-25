@@ -39,6 +39,7 @@ public class RobotContainer {
   private final Shooter          m_shooter          = new Shooter();
   private final Tower            m_Tower            = new Tower();
   private final Joystick         joystick           = new Joystick(0);
+  private final Joystick         driveStation       = new Joystick(1);
   public  static       ControlDrivetrain           controlDrivetrain    = new ControlDrivetrain();
   private              SendableChooser<Command>    chooser       = new SendableChooser<Command>();
   // The robot's subsystems and commands are defined here...
@@ -52,14 +53,13 @@ public class RobotContainer {
     //MusicDrivetrain.start("noise.chrp");
     configureButtonBindings();
 
-    controlDrivetrain.setDefaultCommand(new RunCommand(()-> controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain));
     chooser.addOption("Left Up", new LeftUp(Robot.trajectoryDrivetrain));
     chooser.addOption("Left Down ", new LeftDown(Robot.trajectoryDrivetrain));
     chooser.addOption("TempOneMeter", new TempOneMeter(Robot.trajectoryDrivetrain));
     chooser.addOption("Test", new TestCommand(Robot.trajectoryDrivetrain));
     chooser.setDefaultOption("One Meter", new OneMeter(Robot.trajectoryDrivetrain));
     
-    Shuffleboard.getTab("Autonomous").add(chooser);
+    Shuffleboard.getTab("SmartDashBoard").add(chooser);
 
   }
   /**
@@ -69,12 +69,33 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    //new JoystickButton(joystick, 3).whenHeld(()->    MusicDrivetrain.start("noise.chrp"));
-    // new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
-    // new JoystickButton(joystick, Button.tower1)            .whenHeld(new Tower_set(m_Tower));    
-    // new JoystickButton(joystick, Button.tower2)            .whenHeld(new Tower_set2(m_Tower));    
-    controlDrivetrain.setDefaultCommand(new RunCommand(()->Robot.controlDrivetrain.curvatureDrive(joystick.getY() * 0.5, joystick.getZ() * 0.4, true), controlDrivetrain));
-    //controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain)
+    joystickMapping();
+    driverStationMapping();
+    teleop();
+  }
+  /**
+   * Mapping joystick & command here.
+   */
+  private void joystickMapping(){
+    new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
+    new JoystickButton(joystick, Button.tower1)            .whenHeld(new Tower_set(m_Tower));    
+    new JoystickButton(joystick, Button.tower2)            .whenHeld(new Tower_set2(m_Tower));    
+
+  }
+  /**
+   * Mapping driver station & command here
+   */
+  private void driverStationMapping(){
+
+  }
+  private void teleop(){
+    controlDrivetrain.setDefaultCommand(
+      new RunCommand(
+        ()->Robot.controlDrivetrain.curvatureDrive(joystick.getY() * 0.5, joystick.getZ() * 0.4, true), 
+          controlDrivetrain)
+      );
+      //controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain)
+
   }
 
 

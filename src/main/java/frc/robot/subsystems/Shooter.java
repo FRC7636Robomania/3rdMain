@@ -26,6 +26,7 @@ public class Shooter extends SubsystemBase {
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
     MotorFactory.setInvert(wideleft,InvertType.InvertMotorOutput);
     MotorFactory.setFollower(wideleft, wideright);
+    flywheel.configClosedloopRamp(0.5, 10);
     
   }
 
