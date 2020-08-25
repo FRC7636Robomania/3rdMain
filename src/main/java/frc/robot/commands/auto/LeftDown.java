@@ -13,24 +13,23 @@ import frc.robot.Constants;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryFactory;
 import frc.robot.subsystems.chassis.trajectory.TrajectorySystem;
 
-
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class LeftUp extends SequentialCommandGroup {
+public class LeftDown extends SequentialCommandGroup {
   /**
-   * Creates a new LeftUp.
+   * Creates a new LeftDown.
    */
-  public LeftUp(TrajectorySystem drivetrain) {
+  public LeftDown(TrajectorySystem drivetrain) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.three)),
+      new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.two)),
       new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.three), drivetrain)
+      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.two), drivetrain)
             .andThen(()->drivetrain.setOutput(0, 0)),
       new InstantCommand(()-> drivetrain.setOutput(0, 0)
       )
-      );
+    );
   }
 }

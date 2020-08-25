@@ -7,14 +7,22 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.ColorSensorV3;
+
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ColorSensor extends SubsystemBase {
+  ColorSensorV3 colorSensor = new ColorSensorV3(I2C.Port.kMXP);
   /**
    * Creates a new ColorSensor.
    */
   public ColorSensor() {
 
+  }
+  public Color getColor(){
+    return colorSensor.getColor();
   }
 
   @Override

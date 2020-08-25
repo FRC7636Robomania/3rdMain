@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Sendable;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -19,7 +20,9 @@ import frc.robot.Constants.Button;
 import frc.robot.commands.Tower_set;
 import frc.robot.commands.Tower_set2;
 import frc.robot.commands.Shoot.shoot.Fastshoot;
+import frc.robot.commands.auto.LeftDown;
 import frc.robot.commands.auto.LeftUp;
+import frc.robot.commands.auto.OneMeter;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.chassis.ControlDrivetrain;
@@ -34,12 +37,8 @@ public class RobotContainer {
   private final Shooter          m_shooter          = new Shooter();
   private final Tower            m_Tower            = new Tower();
   private final Joystick         joystick           = new Joystick(0);
-  public  static       ControlDrivetrain    controlDrivetrain    = new ControlDrivetrain();
+  public  static       ControlDrivetrain           controlDrivetrain    = new ControlDrivetrain();
   private              SendableChooser<Command>    chooser       = new SendableChooser<Command>();
-
-
-
-
   // The robot's subsystems and commands are defined here...
 
   /**
@@ -52,7 +51,12 @@ public class RobotContainer {
     configureButtonBindings();
 
     controlDrivetrain.setDefaultCommand(new RunCommand(()-> controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain));
-    chooser.addOption("Left Up ", new LeftUp(Robot.trajectoryDrivetrain));
+    chooser.addOption("Left Up", new LeftUp(Robot.trajectoryDrivetrain));
+    chooser.addOption("Left Down ", new LeftDown(Robot.trajectoryDrivetrain));
+    chooser.setDefaultOption("One Meter", new OneMeter(Robot.trajectoryDrivetrain));
+    
+    Shuffleboard.getTab("Autonomous").add(chooser);
+
   }
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -65,6 +69,7 @@ public class RobotContainer {
     new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
     new JoystickButton(joystick, Button.tower1)  .whenHeld(new Tower_set(m_Tower));    
     new JoystickButton(joystick, Button.tower2)  .whenHeld(new Tower_set2(m_Tower));    
+    controlDrivetrain.setDefaultCommand(new RunCommand(()->controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain));
   }
 
 

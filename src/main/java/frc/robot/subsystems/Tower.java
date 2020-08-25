@@ -33,12 +33,18 @@ public class Tower extends SubsystemBase {
   public void towerstop() {
     tower.set(ControlMode.PercentOutput, 0);
   }
+  /**
+   * Go back method, will be called when need. 
+   */
+  public void goBack(){
 
-      @Override
-      public void periodic() {
-        SmartDashboard.putNumber("towerp", tower.getSelectedSensorPosition());
-        // This method will be called once per scheduler run
-      }
+  }
+
+  @Override
+  public void periodic() {
+    SmartDashboard.putNumber("towerp", tower.getSelectedSensorPosition());
+    // This method will be called once per scheduler run
+  }
 	public double getSelectedSensorPosition() {
 		return tower.getSelectedSensorPosition();
 	}
