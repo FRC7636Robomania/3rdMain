@@ -27,10 +27,10 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
   private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.Motor.wheelPitch);
   private Pose2d pose;
   //0.04, 2.23, -0.007
-  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.04, 2.23, -0.007);
+  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.04, 2.23, 0.007);
 
-  PIDController lpidcontroller = new PIDController(0.9, 0, 0.0000);
-  PIDController rpidcontroller = new PIDController(0.9, 0, 0.0000);
+  PIDController lpidcontroller = new PIDController(0.0506, 0, 0.0000);
+  PIDController rpidcontroller = new PIDController(0.0506, 0, 0.0000);
 
   /**
    * Creates a new Drivetrain.

@@ -7,26 +7,22 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
-import frc.robot.subsystems.chassis.trajectory.TrajectoryFactory;
 import frc.robot.subsystems.chassis.trajectory.TrajectorySystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class OneMeter extends SequentialCommandGroup {
+public class TestCommand extends SequentialCommandGroup {
   /**
-   * Creates a new OneMeter.
+   * Creates a new TestCommand.
    */
-  public OneMeter(TrajectorySystem drivetrain) {
+  public TestCommand(TrajectorySystem drivetrain) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(  new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.OneMeter)),
-            new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-            new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.OneMeter), drivetrain)
-                  .andThen(()->drivetrain.setOutput(0, 0)),
-            new InstantCommand(()-> drivetrain.setOutput(0, 0)));
+    super(
+      new RunCommand(()->drivetrain.setOutput(10000, 10000), drivetrain)
+    );
   }
 }

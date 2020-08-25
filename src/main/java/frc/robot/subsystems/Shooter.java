@@ -21,7 +21,7 @@ public class Shooter extends SubsystemBase {
   public Shooter() {
     MotorFactory.setSensor(flywheel,FeedbackDevice.IntegratedSensor);
     MotorFactory.setSensor(conveyor,FeedbackDevice.CTRE_MagEncoder_Relative);
-    MotorFactory.configPID(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,0);
+    MotorFactory.configPF(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,0);
     //MotorFactory.configmotorlimit(flywheel,0.001, 1, -1, 1, 30);
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
     MotorFactory.setInvert(wideleft,InvertType.InvertMotorOutput);

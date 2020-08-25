@@ -23,6 +23,8 @@ import frc.robot.commands.Shoot.shoot.Fastshoot;
 import frc.robot.commands.auto.LeftDown;
 import frc.robot.commands.auto.LeftUp;
 import frc.robot.commands.auto.OneMeter;
+import frc.robot.commands.auto.TempOneMeter;
+import frc.robot.commands.auto.TestCommand;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Tower;
 import frc.robot.subsystems.chassis.ControlDrivetrain;
@@ -53,6 +55,8 @@ public class RobotContainer {
     controlDrivetrain.setDefaultCommand(new RunCommand(()-> controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain));
     chooser.addOption("Left Up", new LeftUp(Robot.trajectoryDrivetrain));
     chooser.addOption("Left Down ", new LeftDown(Robot.trajectoryDrivetrain));
+    chooser.addOption("TempOneMeter", new TempOneMeter(Robot.trajectoryDrivetrain));
+    chooser.addOption("Test", new TestCommand(Robot.trajectoryDrivetrain));
     chooser.setDefaultOption("One Meter", new OneMeter(Robot.trajectoryDrivetrain));
     
     Shuffleboard.getTab("Autonomous").add(chooser);
@@ -66,10 +70,11 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //new JoystickButton(joystick, 3).whenHeld(()->    MusicDrivetrain.start("noise.chrp"));
-    new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
-    new JoystickButton(joystick, Button.tower1)  .whenHeld(new Tower_set(m_Tower));    
-    new JoystickButton(joystick, Button.tower2)  .whenHeld(new Tower_set2(m_Tower));    
-    controlDrivetrain.setDefaultCommand(new RunCommand(()->controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain));
+    // new JoystickButton(joystick, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
+    // new JoystickButton(joystick, Button.tower1)            .whenHeld(new Tower_set(m_Tower));    
+    // new JoystickButton(joystick, Button.tower2)            .whenHeld(new Tower_set2(m_Tower));    
+    controlDrivetrain.setDefaultCommand(new RunCommand(()->Robot.controlDrivetrain.curvatureDrive(joystick.getY() * 0.5, joystick.getZ() * 0.4, true), controlDrivetrain));
+    //controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain)
   }
 
 

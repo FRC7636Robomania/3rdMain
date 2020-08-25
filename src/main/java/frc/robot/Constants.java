@@ -17,9 +17,9 @@ package frc.robot;
  */
 public final class Constants {
     public static class Trajectory{
-        public static final String three = "output/ThreeBall.wpilib.json";
-        public static final String two   = "output/TeoBall.wpilib.json";
-        public static final String OneMeter = "output/OneMwter.wpilib.json";
+        public static final String three    = "output/ThreeBall.wpilib.json";
+        public static final String two      = "output/TwoBall.wpilib.json";
+        public static final String OneMeter = "output/OneMeter.wpilib.json";
     }
     public static class Motor{
         public static final int leftMaster = 19;
@@ -41,8 +41,8 @@ public final class Constants {
         public static final int intakearmer = 0;
         public static final int wideright = 2;
         public static final int wideleft = 5;
-        public static final double flywheel_kP = 0.1;
-        public static final double flywheel_kF = 0.0506;
+        public static final double flywheel_kP = 0.0506; //0.1
+        public static final double flywheel_kF = 0.01;
         public static final int tower = 6;
     }
     public static class Button{
