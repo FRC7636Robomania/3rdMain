@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /**
  * Config motor, using "Fluent Interface".
@@ -164,7 +165,7 @@ public class MotorFactory {
      * @param invertType
      * @return Victor_master
      */
-    public static WPI_VictorSPX setInvert(final WPI_VictorSPX Victor_master, final InvertType invertType) {
+    public static VictorSPX setInvert(final VictorSPX Victor_master, final InvertType invertType) {
         Victor_master.setInverted(invertType);
         return Victor_master;
     }
@@ -263,6 +264,16 @@ public class MotorFactory {
         motor.configPeakOutputForward(percentOut,timeoutMs);
         motor.configPeakOutputReverse(percentOut2,timeoutMs);
         motor.configClosedloopRamp(Ramp);
+        return motor;
+    }
+    /**
+     * 
+     * @param motor motor
+     * @param time  seconds
+     * @return      motor
+     */
+    public static TalonFX ramp(TalonFX motor, double time){
+        motor.configClosedloopRamp(time, 10);
         return motor;
     }
 }

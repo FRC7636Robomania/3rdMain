@@ -205,8 +205,8 @@ public class DifferentialDrive extends RobotDriveBase implements Sendable, AutoC
       }
     }
 
-    double leftMotorOutput = xSpeed + angularPower;
-    double rightMotorOutput = xSpeed - angularPower;
+    double leftMotorOutput = xSpeed - angularPower;
+    double rightMotorOutput = xSpeed + angularPower;
 
     // If rotation is overpowered, reduce both outputs to within acceptable range
     if (overPower) {
@@ -232,8 +232,8 @@ public class DifferentialDrive extends RobotDriveBase implements Sendable, AutoC
       rightMotorOutput /= maxMagnitude;
     }
 
-    m_leftMotor.set(leftMotorOutput * m_maxOutput);
-    m_rightMotor.set(rightMotorOutput * m_maxOutput * m_rightSideInvertMultiplier);
+    m_leftMotor.set(leftMotorOutput * -m_maxOutput);
+    m_rightMotor.set(rightMotorOutput * -m_maxOutput * m_rightSideInvertMultiplier);
 
     feed();
   }
@@ -311,7 +311,7 @@ public class DifferentialDrive extends RobotDriveBase implements Sendable, AutoC
    *
    * @param alpha Low-pass filter gain [0.0..2.0]. Smaller values result in slower output changes.
    *              Values between 1.0 and 2.0 result in output oscillation. Values below 0.0 and
-   *              above 2.0 are unstable.
+   *              above 2.0 are unstable.  So maybe [0, 1]
    */
   public void setQuickStopAlpha(double alpha) {
     m_quickStopAlpha = alpha;

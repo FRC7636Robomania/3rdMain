@@ -18,6 +18,8 @@ import frc.robot.motor.MotorFactory;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Victor;
@@ -27,10 +29,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Must be sure these objects will be instantiated only once
  */
 public class DrivetrainBase extends SubsystemBase {
-  protected static TalonFX leftMas  = new TalonFX(Constants.Motor.leftMaster);
-  protected static TalonFX leftFol  = new TalonFX(Constants.Motor.leftFollewer);
-  protected static TalonFX rightMas = new TalonFX(Constants.Motor.rightMaster);
-  protected static TalonFX rightFol = new TalonFX(Constants.Motor.rightFollower);
+  protected static WPI_TalonFX leftMas  = new WPI_TalonFX(Constants.Motor.leftMaster);
+  protected static WPI_TalonFX leftFol  = new WPI_TalonFX(Constants.Motor.leftFollewer);
+  protected static WPI_TalonFX rightMas = new WPI_TalonFX(Constants.Motor.rightMaster);
+  protected static WPI_TalonFX rightFol = new WPI_TalonFX(Constants.Motor.rightFollower);
   protected static AHRS ahrs = new AHRS(SPI.Port.kMXP);
   // Joystick joy1 = new Joystick(0);
   private   static boolean isFirst = true; 

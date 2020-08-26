@@ -20,14 +20,13 @@ public class Shooter extends SubsystemBase {
 
   public Shooter() {
     MotorFactory.setSensor(flywheel,FeedbackDevice.IntegratedSensor);
-    MotorFactory.setSensor(conveyor,FeedbackDevice.CTRE_MagEncoder_Relative);
+    // MotorFactory.setSensor(conveyor,FeedbackDevice.CTRE_MagEncoder_Relative);
     MotorFactory.configPF(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,0);
     //MotorFactory.configmotorlimit(flywheel,0.001, 1, -1, 1, 30);
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
     MotorFactory.setInvert(wideleft,InvertType.InvertMotorOutput);
     MotorFactory.setFollower(wideleft, wideright);
-    flywheel.configClosedloopRamp(0.5, 10);
-    
+  //MotorFactory.ramp(flywheel, 0.4);    
   }
 
   public double getflywheelspeed(){
@@ -67,11 +66,11 @@ public class Shooter extends SubsystemBase {
   
 
   public void widein(){
-    wideleft.set(-0.5);
+    wideleft.set(-0.2);
   }
 
   public void wideout(){
-    wideleft.set(0.1);
+    wideleft.set(0.2);
   }  
   public void widestop(){
     wideleft.set(0);

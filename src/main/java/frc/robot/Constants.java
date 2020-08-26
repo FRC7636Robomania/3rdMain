@@ -41,8 +41,8 @@ public final class Constants {
         public static final int intakearmer = 0;
         public static final int wideright = 2;
         public static final int wideleft = 5;
-        public static final double flywheel_kP = 0.0506; //0.1
-        public static final double flywheel_kF = 0.01;
+        public static final double flywheel_kP = 0.01; //0.1
+        public static final double flywheel_kF = 0.0506;
         public static final int tower = 6;
     }
     public static class Button{
