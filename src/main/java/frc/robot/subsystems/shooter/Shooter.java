@@ -33,7 +33,7 @@ public class Shooter extends SubsystemBase {
     return flywheel.getSelectedSensorVelocity();
   }
   public void flywheelspinup(){
-    vel = 1* 2000.0 * 2048.0 / 600.0;
+    vel = 5* 2000.0 * 2048.0 / 600.0;
     flywheel.set(ControlMode.Velocity,vel);
     setVel = vel;
   }
@@ -43,12 +43,14 @@ public class Shooter extends SubsystemBase {
   }
  
   public void fastconveyor(){
-    if(getflywheelspeed()>0.95*setVel){
-      conveyor.set(ControlMode.PercentOutput,0.3);
-    }
-    else if(getflywheelspeed()<0.85*setVel){
-      conveyor.set(ControlMode.PercentOutput,0);
-    }
+    // if(getflywheelspeed()>0.95*setVel){
+    //   conveyor.set(ControlMode.PercentOutput,0.3);
+    // }
+    // else if(getflywheelspeed()<0.85*setVel){
+    //   conveyor.set(ControlMode.PercentOutput,0);
+    // }
+    conveyor.set(ControlMode.PercentOutput,-0.3);
+
   } 
 
   public void longconveyor(){

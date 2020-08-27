@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
 import frc.robot.commands.Tower_set;
 import frc.robot.commands.Tower_set2;
+import frc.robot.commands.Shoot.conveyor.Convey;
 import frc.robot.commands.Shoot.shoot.Fastshoot;
 import frc.robot.commands.auto.LeftDown;
 import frc.robot.commands.auto.LeftUp;
@@ -36,12 +37,12 @@ import frc.robot.subsystems.chassis.ControlDrivetrain;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final Shooter          m_shooter          = new Shooter();
-  private final Tower            m_Tower            = new Tower();
-  private final Joystick         joystick           = new Joystick(0);
-  private final Joystick         driverStation       = new Joystick(1);
-  public  static       ControlDrivetrain           controlDrivetrain    = new ControlDrivetrain();
-  private              SendableChooser<Command>    chooser       = new SendableChooser<Command>();
+  public static Shooter           shooter                         = new Shooter();
+  private final Tower             m_Tower                         = new Tower();
+  private final Joystick          joystick                        = new Joystick(0);
+  private final Joystick          driverStation                   = new Joystick(1);
+  public static ControlDrivetrain controlDrivetrain               = new ControlDrivetrain();
+  private       SendableChooser<Command>    chooser               = new SendableChooser<Command>();
   // The robot's subsystems and commands are defined here...
 
   /**
@@ -77,16 +78,18 @@ public class RobotContainer {
    * Mapping joystick & command here.
    */
   private void joystickMapping(){
-      
+      // new JoystickButton(joystick, Button.turretleft).whenHeld(new Tower_set(m_Tower));
+      // new JoystickButton(joystick, Button.turretright).whenHeld(new Tower_set2(m_Tower));
 
   }
   /**
    * Mapping driver station & command here
    */
   private void driverStationMapping(){
-    new JoystickButton(driverStation, Button.emergencyshooter)  .whenHeld(new Fastshoot(m_shooter));
-    new JoystickButton(driverStation, Button.tower1)            .whenHeld(new Tower_set(m_Tower));    
-    new JoystickButton(driverStation, Button.tower2)            .whenHeld(new Tower_set2(m_Tower));  
+    new JoystickButton(driverStation, Button.flySpin)  .whenHeld(new Fastshoot(shooter));
+    new JoystickButton(driverStation, Button.conveyor) .whenHeld(new Convey());
+    new JoystickButton(driverStation, Button.turretleft)             .whenHeld(new Tower_set(m_Tower));    
+    new JoystickButton(driverStation, Button.turretright)            .whenHeld(new Tower_set2(m_Tower));  
   }
 
   private void teleop(){
@@ -94,7 +97,7 @@ public class RobotContainer {
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
         ()->Robot.controlDrivetrain
-                .curvatureDrive(joystick.getY() * 0.6, joystick.getZ() * 0.6, joystick.getTrigger()), 
+                .curvatureDrive(joystick.getY() * 0.5, joystick.getZ() * 0.5, joystick.getTrigger()), 
           controlDrivetrain)
       );
       

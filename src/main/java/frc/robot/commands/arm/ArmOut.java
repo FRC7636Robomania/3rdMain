@@ -5,50 +5,31 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Shoot.shoot;
+package frc.robot.commands.arm;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Shooter;
 
-
-public class Fastshoot extends CommandBase {
-  private Shooter m_Shooter;
-  private int i;
-
+public class ArmOut extends CommandBase {
   /**
-   * Creates a new Shoot.
+   * Creates a new ArmOut.
    */
-  public Fastshoot(Shooter shooter) {
-   m_Shooter = shooter;
-    addRequirements(m_Shooter);
+  public ArmOut() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    i=0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Shooter.flywheelspinup();
-    m_Shooter.fastconveyor();
-    m_Shooter.widein();
-    i++;
-    SmartDashboard.putString("FlyWheelstatus", "flywheelSpin");
-    SmartDashboard.putNumber("i", i);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Shooter.flywheelstop();
-    SmartDashboard.putString("FlyWheelstatus", "flywheelstop");
-    SmartDashboard.putNumber("i", i);
-    m_Shooter.widestop();
   }
 
   // Returns true when the command should end.

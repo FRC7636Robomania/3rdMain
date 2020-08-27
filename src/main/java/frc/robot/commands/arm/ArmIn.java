@@ -5,15 +5,15 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.Shoot.conveyor;
+package frc.robot.commands.arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Convey extends CommandBase {
+public class ArmIn extends CommandBase {
   /**
-   * Creates a new Convey.
+   * Creates a new ArmIn.
    */
-  public Convey() {
+  public ArmIn() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
