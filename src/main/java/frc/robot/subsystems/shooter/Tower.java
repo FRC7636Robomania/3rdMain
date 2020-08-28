@@ -14,7 +14,7 @@ public class Tower extends Spinable{
 
   public Tower() {
     tower.configFactoryDefault();
-    MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Absolute);
+    MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Relative);
     tower.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
 
     tower.configForwardSoftLimitThreshold(3000);
