@@ -7,8 +7,5 @@
 
 package frc.robot.subsystems.pneumatic;
 
-/**
- * Add your docs here.
- */
-public class Hanging {
+public class Hanging extends Pneumatic{
 }

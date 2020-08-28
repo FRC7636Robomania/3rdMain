@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.chassis.ControlDrivetrain;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
-import frc.robot.subsystems.Tower;
+import edu.wpi.first.wpilibj.Compressor;
 
 
 /**
@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   public static TrajectoryDrivetrain trajectoryDrivetrain = new TrajectoryDrivetrain();
   public static ControlDrivetrain    controlDrivetrain    = new ControlDrivetrain();
-  public static Tower tower =new Tower();
+  // public static Compressor c =new Compressor();
   private RobotContainer m_robotContainer;
 
   /**
@@ -97,6 +97,7 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    // c.setClosedLoopControl(true);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }

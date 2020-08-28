@@ -45,6 +45,11 @@ public final class Constants {
         public static final double flywheel_kF = 0.0506;
         public static final int tower = 6;
     }
+    public static class Pne{
+        public static final int Solenoid = 0;
+        public static final int ArmDS_1 = 1;
+        public static final int ArmDS_2 = 2;
+    }
     public static class Button{
         //Driverstation
         /**____________________
@@ -55,20 +60,17 @@ public final class Constants {
          * |                  |
          * ____________________
          */
-        public static final int flySpin = 1;
-
-        public static final int conveyor = 2;
-        public static final int turretleft = 3;
+        public static final int flySpin     = 1;
+        public static final int conveyor    = 2;
+        public static final int turretleft  = 3;
         public static final int turretright = 4;
+        public static final int armOut      = 5;
+        public static final int armIn       = 6;
+        public static final int intake      = 7;
+        public static final int autoAim     = 8;
 
         //Joystick
-
-        // public static final int emergencyarmdown  = 7;
-        // public static final int emergencyarmup    = 8;
-        // public static final int emergencyintake   = 9;
-        // public static final int emergencyshooter = 1;
-        // public static final int tower1 = 2;
-        // public static final int tower2 = 3;
-
+        //trigger be used to curvature drive
+        public static final int towerZero   = 2;
     }
 }

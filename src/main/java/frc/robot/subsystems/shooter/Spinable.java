@@ -9,16 +9,8 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Spinable extends SubsystemBase {
-  /**
-   * Creates a new Spinable.
-   */
-  public Spinable() {
-
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+public abstract class Spinable extends SubsystemBase {
+  public abstract void forward();
+  public abstract void stop();
+  public abstract void reverse();
 }

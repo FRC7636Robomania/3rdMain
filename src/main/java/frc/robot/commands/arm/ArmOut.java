@@ -7,14 +7,16 @@
 
 package frc.robot.commands.arm;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.pneumatic.Arm;
 
 public class ArmOut extends CommandBase {
-  /**
-   * Creates a new ArmOut.
-   */
-  public ArmOut() {
-    // Use addRequirements() here to declare subsystem dependencies.
+  private Arm m_arm;
+
+  public ArmOut(Arm arm) {
+    m_arm = arm ;
+    addRequirements(m_arm);
   }
 
   // Called when the command is initially scheduled.
@@ -25,6 +27,8 @@ public class ArmOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_arm.ArmDS_ON();
+    SmartDashboard.putString("ArmStatus", "armSpin");
   }
 
   // Called once the command ends or is interrupted.

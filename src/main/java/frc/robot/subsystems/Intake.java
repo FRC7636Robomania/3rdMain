@@ -5,10 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.arm;
+package frc.robot.subsystems;
+
+import frc.robot.subsystems.shooter.Spinable;
 
 /**
  * Add your docs here.
  */
-public class Intake {
+public class Intake extends Spinable{
+    //which motor is intake?
+
+    @Override
+    public void forward() {
+
+    }
+
+    @Override
+    public void stop() {
+
+    }
+
+    @Override
+    public void reverse() {
+
+    }
 }

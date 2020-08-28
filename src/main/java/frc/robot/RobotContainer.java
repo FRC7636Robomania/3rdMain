@@ -7,6 +7,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Sendable;
@@ -14,21 +15,26 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
-import frc.robot.commands.Tower_set;
-import frc.robot.commands.Tower_set2;
-import frc.robot.commands.Shoot.conveyor.Convey;
-import frc.robot.commands.Shoot.shoot.Fastshoot;
+import frc.robot.commands.Shoot.SpinForward;
+import frc.robot.commands.Shoot.SpinReverse;
+import frc.robot.commands.arm.ArmIn;
+import frc.robot.commands.arm.ArmOut;
 import frc.robot.commands.auto.LeftDown;
 import frc.robot.commands.auto.LeftUp;
 import frc.robot.commands.auto.OneMeter;
 import frc.robot.commands.auto.TempOneMeter;
 import frc.robot.commands.auto.TestCommand;
-import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Tower;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.chassis.ControlDrivetrain;
+import frc.robot.subsystems.pneumatic.Arm;
+import frc.robot.subsystems.shooter.Conveyor;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Tower;
+import frc.robot.subsystems.shooter.Wing;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -37,14 +43,18 @@ import frc.robot.subsystems.chassis.ControlDrivetrain;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  public static Shooter           shooter                         = new Shooter();
-  private final Tower             m_Tower                         = new Tower();
+  private final Shooter           m_shooter                       = new Shooter();
+  private final Tower             m_tower                         = new Tower();
+  private final Conveyor          m_conveyor                      = new Conveyor();
+  private final Arm               m_arm                           = new Arm();
+  private final Intake            m_intake                        = new Intake();
+  private final Wing              m_wing                          = new Wing();
   private final Joystick          joystick                        = new Joystick(0);
   private final Joystick          driverStation                   = new Joystick(1);
   public static ControlDrivetrain controlDrivetrain               = new ControlDrivetrain();
   private       SendableChooser<Command>    chooser               = new SendableChooser<Command>();
   // The robot's subsystems and commands are defined here...
-
+  private Compressor c = new Compressor();
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -54,10 +64,10 @@ public class RobotContainer {
     //MusicDrivetrain.start("noise.chrp");
     configureButtonBindings();
 
-    chooser.addOption("Left Up", new LeftUp(Robot.trajectoryDrivetrain));
-    chooser.addOption("Left Down ", new LeftDown(Robot.trajectoryDrivetrain));
-    chooser.addOption("TempOneMeter", new TempOneMeter(Robot.trajectoryDrivetrain));
-    chooser.addOption("Test", new TestCommand(Robot.trajectoryDrivetrain));
+    chooser.addOption("Left Up",          new LeftUp(Robot.trajectoryDrivetrain));
+    chooser.addOption("Left Down ",       new LeftDown(Robot.trajectoryDrivetrain));
+    chooser.addOption("TempOneMeter",     new TempOneMeter(Robot.trajectoryDrivetrain));
+    chooser.addOption("Test",             new TestCommand(Robot.trajectoryDrivetrain));
     chooser.setDefaultOption("One Meter", new OneMeter(Robot.trajectoryDrivetrain));
     
     Shuffleboard.getTab("Auto").add(chooser);
@@ -78,22 +88,25 @@ public class RobotContainer {
    * Mapping joystick & command here.
    */
   private void joystickMapping(){
-      // new JoystickButton(joystick, Button.turretleft).whenHeld(new Tower_set(m_Tower));
-      // new JoystickButton(joystick, Button.turretright).whenHeld(new Tower_set2(m_Tower));
-
+    // new JoystickButton(joystick, Button.towerZero)          .whenHeld(new InstantCommand(()->m_tower.zero()));
   }
   /**
    * Mapping driver station & command here
    */
   private void driverStationMapping(){
-    new JoystickButton(driverStation, Button.flySpin)  .whenHeld(new Fastshoot(shooter));
-    new JoystickButton(driverStation, Button.conveyor) .whenHeld(new Convey());
-    new JoystickButton(driverStation, Button.turretleft)             .whenHeld(new Tower_set(m_Tower));    
-    new JoystickButton(driverStation, Button.turretright)            .whenHeld(new Tower_set2(m_Tower));  
+    new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new SpinForward(m_shooter));
+    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new SpinReverse(m_conveyor))
+                                                            .whenHeld(new SpinForward(m_wing));
+    new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
+    new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
+    new JoystickButton(driverStation, Button.armOut)        .whenHeld(new ArmOut(m_arm));
+    new JoystickButton(driverStation, Button.armIn)         .whenHeld(new ArmIn(m_arm));
+    new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake));
   }
-
+  /**
+   * Teleop control
+   */
   private void teleop(){
-
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
         ()->Robot.controlDrivetrain
