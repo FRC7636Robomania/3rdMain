@@ -7,10 +7,8 @@
 
 package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
 import frc.robot.subsystems.chassis.trajectory.TrajectorySystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more

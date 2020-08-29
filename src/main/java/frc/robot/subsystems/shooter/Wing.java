@@ -4,7 +4,6 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.motor.MotorFactory;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PowCon;
 
 public class Wing extends Spinable{

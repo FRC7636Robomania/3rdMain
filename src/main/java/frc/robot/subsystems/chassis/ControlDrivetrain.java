@@ -7,15 +7,13 @@
 
 package frc.robot.subsystems.chassis;
 
-import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpiutil.math.MathUtil;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class ControlDrivetrain extends DrivetrainBase {
-  private double disttar,a=0.3,angle=0;
-  private double m_quickStopAccumulator = 0,leftout=0,rightout=0;
+  private double m_quickStopAccumulator = 0, leftout=0, rightout=0;
   public ControlDrivetrain(){
    
   }
@@ -26,13 +24,11 @@ public class ControlDrivetrain extends DrivetrainBase {
       SmartDashboard.putNumber("turn",turn);
   }
   public void curvatureDrive(double xSpeed, double zRotation, boolean isQuickTurn) {
-
     xSpeed = MathUtil.clamp(xSpeed, -1.0, 1.0);
     if(Math.abs(zRotation)<0.05){
       zRotation =0;
     }
     zRotation = MathUtil.clamp(zRotation, -1.0, 1.0);
-
     double angularPower;
     boolean overPower;
     double m_quickStopAlpha =0.1;
@@ -41,7 +37,7 @@ public class ControlDrivetrain extends DrivetrainBase {
         m_quickStopAccumulator = (1 - 0.1) * m_quickStopAccumulator
             + m_quickStopAlpha * MathUtil.clamp(zRotation, -1.0, 1.0) * 2;
       }
-      
+
       overPower = true;
       angularPower = zRotation;
     } else {
@@ -85,7 +81,9 @@ public class ControlDrivetrain extends DrivetrainBase {
     }
     leftout=  leftMotorOutput;
     rightout = rightMotorOutput;
-    
+
+    leftMas.set(leftout);
+    rightMas.set(rightout);
   }
   
 }
