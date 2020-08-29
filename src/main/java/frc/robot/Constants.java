@@ -44,6 +44,8 @@ public final class Constants {
         public static final double flywheel_kP = 0.01; //0.1
         public static final double flywheel_kF = 0.0506;
         public static final int tower = 6;
+        public static final int rack = 8;
+
     }
     public static class Pne{
         public static final int Solenoid = 0;
@@ -64,13 +66,15 @@ public final class Constants {
         public static final int conveyor    = 2;
         public static final int turretleft  = 3;
         public static final int turretright = 4;
-        public static final int armOut      = 5;
-        public static final int armIn       = 6;
+        public static final int rackup      = 5;
+        public static final int rackdoewn   = 6;
         public static final int intake      = 7;
         public static final int autoAim     = 8;
 
         //Joystick
         //trigger be used to curvature drive
         public static final int towerZero   = 2;
+        public static final int armOut      = 3;
+        public static final int armIn       = 4;
     }
 }

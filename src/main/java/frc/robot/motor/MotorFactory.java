@@ -222,6 +222,13 @@ public class MotorFactory {
         motor.config_kD(0, kD);
         return motor;
     }
+    public static TalonFX configPIDF(final TalonFX motor, double kP, double kI, double kD, double kF){
+        motor.config_kP(0, kP);
+        motor.config_kI(0, kI);
+        motor.config_kD(0, kD);
+        motor.config_kF(0, kF);
+        return motor;
+    }
 
     /**
      * set motor PID 設置馬達PID

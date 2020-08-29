@@ -16,12 +16,13 @@ public class Tower extends Spinable{
     tower.configFactoryDefault();
     MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Relative);
     tower.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
+    // tower.setInverted(true);
 
-    tower.configForwardSoftLimitThreshold(3000);
-    tower.configReverseSoftLimitThreshold(-3000);
+    // tower.configForwardSoftLimitThreshold(3000);
+    // tower.configReverseSoftLimitThreshold(-3000);
 
-    tower.configForwardSoftLimitEnable(true);
-    tower.configReverseSoftLimitEnable(true);
+    // tower.configForwardSoftLimitEnable(true);
+    // tower.configReverseSoftLimitEnable(true);
   }
 
   public double gettowerspeed() {
@@ -32,25 +33,32 @@ public class Tower extends Spinable{
 		return tower.getSelectedSensorPosition();
   }
   
-  // public void zero(){
-  //   tower.setSelectedSensorPosition(0);
-  // }
+  public void zero(){
+    tower.setSelectedSensorPosition(0);
+  }
 
   @Override
   public void forward() {
-    tower.set(ControlMode.PercentOutput, 0.5);
+    SmartDashboard.putString("Towerstatue","TowerFoward");
+    if(tower.getSelectedSensorPosition() < -2900)
+      tower.set(ControlMode.PercentOutput, 0);
+    else 
+      tower.set(ControlMode.PercentOutput, 0.5);
   }
 
   @Override
   public void stop() {
+    SmartDashboard.putString("Towerstatue","TowerStop");
     tower.set(ControlMode.PercentOutput, 0);
-
   }
 
   @Override
   public void reverse() {
-    tower.set(ControlMode.PercentOutput, -0.5);
-
+    SmartDashboard.putString("Towerstatue","TowerReverse");
+    if(tower.getSelectedSensorPosition() > 1500)
+      tower.set(ControlMode.PercentOutput, 0);
+    else 
+      tower.set(ControlMode.PercentOutput, -0.5);
   }
   @Override
   public void periodic() {

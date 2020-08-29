@@ -5,27 +5,20 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.auto;
+package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Robot;
-import frc.robot.subsystems.chassis.trajectory.TrajectorySystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
-public class TestCommand extends SequentialCommandGroup {
+public class AutoAim extends SequentialCommandGroup {
   /**
-   * Creates a new TestCommand.
+   * Creates a new AutoAim.
    */
-  public TestCommand(TrajectorySystem drivetrain) {
+  public AutoAim() {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(
-      new RunCommand(()->drivetrain.setOutput(0.9, 0.9), drivetrain)
-    );
-     
+    super();
   }
 }

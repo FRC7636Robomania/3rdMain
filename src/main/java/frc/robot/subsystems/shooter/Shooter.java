@@ -28,18 +28,22 @@ public class Shooter extends Spinable{
   
   @Override
   public void forward() {
-    vel = 7* 2000.0 * 2048.0 / 600.0;
+    vel = 5 * 2000.0 * 2048.0 / 600.0;
     flywheel.set(ControlMode.Velocity,vel);
     setVel = vel;
+    SmartDashboard.putString("Shooterstatue","ShooterFoward");
   }
 
   @Override
   public void stop() {
     flywheel.set(ControlMode.Velocity, 0);
+    SmartDashboard.putString("Shooterstatue","ShooterStop");
+
   }
 
   @Override
   public void reverse() {
+    SmartDashboard.putString("Shooterstatue","Don't do that please");
     System.out.println("Don't do that please");
   }
   

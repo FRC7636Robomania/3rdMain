@@ -17,13 +17,13 @@ import frc.robot.subsystems.shooter.Spinable;
  */
 public class Intake extends Spinable{
     private final WPI_TalonSRX intake = new WPI_TalonSRX(10);
-    
+
     public Intake(){
         intake.configFactoryDefault();
     }
     @Override
     public void forward() {
-        intake.set(ControlMode.PercentOutput, 0.7);
+        intake.set(ControlMode.PercentOutput, 0.95);
     }
 
     @Override
@@ -34,6 +34,6 @@ public class Intake extends Spinable{
 
     @Override
     public void reverse() {
-        intake.set(ControlMode.PercentOutput, -0.7);
+        intake.set(ControlMode.PercentOutput, -0.95);
     }
 }

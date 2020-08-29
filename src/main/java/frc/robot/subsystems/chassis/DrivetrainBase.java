@@ -57,13 +57,11 @@ public class DrivetrainBase extends SubsystemBase {
     MotorFactory.setFollower(rightMas, rightFol);
     MotorFactory.configLikePrevious(rightMas, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
     MotorFactory.configLikePrevious(rightFol, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
-    MotorFactory.voltageCompSaturation(rightMas, 10);
-    MotorFactory.voltageCompSaturation(leftMas, 10);
+    MotorFactory.voltageCompSaturation(rightMas, 11);
+    MotorFactory.voltageCompSaturation(leftMas, 11);
 
-    MotorFactory.configPF(leftMas, 0.0506, 0.07, 0);
-    MotorFactory.configPF(rightMas, 0.0506, 0.07, 0);
-    // leftMas.config_kP(0, 10);
-    // rightMas.config_kP(0, 10);
+    MotorFactory.configPIDF(leftMas, 3.0, 0.0001, 100.0, 0.047);
+    MotorFactory.configPIDF(rightMas, 3.0, 0.0001, 100.0, 0.047);
     
     
     ahrs.reset();

@@ -32,6 +32,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.chassis.ControlDrivetrain;
 import frc.robot.subsystems.pneumatic.Arm;
 import frc.robot.subsystems.shooter.Conveyor;
+import frc.robot.subsystems.shooter.Rack;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.Tower;
 import frc.robot.subsystems.shooter.Wing;
@@ -49,12 +50,13 @@ public class RobotContainer {
   private final Arm               m_arm                           = new Arm();
   private final Intake            m_intake                        = new Intake();
   private final Wing              m_wing                          = new Wing();
+  private final Rack              m_rack                          = new Rack();
   private final Joystick          joystick                        = new Joystick(0);
   private final Joystick          driverStation                   = new Joystick(1);
   public static ControlDrivetrain controlDrivetrain               = new ControlDrivetrain();
   private       SendableChooser<Command>    chooser               = new SendableChooser<Command>();
   // The robot's subsystems and commands are defined here...
-  private Compressor c = new Compressor();
+  // private Compressor c = new Compressor();
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -88,7 +90,11 @@ public class RobotContainer {
    * Mapping joystick & command here.
    */
   private void joystickMapping(){
-    // new JoystickButton(joystick, Button.towerZero)          .whenHeld(new InstantCommand(()->m_tower.zero()));
+    new JoystickButton(joystick, Button.towerZero)          .whenHeld(new InstantCommand(()->m_tower.zero()));
+    new JoystickButton(joystick, Button.armOut)        .whenHeld(new ArmOut(m_arm));
+    new JoystickButton(joystick, Button.armIn)         .whenHeld(new ArmIn(m_arm));
+
+
   }
   /**
    * Mapping driver station & command here
@@ -99,9 +105,9 @@ public class RobotContainer {
                                                             .whenHeld(new SpinForward(m_wing));
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
-    new JoystickButton(driverStation, Button.armOut)        .whenHeld(new ArmOut(m_arm));
-    new JoystickButton(driverStation, Button.armIn)         .whenHeld(new ArmIn(m_arm));
-    new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake));
+    new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
+    new JoystickButton(driverStation, Button.rackdoewn)     .whenHeld(new SpinReverse(m_rack));  
+    new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake));  
   }
   /**
    * Teleop control
