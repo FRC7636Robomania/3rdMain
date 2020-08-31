@@ -17,20 +17,20 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
+import frc.robot.Constants.*;
 import frc.robot.subsystems.chassis.DrivetrainBase;
 
 
 public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySystem{
 
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
-  private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Constants.Motor.wheelPitch);
+  private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Motor.wheelPitch);
   private Pose2d pose;
   //0.04, 2.23, -0.007
-  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.04, 2.23, 0.007);
+  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.143, 2.23, 0.372);
 
-  PIDController lpidcontroller = new PIDController(0.0506, 0, 0.0000);
-  PIDController rpidcontroller = new PIDController(0.0506, 0, 0.0000);
+  PIDController lpidcontroller = new PIDController(1.5, 0, 0.0000);
+  PIDController rpidcontroller = new PIDController(1.5, 0, 0.0000);
 
   /**
    * Creates a new Drivetrain.
@@ -70,8 +70,8 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
    */
   public DifferentialDriveWheelSpeeds getSpeed() {
     return new DifferentialDriveWheelSpeeds(
-      leftMas.getSelectedSensorVelocity() * Constants.Motor.distancePerPulse, 
-      rightMas.getSelectedSensorVelocity() * Constants.Motor.distancePerPulse
+      leftMas.getSelectedSensorVelocity() * Motor.distancePerPulse, 
+      rightMas.getSelectedSensorVelocity() * Motor.distancePerPulse
       );
   }
 
@@ -151,16 +151,19 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
 
   
   public void setOutput(double left, double right) {
-    leftMas.set(ControlMode.Velocity, left / Constants.Motor.distancePerPulse / 10);
-    rightMas.set(ControlMode.Velocity, right / Constants.Motor.distancePerPulse / 10);
+    leftMas.set(ControlMode.Velocity, left / Motor.distancePerPulse / 10);
+    rightMas.set(ControlMode.Velocity, right / Motor.distancePerPulse / 10);
 
-    // leftMas.set(ControlMode.PercentOutput, left);
-    // rightMas.set(ControlMode.PercentOutput, right);
-    // SmartDashboard.putNumber("leftOutput ", left);
-    // SmartDashboard.putNumber("rightOutput", right);
+    SmartDashboard.putNumber("leftOutput ", left / Motor.distancePerPulse / 10);
+    SmartDashboard.putNumber("rightOutput", right / Motor.distancePerPulse / 10);
+  }
 
-    SmartDashboard.putNumber("leftOutput ", left / Constants.Motor.distancePerPulse / 10);
-    SmartDashboard.putNumber("rightOutput", right / Constants.Motor.distancePerPulse / 10);
+  public void voltage(double left, double right){
+    leftMas.set(ControlMode.PercentOutput, left / 11);
+    rightMas.set(ControlMode.PercentOutput, right / 11);
+    SmartDashboard.putNumber("leftOutput ", left / 11);
+    SmartDashboard.putNumber("rightOutput", right / 11
+    );
   }
  
   /**
@@ -179,16 +182,16 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
     SmartDashboard.putNumber("x", getX());
     SmartDashboard.putNumber("Y", getY());
     //distants
-    SmartDashboard.putNumber("leftDistants", getLeftPosition() * Constants.Motor.distancePerPulse);
-    SmartDashboard.putNumber("rightDistants", getRigthtPosition() * Constants.Motor.distancePerPulse);
+    SmartDashboard.putNumber("leftDistants", getLeftPosition() * Motor.distancePerPulse);
+    SmartDashboard.putNumber("rightDistants", getRigthtPosition() * Motor.distancePerPulse);
     SmartDashboard.putNumber("Yaw", ahrs.getYaw());
   }
 
   @Override
   public void periodic() {
     pose = odometry.update(getHeading(), 
-    leftMas.getSelectedSensorPosition()  * Constants.Motor.distancePerPulse,
-    rightMas.getSelectedSensorPosition() * Constants.Motor.distancePerPulse);
+    leftMas.getSelectedSensorPosition()  * Motor.distancePerPulse,
+    rightMas.getSelectedSensorPosition() * Motor.distancePerPulse);
     message();
   }
 }

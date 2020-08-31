@@ -8,10 +8,10 @@ import frc.robot.Constants.PowCon;
 
 public class Conveyor extends Spinable{
   private WPI_VictorSPX conveyor = new WPI_VictorSPX(PowCon.conveyor);
-  double setVel = 0;
-  double vel;
+  private Shooter       shooter;
 
-  public Conveyor() {
+  public Conveyor(Shooter shooter) {
+    this.shooter = shooter;
   }
   
   @Override
@@ -28,8 +28,13 @@ public class Conveyor extends Spinable{
 
   @Override
   public void reverse() {
-    conveyor.set(ControlMode.PercentOutput, -0.7);
-    SmartDashboard.putString("Conveyorstatue","ConveyorReverse");
+    if(shooter.getflywheelspeed() >= shooter.getTarget() * 0.85){
+      conveyor.set(ControlMode.PercentOutput, -0.7);
+      SmartDashboard.putString("Conveyorstatue","ConveyorReverse");  
+    }else{
+      SmartDashboard.putString("Conveyorstatue","flywheelTooSlowly!!");  
+
+    }
   }
   @Override
   public void periodic() {

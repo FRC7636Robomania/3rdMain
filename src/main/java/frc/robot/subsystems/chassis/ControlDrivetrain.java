@@ -13,7 +13,7 @@ import edu.wpi.first.wpiutil.math.MathUtil;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 public class ControlDrivetrain extends DrivetrainBase {
-  private double m_quickStopAccumulator = 0, leftout=0, rightout=0;
+  private double m_quickStopAccumulator = 0, leftout = 0, rightout = 0, lastRotation = 0;
   public ControlDrivetrain(){
    
   }
@@ -27,11 +27,19 @@ public class ControlDrivetrain extends DrivetrainBase {
     xSpeed = MathUtil.clamp(xSpeed, -1.0, 1.0);
     if(Math.abs(zRotation)<0.05){
       zRotation =0;
+     }else{
+      double err = lastRotation - zRotation;
+			if(Math.abs(err) > 0.3){
+		    zRotation = lastRotation - err * 0.4;
+		  }else if(Math.abs(err) > 0.8) {
+		    zRotation = lastRotation - err * 0.2;
+		  }
+      lastRotation = zRotation;
     }
     zRotation = MathUtil.clamp(zRotation, -1.0, 1.0);
     double angularPower;
     boolean overPower;
-    double m_quickStopAlpha =0.1;
+    double m_quickStopAlpha = 0.1;
     if (isQuickTurn) {
       if (Math.abs(xSpeed) < 0.1) {
         m_quickStopAccumulator = (1 - 0.1) * m_quickStopAccumulator
@@ -53,8 +61,8 @@ public class ControlDrivetrain extends DrivetrainBase {
       }
     }
 
-    double leftMotorOutput = xSpeed + angularPower;
-    double rightMotorOutput = xSpeed - angularPower;
+    double leftMotorOutput = xSpeed - angularPower;
+    double rightMotorOutput = xSpeed + angularPower;
 
     // If rotation is overpowered, reduce both outputs to within acceptable range
     if (overPower) {
@@ -82,8 +90,8 @@ public class ControlDrivetrain extends DrivetrainBase {
     leftout=  leftMotorOutput;
     rightout = rightMotorOutput;
 
-    leftMas.set(leftout);
-    rightMas.set(rightout);
+    leftMas.set(-leftout);
+    rightMas.set(-rightout);
   }
   
 }

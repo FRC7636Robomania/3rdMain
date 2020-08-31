@@ -10,7 +10,7 @@ import frc.robot.Constants.PowCon;
 public class Shooter extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true, 40, 50, 1);
   private TalonFX flywheel = new TalonFX(PowCon.flywheel);
-  double setVel = 0, vel;
+  double setVel = 0, vel = 0;
 
   public Shooter() {
     MotorFactory.setSensor(flywheel,FeedbackDevice.IntegratedSensor);
@@ -23,6 +23,10 @@ public class Shooter extends Spinable{
 
   public double getflywheelspeed(){
     return flywheel.getSelectedSensorVelocity();
+  }
+
+  public double getTarget(){
+    return setVel;
   }
   
   @Override

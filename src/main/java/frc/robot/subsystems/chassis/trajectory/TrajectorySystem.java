@@ -13,12 +13,11 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 
 /**
  * Add your docs here.
  */
-public interface TrajectorySystem extends Subsystem{
+public interface TrajectorySystem {
     /**
      * Provide kinematics object, contain track width
      * 
@@ -108,11 +107,17 @@ public interface TrajectorySystem extends Subsystem{
     public double getY();
 
     /**
-     * Set output.
+     * Use velocity to set output.
      * @param left
      * @param right
      */
     public void setOutput(double left, double right);
+    /**
+     * Use voltage to set output.
+     * @param left
+     * @param right
+     */
+    public void voltage(double left, double right);
 
     /**
      * Returns the heading of the robot.

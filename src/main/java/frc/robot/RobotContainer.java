@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
+import frc.robot.commands.AutoAim;
 import frc.robot.commands.Shoot.SpinForward;
 import frc.robot.commands.Shoot.SpinReverse;
 import frc.robot.commands.arm.ArmIn;
@@ -24,10 +25,9 @@ import frc.robot.commands.arm.ArmOut;
 import frc.robot.commands.auto.LeftDown;
 import frc.robot.commands.auto.LeftUp;
 import frc.robot.commands.auto.OneMeter;
-import frc.robot.commands.auto.TempOneMeter;
-import frc.robot.commands.auto.TestCommand;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.chassis.ControlDrivetrain;
+import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 import frc.robot.subsystems.pneumatic.Arm;
 import frc.robot.subsystems.shooter.Conveyor;
 import frc.robot.subsystems.shooter.Rack;
@@ -44,14 +44,15 @@ import frc.robot.subsystems.shooter.Wing;
 public class RobotContainer {
   private final Shooter           m_shooter                       = new Shooter();
   private final Tower             m_tower                         = new Tower();
-  private final Conveyor          m_conveyor                      = new Conveyor();
+  private final Conveyor          m_conveyor                      = new Conveyor(m_shooter);
   private final Arm               m_arm                           = new Arm();
   private final Intake            m_intake                        = new Intake();
   private final Wing              m_wing                          = new Wing();
   private final Rack              m_rack                          = new Rack();
   private final Joystick          joystick                        = new Joystick(0);
   private final Joystick          driverStation                   = new Joystick(1);
-  public static ControlDrivetrain controlDrivetrain               = new ControlDrivetrain();
+  private final ControlDrivetrain    controlDrivetrain            = new ControlDrivetrain();
+  private final TrajectoryDrivetrain trajectoryDrivetrain         = new TrajectoryDrivetrain();
   private       SendableChooser<Command>    chooser               = new SendableChooser<Command>();
   // The robot's subsystems and commands are defined here...
   // private Compressor c = new Compressor();
@@ -64,11 +65,9 @@ public class RobotContainer {
     //MusicDrivetrain.start("noise.chrp");
     configureButtonBindings();
 
-    chooser.addOption("Left Up",          new LeftUp(Robot.trajectoryDrivetrain));
-    chooser.addOption("Left Down ",       new LeftDown(Robot.trajectoryDrivetrain));
-    chooser.addOption("TempOneMeter",     new TempOneMeter(Robot.trajectoryDrivetrain));
-    chooser.addOption("Test",             new TestCommand(Robot.trajectoryDrivetrain));
-    chooser.setDefaultOption("One Meter", new OneMeter(Robot.trajectoryDrivetrain));
+    chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain));
+    chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
+    chooser.setDefaultOption("One Meter", new OneMeter(trajectoryDrivetrain, controlDrivetrain));
     
     Shuffleboard.getTab("Auto").add(chooser);
 
@@ -88,7 +87,7 @@ public class RobotContainer {
    * Mapping joystick & command here.
    */
   private void joystickMapping(){
-    new JoystickButton(joystick, Button.towerZero)          .whenHeld(new InstantCommand(()->m_tower.zero()));
+    new JoystickButton(joystick, Button.towerZero)     .whenHeld(new InstantCommand(()->m_tower.zero()));
     new JoystickButton(joystick, Button.armOut)        .whenHeld(new ArmOut(m_arm));
     new JoystickButton(joystick, Button.armIn)         .whenHeld(new ArmIn(m_arm));
 
@@ -105,7 +104,8 @@ public class RobotContainer {
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
     new JoystickButton(driverStation, Button.rackdoewn)     .whenHeld(new SpinReverse(m_rack));  
-    new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake));  
+    new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake)); 
+    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new AutoAim());
   }
   /**
    * Teleop control
@@ -113,13 +113,10 @@ public class RobotContainer {
   private void teleop(){
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
-        ()->Robot.controlDrivetrain
-                .curvatureDrive(joystick.getY() * 0.5, joystick.getZ() * 0.5, joystick.getTrigger()), 
+        ()->controlDrivetrain
+                .curvatureDrive(joystick.getY() * 0.3, joystick.getZ() * 0.3, joystick.getTrigger()), 
           controlDrivetrain)
       );
-      
-      //controlDrivetrain.drive(joystick.getRawAxis(1) * -0.2, joystick.getRawAxis(0) * 0.1), controlDrivetrain)
-
   }
 
 
@@ -129,7 +126,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
     return chooser.getSelected();
   }
 }

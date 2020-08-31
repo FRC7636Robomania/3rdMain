@@ -9,7 +9,8 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.Constants;
+import frc.robot.Constants.*;
+import frc.robot.subsystems.chassis.DrivetrainBase;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryFactory;
 import frc.robot.subsystems.chassis.trajectory.TrajectorySystem;
 
@@ -20,13 +21,13 @@ public class OneMeter extends SequentialCommandGroup {
   /**
    * Creates a new OneMeter.
    */
-  public OneMeter(TrajectorySystem drivetrain) {
+  public OneMeter(TrajectorySystem drivetrain, DrivetrainBase base) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(  new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.OneMeter)),
+    super(  new InstantCommand(()-> TrajectoryFactory.getTrajectory(Trajectory.OneMeter)),
             new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-            new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.OneMeter), drivetrain)
-                  .andThen(()->drivetrain.setOutput(0, 0)),
-            new InstantCommand(()-> drivetrain.setOutput(0, 0)));
+            new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base)
+                  .andThen(()->drivetrain.setOutput(0, 0))
+    );
   }
 }

@@ -21,6 +21,12 @@ public final class Constants {
         public static final String two      = "output/TwoBall.wpilib.json";
         public static final String OneMeter = "output/OneMeter.wpilib.json";
     }
+    public static class Chassis{
+        public static final double p = 3.0;
+        public static final double i = 0.0001;
+        public static final double d = 100;
+        public static final double f = 0.047;
+    }
     public static class Motor{
         public static final int leftMaster    = 19;
         public static final int leftFollewer  = 21;

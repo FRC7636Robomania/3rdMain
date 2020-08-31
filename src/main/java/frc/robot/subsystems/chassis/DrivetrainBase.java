@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.motor.MotorFactory;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
+import frc.robot.Constants.*;
 
 
 /**
@@ -40,19 +41,19 @@ public class DrivetrainBase extends SubsystemBase {
 
   public void firstConfig(){
     MotorFactory.setFollower(leftMas, leftFol);
-    MotorFactory.setInvert(leftMas, Constants.Motor.isLeftMotorInvert);
+    MotorFactory.setInvert(leftMas, Motor.isLeftMotorInvert);
     MotorFactory.setPosion(leftMas, 0, 0, 10);
     MotorFactory.setSensor(leftMas, FeedbackDevice.IntegratedSensor);
-    MotorFactory.setSensorPhase(leftMas, Constants.Motor.isLeftPhaseInvert);
-    MotorFactory.configLikePrevious(leftFol,Constants.Motor.isLeftPhaseInvert, Constants.Motor.isLeftMotorInvert);
+    MotorFactory.setSensorPhase(leftMas, Motor.isLeftPhaseInvert);
+    MotorFactory.configLikePrevious(leftFol, Motor.isLeftPhaseInvert, Motor.isLeftMotorInvert);
     MotorFactory.setFollower(rightMas, rightFol);
-    MotorFactory.configLikePrevious(rightMas, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
-    MotorFactory.configLikePrevious(rightFol, Constants.Motor.isRightPhaseInvert, Constants.Motor.isRightMotorInvert);
+    MotorFactory.configLikePrevious(rightMas, Motor.isRightPhaseInvert, Motor.isRightMotorInvert);
+    MotorFactory.configLikePrevious(rightFol, Motor.isRightPhaseInvert, Motor.isRightMotorInvert);
     MotorFactory.voltageCompSaturation(rightMas, 11);
-    MotorFactory.voltageCompSaturation(leftMas, 11);
+    MotorFactory.voltageCompSaturation(leftMas,  11);
 
-    MotorFactory.configPIDF(leftMas, 3.0, 0.0001, 100.0, 0.047);
-    MotorFactory.configPIDF(rightMas, 3.0, 0.0001, 100.0, 0.047);
+    MotorFactory.configPIDF(leftMas,  Chassis.p, Chassis.i, Chassis.d, Chassis.f);
+    MotorFactory.configPIDF(rightMas, Chassis.p, Chassis.i, Chassis.d, Chassis.f);
     
     
     ahrs.reset();
