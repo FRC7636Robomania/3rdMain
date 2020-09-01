@@ -18,22 +18,15 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
 import frc.robot.commands.AutoAim;
-import frc.robot.commands.Shoot.SpinForward;
-import frc.robot.commands.Shoot.SpinReverse;
-import frc.robot.commands.arm.ArmIn;
-import frc.robot.commands.arm.ArmOut;
-import frc.robot.commands.auto.LeftDown;
-import frc.robot.commands.auto.LeftUp;
-import frc.robot.commands.auto.OneMeter;
+import frc.robot.commands.Shoot.*;
+import frc.robot.commands.arm.*;
+import frc.robot.commands.auto.*;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.chassis.ControlDrivetrain;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 import frc.robot.subsystems.pneumatic.Arm;
-import frc.robot.subsystems.shooter.Conveyor;
-import frc.robot.subsystems.shooter.Rack;
-import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.Tower;
-import frc.robot.subsystems.shooter.Wing;
+import frc.robot.subsystems.shooter.*;
+
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
