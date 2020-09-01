@@ -13,10 +13,12 @@ public class Rack extends Spinable{
     public Rack(){
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Relative);
     }
-    
+    public void zero(){
+        rack.setSelectedSensorPosition(0);
+    }
     @Override
     public void forward() {
-        rack.set(ControlMode.PercentOutput, 0.4);
+        rack.set(ControlMode.PercentOutput, 0.2);
         SmartDashboard.putString("Rackstatue","Rackfoward");
     }
 
@@ -28,8 +30,14 @@ public class Rack extends Spinable{
 
     @Override
     public void reverse() {
-        rack.set(ControlMode.PercentOutput, -0.4);        
+        rack.set(ControlMode.PercentOutput, -0.2);        
         SmartDashboard.putString("Rackstatue","Rackreverse");
+
+    }
+    @Override
+    public void periodic() {
+        SmartDashboard.putNumber("RackPosition", rack.getSelectedSensorPosition());
+        // This method will be called once per scheduler run
     }
 
 }

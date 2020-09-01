@@ -52,8 +52,8 @@ public class DrivetrainBase extends SubsystemBase {
     MotorFactory.voltageCompSaturation(rightMas, 11);
     MotorFactory.voltageCompSaturation(leftMas,  11);
 
-    MotorFactory.configPIDF(leftMas,  Chassis.p, Chassis.i, Chassis.d, Chassis.f);
-    MotorFactory.configPIDF(rightMas, Chassis.p, Chassis.i, Chassis.d, Chassis.f);
+    MotorFactory.configPF(leftMas,  Chassis.p, Chassis.f, 0);
+    MotorFactory.configPF(rightMas, Chassis.p, Chassis.f, 0);
     
     
     ahrs.reset();

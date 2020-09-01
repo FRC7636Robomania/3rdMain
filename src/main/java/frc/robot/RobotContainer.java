@@ -87,9 +87,10 @@ public class RobotContainer {
    * Mapping joystick & command here.
    */
   private void joystickMapping(){
-    new JoystickButton(joystick, Button.towerZero)     .whenHeld(new InstantCommand(()->m_tower.zero()));
     new JoystickButton(joystick, Button.armOut)        .whenHeld(new ArmOut(m_arm));
     new JoystickButton(joystick, Button.armIn)         .whenHeld(new ArmIn(m_arm));
+    new JoystickButton(joystick, Button.towerZero)     .whenHeld(new InstantCommand(()->m_tower.zero()));
+    new JoystickButton(joystick, Button.rackZero)      .whenHeld(new InstantCommand(()->m_rack.zero()));
 
 
   }

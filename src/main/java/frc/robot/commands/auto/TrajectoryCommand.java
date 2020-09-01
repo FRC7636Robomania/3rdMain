@@ -20,7 +20,7 @@ public class TrajectoryCommand extends RamseteCommand{
   public TrajectoryCommand(Trajectory trajectory, TrajectorySystem drivetrain, DrivetrainBase base){
     super(trajectory, 
           drivetrain::getPose, 
-          new RamseteController(2.0, 0.7), 
+          new RamseteController(4.0, 0.8), 
           drivetrain.getKinematics(), 
           drivetrain::setOutput, 
           base

@@ -22,7 +22,7 @@ public final class Constants {
         public static final String OneMeter = "output/OneMeter.wpilib.json";
     }
     public static class Chassis{
-        public static final double p = 3.0;
+        public static final double p = 0.01;
         public static final double i = 0.0001;
         public static final double d = 100;
         public static final double f = 0.047;
@@ -79,7 +79,8 @@ public final class Constants {
 
         //Joystick
         //trigger be used to curvature drive
-        public static final int towerZero   = 2;
+        public static final int towerZero   = 5;
+        public static final int rackZero    = 6;
         public static final int armOut      = 3;
         public static final int armIn       = 4;
     }
