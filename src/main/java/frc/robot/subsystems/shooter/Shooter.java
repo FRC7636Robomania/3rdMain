@@ -25,11 +25,16 @@ public class Shooter extends Spinable{
     return flywheel.getSelectedSensorVelocity();
   }
 
-  public double getTarget(){
-    return setVel;
+  public double getSetValue(){
+    if(setVel == 0) {
+      return 21600 * 0.75;
+    }else{
+      return setVel * 0.85;
+    }
   }
 
   public void velocity(int value){
+    setVel = vel;
     flywheel.set(ControlMode.Velocity, value);
   }
   
@@ -43,6 +48,7 @@ public class Shooter extends Spinable{
 
   @Override
   public void stop() {
+    setVel = 0;
     flywheel.set(ControlMode.Velocity, 0);
     SmartDashboard.putString("Shooterstatue","ShooterStop");
 

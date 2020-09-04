@@ -30,6 +30,7 @@ public final class Constants {
         public static final String three    = "output/ThreeBall.wpilib.json";
         public static final String two      = "output/TwoBall.wpilib.json";
         public static final String OneMeter = "output/OneMeter.wpilib.json";
+        public static final String upSock   = "output/UpSock.wpilib.json";
     }
     /**
      * Chassis's PID, recommend not used.
@@ -84,7 +85,7 @@ public final class Constants {
      */
     public static class Button{
         //Driverstation
-        
+
         // ____________________
         // |                  |
         // |    1 2  3  4     |              
