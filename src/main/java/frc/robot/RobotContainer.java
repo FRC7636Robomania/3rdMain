@@ -26,6 +26,7 @@ import frc.robot.subsystems.chassis.ControlDrivetrain;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 import frc.robot.subsystems.pneumatic.Arm;
 import frc.robot.subsystems.shooter.*;
+import frc.robot.subsystems.vision.Aimer;
 
 
 /**
@@ -35,6 +36,7 @@ import frc.robot.subsystems.shooter.*;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
+  private final Aimer             m_aimer                         = new Aimer();
   private final Shooter           m_shooter                       = new Shooter();
   private final Tower             m_tower                         = new Tower();
   private final Conveyor          m_conveyor                      = new Conveyor(m_shooter);
