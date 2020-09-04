@@ -9,35 +9,31 @@ package frc.robot.commands.Shoot;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.shooter.Spinable;
-
+/**
+ * 要使用這個命令需要傳遞一個Spinable的子類別，並覆寫Spinable的三個抽象方法，
+ * 在這個命令中，馬達將會呼叫該子類別的forward()方法，結束時呼叫stop()方法
+ */
 public class SpinForward extends CommandBase {
   private Spinable motor;
-  /**
-   * Creates a new SpinForward.
-   */
   public SpinForward(Spinable motor) {
     this.motor = motor;
     addRequirements(motor);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     motor.forward();
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     motor.stop();
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;

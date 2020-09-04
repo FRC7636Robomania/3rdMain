@@ -28,6 +28,10 @@ public class Shooter extends Spinable{
   public double getTarget(){
     return setVel;
   }
+
+  public void velocity(int value){
+    flywheel.set(ControlMode.Velocity, value);
+  }
   
   @Override
   public void forward() {

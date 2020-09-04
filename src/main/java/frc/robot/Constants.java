@@ -16,17 +16,33 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    /**
+     * Vision constants
+     */
+    public static class Vision{
+        public static final double target_high = 227;
+        public static final double limelight_high = 50;
+    }
+    /**
+     * Trajectory path' path
+     */
     public static class Trajectory{
         public static final String three    = "output/ThreeBall.wpilib.json";
         public static final String two      = "output/TwoBall.wpilib.json";
         public static final String OneMeter = "output/OneMeter.wpilib.json";
     }
+    /**
+     * Chassis's PID, recommend not used.
+     */
     public static class Chassis{
         public static final double p = 0.01;
         public static final double i = 0.0001;
         public static final double d = 100;
         public static final double f = 0.047;
     }
+    /**
+     * Chassis motor config
+     */
     public static class Motor{
         public static final int leftMaster    = 19;
         public static final int leftFollewer  = 21;
@@ -40,11 +56,13 @@ public final class Constants {
         public static final boolean isRightPhaseInvert = true;
         public static final boolean isLeftPhaseInvert = false;
     }
+    /**
+     * Some costants about powercell 
+     */
     public static class PowCon{
         public static final int flywheel = 4;
         public static final int conveyor = 1;
         public static final int aimer = 8;
-        // public static final int intakearmer = 0;
         public static final int wideright = 2;
         public static final int wideleft = 5;
         public static final double flywheel_kP = 0.01; //0.1
@@ -53,21 +71,28 @@ public final class Constants {
         public static final int rack = 8;
 
     }
+    /**
+     * Some constants about Pneumatic
+     */
     public static class Pne{
         public static final int Solenoid = 0;
         public static final int ArmDS_1 = 1;
         public static final int ArmDS_2 = 2;
     }
+    /**
+     * DriverStation;s button and Joystick's button mapping
+     */
     public static class Button{
         //Driverstation
-        /**____________________
-         * |                  |
-         * |    1 2  3  4     |              
-         * |                  |                      
-         * |    5 6  7  8     |
-         * |                  |
-         * ____________________
-         */
+        
+        // ____________________
+        // |                  |
+        // |    1 2  3  4     |              
+        // |                  |                      
+        // |    5 6  7  8     |
+        // |                  |
+        // ____________________
+        
         public static final int flySpin     = 1;
         public static final int conveyor    = 2;
         public static final int turretleft  = 3;

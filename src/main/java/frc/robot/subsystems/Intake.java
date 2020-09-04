@@ -12,9 +12,6 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import frc.robot.subsystems.shooter.Spinable;
 
-/**
- * Add your docs here.
- */
 public class Intake extends Spinable{
     private final WPI_TalonSRX intake = new WPI_TalonSRX(10);
 

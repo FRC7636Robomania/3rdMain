@@ -10,19 +10,11 @@ public class Tower extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true,
       40, 50, 1);
   private TalonSRX tower = new TalonSRX(PowCon.tower);
-  // private DigitalInput button = new DigitalInput(3);
 
   public Tower() {
     tower.configFactoryDefault();
     MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Relative);
     tower.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
-    // tower.setInverted(true);
-
-    // tower.configForwardSoftLimitThreshold(3000);
-    // tower.configReverseSoftLimitThreshold(-3000);
-
-    // tower.configForwardSoftLimitEnable(true);
-    // tower.configReverseSoftLimitEnable(true);
   }
 
   public double gettowerspeed() {

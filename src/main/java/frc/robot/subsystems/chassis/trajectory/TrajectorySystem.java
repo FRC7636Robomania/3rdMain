@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
 
 /**
- * Add your docs here.
+ * 一個預防忘記該實作哪些方法的類別，可以在每個程式中重複使用
  */
 public interface TrajectorySystem {
     /**

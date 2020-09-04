@@ -7,9 +7,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -48,35 +46,17 @@ public class RobotContainer {
   private final Joystick          driverStation                   = new Joystick(1);
   private final ControlDrivetrain    controlDrivetrain            = new ControlDrivetrain();
   private final TrajectoryDrivetrain trajectoryDrivetrain         = new TrajectoryDrivetrain();
-  private       SendableChooser<Command>    chooser               = new SendableChooser<Command>();
-  // The robot's subsystems and commands are defined here...
-  // private Compressor c = new Compressor();
-  /**
-   * The container for the robot.  Contains subsystems, OI devices, and commands.
-   */
+  private final SendableChooser<Command>    chooser               = new SendableChooser<Command>();
   
   public RobotContainer() {
-    // Configure the button bindings
-    //MusicDrivetrain.start("noise.chrp");
     configureButtonBindings();
-
-    chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain));
-    chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
-    chooser.setDefaultOption("One Meter", new OneMeter(trajectoryDrivetrain, controlDrivetrain));
-    
-    Shuffleboard.getTab("Auto").add(chooser);
-
   }
-  /**
-   * Use this method to define your button->command mappings.  Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a
-   * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
+ 
   private void configureButtonBindings() {
     joystickMapping();
     driverStationMapping();
     teleop();
+    modeSelector();
   }
   /**
    * Mapping joystick & command here.
@@ -86,8 +66,6 @@ public class RobotContainer {
     new JoystickButton(joystick, Button.armIn)         .whenHeld(new ArmIn(m_arm));
     new JoystickButton(joystick, Button.towerZero)     .whenHeld(new InstantCommand(()->m_tower.zero()));
     new JoystickButton(joystick, Button.rackZero)      .whenHeld(new InstantCommand(()->m_rack.zero()));
-
-
   }
   /**
    * Mapping driver station & command here
@@ -113,6 +91,14 @@ public class RobotContainer {
                 .curvatureDrive(joystick.getY() * 0.3, joystick.getZ() * 0.3, joystick.getTrigger()), 
           controlDrivetrain)
       );
+  }
+
+  private void modeSelector(){
+    chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain));
+    chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
+    chooser.setDefaultOption("One Meter", new OneMeter(trajectoryDrivetrain, controlDrivetrain));
+    
+    Shuffleboard.getTab("Auto").add(chooser);
   }
 
 

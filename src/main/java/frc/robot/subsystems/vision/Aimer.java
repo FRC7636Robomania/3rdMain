@@ -8,17 +8,17 @@
 package frc.robot.subsystems.vision;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants.*;
 
 
 
 public class Aimer extends SubsystemBase {
     double x,y,area;
-    final double target_high = 227;
-    final double limelight_high = 50;
     private double dist = 0;
     private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-sexyboy");
     NetworkTableEntry tx = table.getEntry("tx");
@@ -38,9 +38,9 @@ public class Aimer extends SubsystemBase {
     if (area>0){
       x = tx.getDouble(0.0);
       y = ty.getDouble(0.0);
-      dist =  (target_high-limelight_high)/Math.tan(Math.toRadians(41+y));
+      dist =  (Vision.target_high-Vision.limelight_high)/Math.tan(Math.toRadians(41+y));
     }
-    SmartDashboard.putNumber("Limelight_dist",dist);
+    SmartDashboard.putNumber("Limelight_dist", dist);
     SmartDashboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);

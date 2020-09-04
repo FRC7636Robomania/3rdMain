@@ -7,8 +7,21 @@
 
 package frc.robot.subsystems.vision;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import frc.robot.Constants.*;
 /**
  * Add your docs here.
  */
 public class Limelight {
+    private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-sexyboy");
+
+    public static double getTx() {
+        return table.getEntry("tx").getDouble(0.0);
+    }
+
+    public static double getDistance(){
+        double y = table.getEntry("ty").getDouble(0.0);
+        return (Vision.target_high-Vision.limelight_high)/Math.tan(Math.toRadians(41+y));
+    }
 }

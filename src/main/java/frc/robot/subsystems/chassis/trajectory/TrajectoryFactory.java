@@ -15,16 +15,17 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import edu.wpi.first.wpilibj.trajectory.TrajectoryUtil;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+/**
+ * 一個幫助實現路徑規劃的工廠類別
+ */
+public class TrajectoryFactory {
 
-public class TrajectoryFactory extends SubsystemBase {
   private static Trajectory trajectory = null;
   /**
-   * Creates a new TrajectoryFactory.
+   * 把檔案路徑轉換成Trajectory物件的方法
+   * @param mapPath
+   * @return
    */
-  public TrajectoryFactory() {
-
-  }
   public static Trajectory getTrajectory(String mapPath){
     try {
       Path trajectoryPath = Filesystem.getDeployDirectory().toPath().resolve(mapPath);
@@ -35,15 +36,14 @@ public class TrajectoryFactory extends SubsystemBase {
     }
     return trajectory;
   }
+  /**
+   * 把當前位置設成軌跡圖上起始位置的方法
+   * @param drivetrain
+   */
   public static void initPose(TrajectorySystem drivetrain){
     if(trajectory != null){
       TrajectoryDrivetrain.resetSensor();
       drivetrain.setOdmetry(trajectory.getInitialPose());
     }
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

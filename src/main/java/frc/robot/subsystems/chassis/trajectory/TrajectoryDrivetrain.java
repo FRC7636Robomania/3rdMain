@@ -31,7 +31,8 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
 
   PIDController lpidcontroller = new PIDController(1.5, 0, 0.0000);
   PIDController rpidcontroller = new PIDController(1.5, 0, 0.0000);
-
+  private double leftOut = 0, rightOut = 0;
+  
   /**
    * Creates a new Drivetrain.
    */
@@ -149,14 +150,22 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
     return odometry.getPoseMeters().getTranslation().getY();
   }
 
-  
   public void setOutput(double left, double right) {
-    leftMas.set(ControlMode.Velocity, left / Motor.distancePerPulse / 10);
-    rightMas.set(ControlMode.Velocity, right / Motor.distancePerPulse / 10);
-
+    leftOut = left / Motor.distancePerPulse / 10;
+    rightOut = right / Motor.distancePerPulse / 10;
+    leftMas.set(ControlMode.Velocity, leftOut);
+    rightMas.set(ControlMode.Velocity, rightOut);
     SmartDashboard.putNumber("leftOutput ", left / Motor.distancePerPulse / 10);
     SmartDashboard.putNumber("rightOutput", right / Motor.distancePerPulse / 10);
   }
+
+  public double getleftOutput(){
+    return leftOut;
+  }
+  public double getrightOutput(){
+    return rightOut;
+  }
+  
 
   public void voltage(double left, double right){
     leftMas.set(ControlMode.PercentOutput, left / 11);
