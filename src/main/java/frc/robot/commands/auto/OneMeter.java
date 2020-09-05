@@ -10,7 +10,6 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.*;
-import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.chassis.DrivetrainBase;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryFactory;
 import frc.robot.subsystems.chassis.trajectory.TrajectorySystem;

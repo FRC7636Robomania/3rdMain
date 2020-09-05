@@ -30,28 +30,40 @@ public interface TrajectorySystem {
      * 
      * @return current chassis speed
      */
-    public DifferentialDriveWheelSpeeds getSpeed();
+    default public DifferentialDriveWheelSpeeds getSpeed(){
+        System.out.println("default getSpeed method");
+        return null;
+    }
 
     /**
      * Provide feedforward controller
      * 
      * @return feedForward controlller 
      */
-    public SimpleMotorFeedforward getFeedforward();
+    default public SimpleMotorFeedforward getFeedforward(){
+        System.out.println("default getFeedforawrd method");
+        return null;
+    }
 
     /**
      * Provide PID controller
      * 
      * @return left PID controller
      */
-    public PIDController getLeftPidController();
+    default public PIDController getLeftPidController(){
+        System.out.println("default getLeftPidController method");
+        return null;
+    }
 
     /**
      * Provide PID controller
      * 
      * @return right PID controller
      */
-    public PIDController getRightPidController();
+    default public PIDController getRightPidController(){
+        System.out.println("default getRightPidController method");
+        return null;
+    }
 
     /**
      * Returns the currently-estimated pose of the robot.
@@ -117,7 +129,9 @@ public interface TrajectorySystem {
      * @param left
      * @param right
      */
-    public void voltage(double left, double right);
+    default public void voltage(double left, double right){
+        System.out.println("default voltage output method");
+    }
 
     /**
      * Returns the heading of the robot.
@@ -129,5 +143,7 @@ public interface TrajectorySystem {
     /**
      * Show message
      */
-    public void message();
+    default public void message(){
+        System.out.println("default message method");
+    }
 }

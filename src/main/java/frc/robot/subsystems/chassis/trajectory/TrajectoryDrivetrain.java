@@ -9,8 +9,6 @@ package frc.robot.subsystems.chassis.trajectory;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
-import edu.wpi.first.wpilibj.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
@@ -26,12 +24,6 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
   private final DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(getHeading());
   private final DifferentialDriveKinematics kinematics = new DifferentialDriveKinematics(Motor.wheelPitch);
   private Pose2d pose;
-  //0.04, 2.23, -0.007
-  SimpleMotorFeedforward feedForward = new SimpleMotorFeedforward(0.143, 2.23, 0.372);
-
-  PIDController lpidcontroller = new PIDController(1.5, 0, 0.0000);
-  PIDController rpidcontroller = new PIDController(1.5, 0, 0.0000);
-  private double leftOut = 0, rightOut = 0;
   
   /**
    * Creates a new Drivetrain.
@@ -49,22 +41,6 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
     return pose;
   }
   /**
-   * Provide feedforward controller
-   * 
-   * @return feedForward controlller 
-   */
-  public SimpleMotorFeedforward getFeedforward() {
-    return feedForward;
-  }
-  /**
-   * Provide PID controller
-   * 
-   * @return left PID controller
-   */
-  public PIDController getLeftPidController() {
-    return lpidcontroller;
-  }
-  /**
    * encoder velocity to chassis speed
    * 
    * @return current chassis speed
@@ -74,15 +50,6 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
       leftMas.getSelectedSensorVelocity() * Motor.distancePerPulse, 
       rightMas.getSelectedSensorVelocity() * Motor.distancePerPulse
       );
-  }
-
-  /**
-   * Provide PID controller
-   * 
-   * @return right PID controller
-   */
-  public PIDController getRightPidController() {
-    return rpidcontroller;
   }
 
   /**
@@ -151,28 +118,18 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
   }
 
   public void setOutput(double left, double right) {
-    leftOut = left / Motor.distancePerPulse / 10;
-    rightOut = right / Motor.distancePerPulse / 10;
-    leftMas.set(ControlMode.Velocity, leftOut);
-    rightMas.set(ControlMode.Velocity, rightOut);
+
+    leftMas.set(ControlMode.Velocity, left / Motor.distancePerPulse / 10);
+    rightMas.set(ControlMode.Velocity, right / Motor.distancePerPulse / 10);
     SmartDashboard.putNumber("leftOutput ", left / Motor.distancePerPulse / 10);
     SmartDashboard.putNumber("rightOutput", right / Motor.distancePerPulse / 10);
   }
-
-  public double getleftOutput(){
-    return leftOut;
-  }
-  public double getrightOutput(){
-    return rightOut;
-  }
-  
 
   public void voltage(double left, double right){
     leftMas.set(ControlMode.PercentOutput, left / 11);
     rightMas.set(ControlMode.PercentOutput, right / 11);
     SmartDashboard.putNumber("leftOutput ", left / 11);
-    SmartDashboard.putNumber("rightOutput", right / 11
-    );
+    SmartDashboard.putNumber("rightOutput", right / 11);
   }
  
   /**
