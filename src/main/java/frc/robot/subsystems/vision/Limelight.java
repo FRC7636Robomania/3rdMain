@@ -22,6 +22,8 @@ public class Limelight {
 
     public static double getDistance(){
         double y = table.getEntry("ty").getDouble(0.0);
-        return (Vision.target_high-Vision.limelight_high)/Math.tan(Math.toRadians(41+y));
+        return (Vision.target_high-Vision.limelight_high)
+                                / Math.tan(Math.toRadians(41+y));
     }
+
 }

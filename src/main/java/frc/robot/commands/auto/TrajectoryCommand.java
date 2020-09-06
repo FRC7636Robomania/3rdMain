@@ -17,7 +17,8 @@ import frc.robot.subsystems.chassis.trajectory.TrajectorySystem;
  * 把複雜的建構式包裝成簡單的類別，需要搭配實現了TrajectorySystem的機器人
  */
 public class TrajectoryCommand extends RamseteCommand{
-  public TrajectoryCommand(Trajectory trajectory, TrajectorySystem drivetrain, DrivetrainBase base){
+  public TrajectoryCommand(Trajectory trajectory, 
+              TrajectorySystem drivetrain, DrivetrainBase base){
     super(trajectory, 
           drivetrain::getPose, 
           new RamseteController(4.0, 0.8), 
