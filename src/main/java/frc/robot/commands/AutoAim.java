@@ -22,6 +22,6 @@ public class AutoAim extends SequentialCommandGroup {
    */
   public AutoAim(Rack Rac,Tower tow) {
     //new InstantCommand(()-> Rac.aim(Limelight.getDistance())))
-    super(new InstantCommand(() -> tow.aim(Limelight.getTx())), new InstantCommand(()-> Rac.aim(Limelight.getDistance())));
+    super();
   }
 }

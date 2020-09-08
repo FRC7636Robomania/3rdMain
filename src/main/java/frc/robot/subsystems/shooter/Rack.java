@@ -12,7 +12,7 @@ public class Rack extends Spinable{
     private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
     public Rack(){
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Relative);
-        rack.config_kP(0, 0.1);
+        MotorFactory.configPF(rack, 0.5, 0.1, 0);
         rack.configMotionAcceleration(1600, 10);
         rack.configMotionCruiseVelocity(1500,10);
     

@@ -25,6 +25,7 @@ import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 import frc.robot.subsystems.pneumatic.Arm;
 import frc.robot.subsystems.shooter.*;
 import frc.robot.subsystems.vision.Aimer;
+import frc.robot.subsystems.vision.Limelight;
 
 
 /**
@@ -66,20 +67,24 @@ public class RobotContainer {
     new JoystickButton(joystick, Button.armIn)         .whenHeld(new ArmIn(m_arm));
     new JoystickButton(joystick, Button.towerZero)     .whenHeld(new InstantCommand(()->m_tower.zero()));
     new JoystickButton(joystick, Button.rackZero)      .whenHeld(new InstantCommand(()->m_rack.zero()));
+    
   }
   /**
    * Mapping driver station & command here
    */
   private void driverStationMapping(){
     new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new SpinForward(m_shooter));
-    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new SpinReverse(m_conveyor))
+    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new InstantCommand(()->m_conveyor.reverse(), m_conveyor))
                                                             .whenHeld(new SpinForward(m_wing));
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
     new JoystickButton(driverStation, Button.rackdoewn)     .whenHeld(new SpinReverse(m_rack));  
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake)); 
-    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new AutoAim(m_rack,m_tower)).whenReleased(new InstantCommand(()->m_tower.stop())).whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
+    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new InstantCommand(() -> m_tower.aim(Limelight.getTx())))
+                                                            .whenHeld(new InstantCommand(()-> m_rack.aim(Limelight.getDistance())))
+                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower))
+                                                            .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
   }
   private void teleop(){
     controlDrivetrain.setDefaultCommand(

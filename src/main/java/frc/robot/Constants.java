@@ -108,9 +108,10 @@ public final class Constants {
 
         //Joystick
         //trigger be used to curvature drive
-        public static final int towerZero   = 5;
-        public static final int rackZero    = 6;
         public static final int armOut      = 3;
         public static final int armIn       = 4;
+        public static final int towerZero   = 5;
+        public static final int rackZero    = 6;
+        public static final int distShoot   = 7;
     }
 }

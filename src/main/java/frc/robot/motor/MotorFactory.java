@@ -199,6 +199,19 @@ public class MotorFactory {
         return motor;
     }
     /**
+     * Set motor PID 設置馬達kP, kF
+     * 
+     * @param motor 設置馬達
+     * @param kP kP值(大約為5分之一kF) 調越大 對誤差的調整更靈敏
+     * @param kF kF值 大約為1023(talon滿輸出)/全速運轉的速度單位(以falcon來說大約為21600) 
+     * @param slotIdx 閉迴控制位置(0,1,2)
+     */
+    public static TalonSRX configPF(final TalonSRX motor, double kP, double kF, int slotIdx){
+        motor.config_kP(slotIdx, kP);
+        motor.config_kF(slotIdx, kF);
+        return motor;
+    }
+    /**
      * Set motor P 設置馬達kP
      * @param motor 
      * @param kP kF * 1/5

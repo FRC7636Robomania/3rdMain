@@ -41,8 +41,8 @@ public class  Shooter extends Spinable{
   @Override
   public void forward() {
     vel = 5 * 2000.0 * 2048.0 / 600.0;
-    flywheel.set(ControlMode.Velocity,vel);
-    setVel = vel;
+    flywheel.set(ControlMode.Velocity, 12000);
+    // setVel = vel;
     SmartDashboard.putString("Shooterstatue","ShooterFoward");
   }
 
