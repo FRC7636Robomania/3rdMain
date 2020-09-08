@@ -7,7 +7,11 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.shooter.Rack;
+import frc.robot.subsystems.shooter.Tower;
+import frc.robot.subsystems.vision.Limelight;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,9 +20,8 @@ public class AutoAim extends SequentialCommandGroup {
   /**
    * Creates a new AutoAim.
    */
-  public AutoAim() {
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());
-    super();
+  public AutoAim(Rack Rac,Tower tow) {
+    //new InstantCommand(()-> Rac.aim(Limelight.getDistance())))
+    super(new InstantCommand(() -> tow.aim(Limelight.getTx())), new InstantCommand(()-> Rac.aim(Limelight.getDistance())));
   }
 }

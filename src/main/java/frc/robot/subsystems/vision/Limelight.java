@@ -15,20 +15,34 @@ import frc.robot.Constants.*;
  */
 public class Limelight {
     private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-sexyboy");
+    
     public static double temp_tx;
     public static double temp_ty;
+
     public static double getTx() {
-        return table.getEntry("tx").getDouble(0.0);
+        if(getTa() > 0){
+            temp_tx = table.getEntry("tx").getDouble(0.0);
+            return table.getEntry("tx").getDouble(0.0);
+        }
+        else
+            return temp_tx;
     }
 
     public static double getTy() {
-        return table.getEntry("ty").getDouble(0.0);
+        if(getTa() > 0){
+            temp_ty = table.getEntry("ty").getDouble(0.0);
+            return table.getEntry("ty").getDouble(0.0);
+        }
+        else
+            return temp_ty;
     }
 
-    public static double getDistance(double havetarget){
-        double y = table.getEntry("ty").getDouble(0.0);
+    public static double getTa() {
+        return table.getEntry("ta").getDouble(0.0);
+    }
+    public static double getDistance(){
         return (Vision.target_high-Vision.limelight_high)
-                                / Math.tan(Math.toRadians(41+y));
+                                / Math.tan(Math.toRadians(41+temp_ty));
     }
 
 }

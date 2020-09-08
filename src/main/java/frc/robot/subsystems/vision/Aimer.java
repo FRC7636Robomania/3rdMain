@@ -17,8 +17,6 @@ import frc.robot.Constants.*;
 
 
 public class Aimer extends SubsystemBase {
-    double x,y,area;
-    private double dist = 0;
     private NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-sexyboy");
     NetworkTableEntry tx = table.getEntry("tx");
     NetworkTableEntry ty = table.getEntry("ty");
@@ -33,9 +31,11 @@ public class Aimer extends SubsystemBase {
   @Override
   public void periodic() {
     
-    SmartDashboard.putNumber("Limelight_dist", Limelight.getDistance(ta.getDouble(0.0)));
+    SmartDashboard.putNumber("Limelight_dist", Limelight.getDistance());
     SmartDashboard.putNumber("LimelightX", Limelight.getTx());
     SmartDashboard.putNumber("LimelightY", Limelight.getTy());
-    SmartDashboard.putNumber("LimelightArea", area);
+    SmartDashboard.putNumber("LimelightArea", Limelight.getTa());
+
+
   }
 }

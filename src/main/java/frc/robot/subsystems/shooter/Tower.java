@@ -4,8 +4,8 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.motor.MotorFactory;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants;
 import frc.robot.Constants.PowCon;
-
 public class Tower extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true,
       40, 50, 1);
@@ -44,6 +44,9 @@ public class Tower extends Spinable{
     tower.set(ControlMode.PercentOutput, 0);
   }
 
+  public void aim(double tx){
+    tower.set(ControlMode.PercentOutput,tx * Constants.Vision.lime_kp);
+  }
   @Override
   public void reverse() {
     SmartDashboard.putString("Towerstatue","TowerReverse");

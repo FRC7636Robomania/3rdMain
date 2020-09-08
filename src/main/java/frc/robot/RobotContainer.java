@@ -79,11 +79,8 @@ public class RobotContainer {
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
     new JoystickButton(driverStation, Button.rackdoewn)     .whenHeld(new SpinReverse(m_rack));  
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake)); 
-    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new AutoAim());
+    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new AutoAim(m_rack,m_tower)).whenReleased(new InstantCommand(()->m_tower.stop())).whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
   }
-  /**
-   * Teleop control
-   */
   private void teleop(){
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
