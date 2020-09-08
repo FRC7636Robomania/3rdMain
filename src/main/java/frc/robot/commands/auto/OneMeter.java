@@ -18,6 +18,7 @@ import frc.robot.subsystems.chassis.trajectory.TrajectorySystem;
 import frc.robot.subsystems.pneumatic.Arm;
 import frc.robot.subsystems.shooter.Conveyor;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Wing;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -26,11 +27,12 @@ public class OneMeter extends SequentialCommandGroup {
   /**
    * Creates a new OneMeter.
    */
-  public OneMeter(TrajectorySystem drivetrain, DrivetrainBase base, Intake intake, Conveyor conveyor, Shooter shooter, Arm arm) {
+  public OneMeter(TrajectorySystem drivetrain, DrivetrainBase base, Intake intake, Conveyor conveyor, Shooter shooter, Arm arm, Wing wing) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
-    super(       //差瞄準拉
-    new ShortShoot(conveyor, shooter),
+    super(       
+    //差瞄準拉
+    new Shooting(shooter, 12000, conveyor, wing),
     new InstantCommand(()-> TrajectoryFactory.getTrajectory(Trajectory.OneMeter)),
     new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
     new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.three), drivetrain, base),
@@ -40,8 +42,8 @@ public class OneMeter extends SequentialCommandGroup {
     new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base)
           .andThen(()->drivetrain.setOutput(0, 0))
           .andThen(()->intake.stop()),
+    new Shooting(shooter, 17000, conveyor, wing)
     //差瞄準拉
-    new LongShoot(conveyor, shooter)
     
 
     );

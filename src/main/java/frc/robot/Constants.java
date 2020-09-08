@@ -22,6 +22,9 @@ public final class Constants {
     public static class Vision{
         public static final double target_high = 227;
         public static final double limelight_high = 50;
+        public static final double lime_kp = -0.1;
+        public static final double lime_ki = 0.0;
+        public static final double lime_kd = 0.0;
     }
     /**
      * Trajectory path' path

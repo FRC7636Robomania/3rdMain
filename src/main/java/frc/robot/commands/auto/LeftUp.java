@@ -18,14 +18,15 @@ import frc.robot.subsystems.chassis.trajectory.TrajectorySystem;
 import frc.robot.subsystems.pneumatic.Arm;
 import frc.robot.subsystems.shooter.Conveyor;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Wing;
 
 public class LeftUp extends SequentialCommandGroup {
   
-  public LeftUp(TrajectorySystem drivetrain, DrivetrainBase base, Intake intake, Conveyor conveyor, Shooter shooter, Arm arm) {
+  public LeftUp(TrajectorySystem drivetrain, DrivetrainBase base, Intake intake, Conveyor conveyor, Shooter shooter, Arm arm, Wing wing) {
 
     super(
       //差瞄準拉
-      new ShortShoot(conveyor, shooter),
+      new Shooting(shooter, 12000, conveyor, wing),
       new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.three)),
       new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
       new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.three), drivetrain, base),
@@ -35,8 +36,9 @@ public class LeftUp extends SequentialCommandGroup {
       new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.upSock), drivetrain, base)
             .andThen(()->drivetrain.setOutput(0, 0))
             .andThen(()->intake.stop()),
+      new Shooting(shooter, 17000, conveyor, wing)
+
       //差瞄準拉
-      new LongShoot(conveyor, shooter)
       
       );
   }

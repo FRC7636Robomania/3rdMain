@@ -33,15 +33,9 @@ public class Aimer extends SubsystemBase {
   @Override
   public void periodic() {
     
-    area = ta.getDouble(0.0);
-    if (area>0){
-      x = tx.getDouble(0.0);
-      y = ty.getDouble(0.0);
-      dist =  (Vision.target_high-Vision.limelight_high)/Math.tan(Math.toRadians(41+y));
-    }
-    SmartDashboard.putNumber("Limelight_dist", dist);
-    SmartDashboard.putNumber("LimelightX", x);
-    SmartDashboard.putNumber("LimelightY", y);
+    SmartDashboard.putNumber("Limelight_dist", Limelight.getDistance(ta.getDouble(0.0)));
+    SmartDashboard.putNumber("LimelightX", Limelight.getTx());
+    SmartDashboard.putNumber("LimelightY", Limelight.getTy());
     SmartDashboard.putNumber("LimelightArea", area);
   }
 }

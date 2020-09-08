@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.Constants.PowCon;
 
-public class Shooter extends Spinable{
+public class  Shooter extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true, 40, 50, 1);
   private TalonFX flywheel = new TalonFX(PowCon.flywheel);
   double setVel = 0, vel = 0;
@@ -33,9 +33,9 @@ public class Shooter extends Spinable{
     }
   }
 
-  public void velocity(int value){
+  public void velocity(double velocity){
     setVel = vel;
-    flywheel.set(ControlMode.Velocity, value);
+    flywheel.set(ControlMode.Velocity, velocity);
   }
   
   @Override

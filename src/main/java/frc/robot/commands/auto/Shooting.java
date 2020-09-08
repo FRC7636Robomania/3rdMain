@@ -8,16 +8,20 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.StartEndCommand;
+import frc.robot.subsystems.shooter.Conveyor;
+import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.Wing;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class Shooting extends ParallelCommandGroup {
   /**
    * Creates a new Shooting.
    */
-  public Shooting() {
-    // Add your commands in the super() call, e.g.
-    // super(new FooCommand(), new BarCommand());super();
+  public Shooting(Shooter shooter, double velocity, Conveyor conveyor, Wing wing) {
+    super(
+      new VelocityShoot(shooter, velocity).withTimeout(3),
+      new StartEndCommand(()->wing.forward(), ()->wing.stop(), wing).withTimeout(3.3),
+      new StartEndCommand(()->conveyor.reverse(), ()->conveyor.stop(), conveyor).withTimeout(3)
+    );
   }
 }
