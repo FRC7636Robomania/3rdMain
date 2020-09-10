@@ -42,7 +42,7 @@ public final class Constants {
         public static final double p = 0.01;
         public static final double i = 0.0001;
         public static final double d = 100;
-        public static final double f = 0.047;
+        public static final double f = 0.1;
     }
     /**
      * Chassis motor config
@@ -112,6 +112,6 @@ public final class Constants {
         public static final int armIn       = 4;
         public static final int towerZero   = 5;
         public static final int rackZero    = 6;
-        public static final int distShoot   = 7;
+        public static final int tempShoot   = 7;
     }
 }

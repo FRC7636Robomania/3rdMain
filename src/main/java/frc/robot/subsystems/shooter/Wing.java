@@ -18,7 +18,7 @@ public class Wing extends Spinable{
   @Override
   public void forward() {
     SmartDashboard.putString("Wingstatue","WingForward");
-    wideleft.set(-0.5);
+    wideleft.set(-0.3);
   }
 
   @Override
@@ -30,7 +30,7 @@ public class Wing extends Spinable{
   @Override
   public void reverse() {
     SmartDashboard.putString("Wingstatue","WingReverse");
-    wideleft.set(0.1);
+    wideleft.set(0.3);
   }
   
   @Override

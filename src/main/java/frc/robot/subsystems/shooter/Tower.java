@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.motor.MotorFactory;
+import frc.robot.subsystems.vision.Limelight;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.PowCon;
@@ -44,8 +45,17 @@ public class Tower extends Spinable{
     tower.set(ControlMode.PercentOutput, 0);
   }
 
-  public void aim(double tx){
-    tower.set(ControlMode.PercentOutput,tx * Constants.Vision.lime_kp);
+  public void aim(){
+    double error = Limelight.getTx();
+    int count = 1;
+    SmartDashboard.putNumber("error", error);
+    if(Math.abs(error) < 0.15){
+      error = 0;
+    }
+    // else if(error < 0)
+    //   count = -1;
+    // tower.set(ControlMode.PercentOutput, 0.2 * count);
+    tower.set(ControlMode.PercentOutput, 0.08 * error);
   }
   @Override
   public void reverse() {

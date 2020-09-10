@@ -32,7 +32,8 @@ public class LeftUp extends SequentialCommandGroup {
       new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.three), drivetrain, base),
             // .andThen(()->drivetrain.setOutput(0, 0))
       new ArmOut(arm).andThen(()->intake.forward()),
-
+      
+      new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
       new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.upSock), drivetrain, base)
             .andThen(()->drivetrain.setOutput(0, 0))
             .andThen(()->intake.stop()),

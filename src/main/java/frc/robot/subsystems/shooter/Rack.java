@@ -5,23 +5,29 @@ import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.motor.MotorFactory;
-import frc.robot.Constants;
+import frc.robot.subsystems.vision.Limelight;
 import frc.robot.Constants.PowCon;
 
 public class Rack extends Spinable{
     private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
     public Rack(){
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Relative);
-        MotorFactory.configPF(rack, 0.5, 0.1, 0);
+        MotorFactory.configPF(rack, 0.01, 0.1, 0);
         rack.configMotionAcceleration(1600, 10);
         rack.configMotionCruiseVelocity(1500,10);
-    
+        MotorFactory.setInvert(rack, false);
+        MotorFactory.setSensorPhase(rack, false);
+
     }
     public void zero(){
         rack.setSelectedSensorPosition(0);
     }
-    public void aim(double dist){
-        rack.set(ControlMode.MotionMagic,rack_aim.getRack(dist));
+    public void aim(){
+        //rack_aim.getRack(Limelight.getDistance()
+        // rack.set(ControlMode.MotionMagic, rack_aim.getRack(Limelight.getDistance())
+        double unit = rack_aim.getRack(Limelight.getDistance());
+        double err = unit - rack.getSelectedSensorPosition();
+        rack.set(ControlMode.PercentOutput, -0.0001 * err);
     }
     @Override
     public void forward() {
@@ -44,7 +50,8 @@ public class Rack extends Spinable{
     @Override
     public void periodic() {
         SmartDashboard.putNumber("RackPosition", rack.getSelectedSensorPosition());
-        // This method will be called once per scheduler run
+        SmartDashboard.putNumber("unit", rack_aim.getRack(Limelight.getDistance()));
+        // aim();
     }
 
 }

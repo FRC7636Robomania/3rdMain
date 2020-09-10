@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -67,30 +68,33 @@ public class RobotContainer {
     new JoystickButton(joystick, Button.armIn)         .whenHeld(new ArmIn(m_arm));
     new JoystickButton(joystick, Button.towerZero)     .whenHeld(new InstantCommand(()->m_tower.zero()));
     new JoystickButton(joystick, Button.rackZero)      .whenHeld(new InstantCommand(()->m_rack.zero()));
-    
+    new JoystickButton(joystick, Button.tempShoot)     .whenHeld(new SpinForward(m_shooter));
   }
   /**
    * Mapping driver station & command here
    */
   private void driverStationMapping(){
-    new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new SpinForward(m_shooter));
-    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new InstantCommand(()->m_conveyor.reverse(), m_conveyor))
+    new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new DistantanceShoot(m_shooter));
+    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new SpinReverse(m_conveyor))
                                                             .whenHeld(new SpinForward(m_wing));
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
     new JoystickButton(driverStation, Button.rackdoewn)     .whenHeld(new SpinReverse(m_rack));  
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake)); 
-    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new InstantCommand(() -> m_tower.aim(Limelight.getTx())))
-                                                            .whenHeld(new InstantCommand(()-> m_rack.aim(Limelight.getDistance())))
-                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower))
-                                                            .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
+    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim()).withInterrupt(this::getButton))
+                                                            // .whenHeld(new InstantCommand(()-> m_rack.aim()))
+                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower));
+                                                            // .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
+  }
+  public boolean getButton(){
+    return !driverStation.getRawButtonPressed(8);
   }
   private void teleop(){
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
         ()->controlDrivetrain
-                .curvatureDrive(joystick.getY() * 0.3, joystick.getZ() * 0.3, joystick.getTrigger()), 
+                .curvatureDrive(joystick.getY() * 0.2, joystick.getZ() * 0.1, joystick.getTrigger()), 
           controlDrivetrain)
       );
   }

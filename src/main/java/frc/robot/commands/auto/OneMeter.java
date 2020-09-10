@@ -35,10 +35,10 @@ public class OneMeter extends SequentialCommandGroup {
     new Shooting(shooter, 12000, conveyor, wing),
     new InstantCommand(()-> TrajectoryFactory.getTrajectory(Trajectory.OneMeter)),
     new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-    new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.three), drivetrain, base),
+    new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base),
           // .andThen(()->drivetrain.setOutput(0, 0))
-    new ArmOut(arm).andThen(()->intake.forward()),
-
+    new ArmOut(arm).withTimeout(0.5).andThen(()->intake.forward()),
+    new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
     new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base)
           .andThen(()->drivetrain.setOutput(0, 0))
           .andThen(()->intake.stop()),

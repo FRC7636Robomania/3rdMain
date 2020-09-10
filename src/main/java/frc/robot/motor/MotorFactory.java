@@ -145,6 +145,10 @@ public class MotorFactory {
         motor.setSensorPhase(phase);
         return motor;
     }
+    public static TalonSRX setSensorPhase(final TalonSRX motor, final boolean phase) {
+        motor.setSensorPhase(phase);
+        return motor;
+    }
 
     /**
      * Set invertType
@@ -154,6 +158,10 @@ public class MotorFactory {
      * @return motor
      */
     public static TalonFX setInvert(final TalonFX motor, final boolean isleftmotorinvert) {
+        motor.setInverted(isleftmotorinvert);
+        return motor;
+    }
+    public static TalonSRX setInvert(final TalonSRX motor, final boolean isleftmotorinvert){
         motor.setInverted(isleftmotorinvert);
         return motor;
     }
