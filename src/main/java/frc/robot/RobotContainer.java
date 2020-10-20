@@ -7,16 +7,16 @@
 
 package frc.robot;
 
+import edu.wpi.cscore.UsbCamera;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.Button;
-import frc.robot.commands.AutoAim;
 import frc.robot.commands.Shoot.*;
 import frc.robot.commands.arm.*;
 import frc.robot.commands.auto.*;
@@ -26,7 +26,6 @@ import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 import frc.robot.subsystems.pneumatic.Arm;
 import frc.robot.subsystems.shooter.*;
 import frc.robot.subsystems.vision.Aimer;
-import frc.robot.subsystems.vision.Limelight;
 
 
 /**
@@ -49,7 +48,7 @@ public class RobotContainer {
   private final ControlDrivetrain    controlDrivetrain            = new ControlDrivetrain();
   private final TrajectoryDrivetrain trajectoryDrivetrain         = new TrajectoryDrivetrain();
   private final SendableChooser<Command>    chooser               = new SendableChooser<Command>();
-  
+  private UsbCamera frontCamera, behindCamera;
   public RobotContainer() {
     configureButtonBindings();
   }
@@ -59,6 +58,7 @@ public class RobotContainer {
     driverStationMapping();
     teleop();
     modeSelector();
+    camServe();
   }
   /**
    * Mapping joystick & command here.
@@ -107,6 +107,14 @@ public class RobotContainer {
     Shuffleboard.getTab("Auto").add(chooser);
   }
 
+  private void camServe(){
+    frontCamera = CameraServer.getInstance().startAutomaticCapture();
+    behindCamera = CameraServer.getInstance().startAutomaticCapture();
+    frontCamera.setResolution(640, 480);
+    frontCamera.setFPS(8);
+    behindCamera.setResolution(640, 480);
+    behindCamera.setFPS(8);
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
