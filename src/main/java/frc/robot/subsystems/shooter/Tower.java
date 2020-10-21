@@ -5,7 +5,6 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.motor.MotorFactory;
 import frc.robot.subsystems.vision.Limelight;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants;
 import frc.robot.Constants.PowCon;
 public class Tower extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true,
