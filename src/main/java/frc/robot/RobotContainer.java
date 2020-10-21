@@ -75,20 +75,23 @@ public class RobotContainer {
    */
   private void driverStationMapping(){
     new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new DistantanceShoot(m_shooter));
-    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new SpinReverse(m_conveyor))
-                                                            .whenHeld(new SpinForward(m_wing));
+    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new RunCommand(()->m_conveyor.forward()).withInterrupt(this::getConveyButton));
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
     new JoystickButton(driverStation, Button.rackdoewn)     .whenHeld(new SpinReverse(m_rack));  
-    new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake)); 
-    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim()).withInterrupt(this::getButton))
+    new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake))
+                                                            .whenHeld(new SpinForward(m_wing)); 
+    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim()).withInterrupt(this::getAimButton))
                                                             // .whenHeld(new InstantCommand(()-> m_rack.aim()))
                                                             .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower));
                                                             // .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
   }
-  public boolean getButton(){
-    return !driverStation.getRawButtonPressed(8);
+  public boolean getAimButton(){
+    return !driverStation.getRawButtonPressed(Button.autoAim);
+  }
+  public boolean getConveyButton(){
+    return !driverStation.getRawButtonPressed(Button.conveyor);
   }
   private void teleop(){
     controlDrivetrain.setDefaultCommand(

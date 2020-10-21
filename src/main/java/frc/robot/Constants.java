@@ -20,8 +20,9 @@ public final class Constants {
      * Vision constants
      */
     public static class Vision{
-        public static final double target_high = 227;
-        public static final double limelight_high = 50;
+        public static final double targetHigh = 227;
+        public static final double limelightHigh = 50;
+        public static final double limelightAngle = 28.5;
         public static final double lime_kp = 0.15;
         public static final double lime_ki = 0.0;
         public static final double lime_kd = 0.0;

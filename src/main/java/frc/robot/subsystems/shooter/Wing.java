@@ -10,9 +10,11 @@ public class Wing extends Spinable{
   private final WPI_VictorSPX wideleft = new WPI_VictorSPX(PowCon.wideleft);
   private final WPI_VictorSPX wideright = new WPI_VictorSPX(PowCon.wideright);
   
+  private final WPI_VictorSPX middle = new WPI_VictorSPX(87);
+
   public Wing(){
     MotorFactory.setFollower(wideleft, wideright);
-    MotorFactory.setInvert(wideright, InvertType.FollowMaster);
+    MotorFactory.setInvert(wideright, InvertType.OpposeMaster);
   }
 
   @Override

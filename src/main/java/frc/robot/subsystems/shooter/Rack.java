@@ -23,9 +23,9 @@ public class Rack extends Spinable{
         rack.setSelectedSensorPosition(0);
     }
     public void aim(){
-        //rack_aim.getRack(Limelight.getDistance()
+        // rack_aim.getRack(Limelight.getDistance()
         // rack.set(ControlMode.MotionMagic, rack_aim.getRack(Limelight.getDistance())
-        double unit = rack_aim.getRack(Limelight.getDistance());
+        double unit = Rack.aim(Limelight.getDistance());
         double err = unit - rack.getSelectedSensorPosition();
         rack.set(ControlMode.PercentOutput, -0.0001 * err);
     }
@@ -50,7 +50,7 @@ public class Rack extends Spinable{
     @Override
     public void periodic() {
         SmartDashboard.putNumber("RackPosition", rack.getSelectedSensorPosition());
-        SmartDashboard.putNumber("unit", rack_aim.getRack(Limelight.getDistance()));
+        SmartDashboard.putNumber("unit", Rack.aim(Limelight.getDistance()));
         // aim();
     }
 
