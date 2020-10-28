@@ -97,7 +97,7 @@ public class RobotContainer {
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
         ()->controlDrivetrain
-                .curvatureDrive(joystick.getY() * 0.2, joystick.getZ() * 0.1, joystick.getTrigger()), 
+                .curvatureDrive(joystick.getY() , joystick.getZ() , joystick.getTrigger()), 
           controlDrivetrain)
       );
   }

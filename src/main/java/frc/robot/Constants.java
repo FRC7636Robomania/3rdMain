@@ -50,8 +50,8 @@ public final class Constants {
      */
     public static class Motor{
         public static final int leftMaster    = 19;
-        public static final int leftFollewer  = 21;
-        public static final int rightMaster   = 18;
+        public static final int leftFollewer  = 18;
+        public static final int rightMaster   = 21;
         public static final int rightFollower = 20;
         public static final double distancePerPulse = 0.1524 * Math.PI / 2048 / 9.7;
         public static final double wheelPitch = 0.7407;
