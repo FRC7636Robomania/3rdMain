@@ -28,7 +28,7 @@ public class ArmOut extends CommandBase {
   @Override
   public void execute() {
     m_arm.ArmDS_ON();
-    SmartDashboard.putString("ArmStatus", "armSpin");
+    SmartDashboard.putString("ArmStatus", "armOut");
   }
 
   // Called once the command ends or is interrupted.

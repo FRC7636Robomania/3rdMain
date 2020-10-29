@@ -103,7 +103,7 @@ public class RobotContainer {
   }
 
   private void modeSelector(){
-    chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing));
+    chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
     chooser.setDefaultOption("One Meter", new OneMeter(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing));
     

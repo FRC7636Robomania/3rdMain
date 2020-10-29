@@ -10,7 +10,7 @@ public class Tower extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true,
       40, 50, 1);
   private TalonSRX tower = new TalonSRX(PowCon.tower);
-
+  private static final int forwardL = -2900, reverseL = 1500;
   public Tower() {
     tower.configFactoryDefault();
     MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Relative);
@@ -32,7 +32,7 @@ public class Tower extends Spinable{
   @Override
   public void forward() {
     SmartDashboard.putString("Towerstatue","TowerFoward");
-    if(tower.getSelectedSensorPosition() < -2900)
+    if(tower.getSelectedSensorPosition() < forwardL)
       tower.set(ControlMode.PercentOutput, 0);
     else 
       tower.set(ControlMode.PercentOutput, 0.5);
@@ -46,20 +46,16 @@ public class Tower extends Spinable{
 
   public void aim(){
     double error = Limelight.getTx();
-    int count = 1;
     SmartDashboard.putNumber("error", error);
     if(Math.abs(error) < 0.15){
       error = 0;
     }
-    // else if(error < 0)
-    //   count = -1;
-    // tower.set(ControlMode.PercentOutput, 0.2 * count);
     tower.set(ControlMode.PercentOutput, 0.08 * error);
   }
   @Override
   public void reverse() {
     SmartDashboard.putString("Towerstatue","TowerReverse");
-    if(tower.getSelectedSensorPosition() > 1500)
+    if(tower.getSelectedSensorPosition() > reverseL)
       tower.set(ControlMode.PercentOutput, 0);
     else 
       tower.set(ControlMode.PercentOutput, -0.5);
@@ -67,6 +63,5 @@ public class Tower extends Spinable{
   @Override
   public void periodic() {
     SmartDashboard.putNumber("towerPosition", tower.getSelectedSensorPosition());
-    // This method will be called once per scheduler run
   }
-    }
+}

@@ -19,6 +19,7 @@ public class SpinForward extends CommandBase {
     this.motor = motor;
     addRequirements(motor);
   }
+  
 
   @Override
   public void initialize() {
