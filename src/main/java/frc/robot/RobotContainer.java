@@ -12,6 +12,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -25,7 +26,7 @@ import frc.robot.subsystems.chassis.ControlDrivetrain;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 import frc.robot.subsystems.pneumatic.Arm;
 import frc.robot.subsystems.shooter.*;
-import frc.robot.subsystems.vision.Aimer;
+import frc.robot.subsystems.vision.Limelight;
 
 
 /**
@@ -35,7 +36,6 @@ import frc.robot.subsystems.vision.Aimer;
  * (including subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  private final Aimer             m_aimer                         = new Aimer();
   private final Shooter           m_shooter                       = new Shooter();
   private final Tower             m_tower                         = new Tower();
   private final Conveyor          m_conveyor                      = new Conveyor(m_shooter);
@@ -59,6 +59,7 @@ public class RobotContainer {
     teleop();
     modeSelector();
     camServe();
+    limelight();
   }
   /**
    * Mapping joystick & command here.
@@ -100,6 +101,14 @@ public class RobotContainer {
                 .curvatureDrive(joystick.getY() * 0.5, joystick.getZ() * -0.5 , joystick.getTrigger()), 
           controlDrivetrain)
       );
+  }
+  private void limelight(){
+    m_rack.setDefaultCommand(new RunCommand(()->{
+        SmartDashboard.putNumber("LimelightDistance", Limelight.getDistance());
+        SmartDashboard.putNumber("LimelightX", Limelight.getTx());
+        SmartDashboard.putNumber("LimelightY", Limelight.getTy());
+        SmartDashboard.putNumber("LimelightArea", Limelight.getTa());
+    }, m_rack));
   }
 
   private void modeSelector(){

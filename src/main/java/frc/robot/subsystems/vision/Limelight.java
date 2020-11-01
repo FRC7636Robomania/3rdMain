@@ -40,9 +40,12 @@ public class Limelight {
     public static double getTa() {
         return table.getEntry("ta").getDouble(0.0);
     }
+
     public static double getDistance(){
         return (Vision.targetHigh - Vision.limelightHigh)
                             /Math.tan(Math.toRadians(Vision.limelightAngle+getTy()));
     }
+
+
 
 }

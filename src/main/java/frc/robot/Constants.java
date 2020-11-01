@@ -70,7 +70,7 @@ public final class Constants {
         public static final int conveyor = 1;
         public static final int aimer = 8;
         public static final int wideright = 2;
-        public static final int wideleft = 5;
+        public static final int wideleft = 1;
         public static final double flywheel_kP = 0.058; 
         public static final double flywheel_kF = 0.0511;
         public static final int tower = 6;

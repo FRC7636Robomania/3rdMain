@@ -15,6 +15,7 @@ public class Wing extends Spinable{
   public Wing(){
     MotorFactory.setFollower(wideleft, wideright);
     MotorFactory.setInvert(wideright, InvertType.OpposeMaster);
+    MotorFactory.setFollower(wideleft, middle);
   }
 
   @Override
