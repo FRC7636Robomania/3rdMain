@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.motor.MotorFactory;
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.Constants.PowCon;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 
 public class Rack extends Spinable{
     private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
@@ -17,6 +19,8 @@ public class Rack extends Spinable{
         rack.configMotionCruiseVelocity(1500,10);
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
+        rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        rack.configClearPositionOnLimitF(true, 10);
 
     }
     public void zero(){
