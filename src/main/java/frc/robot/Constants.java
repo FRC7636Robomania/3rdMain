@@ -20,7 +20,7 @@ public final class Constants {
      * Vision constants
      */
     public static class Vision{
-        public static final double targetHigh = 227;
+        public static final double targetHigh = 206;
         public static final double limelightHigh = 58;
         public static final double limelightAngle = 36;
         public static final double lime_kp = 0.15;
@@ -66,14 +66,15 @@ public final class Constants {
      */
     public static class PowCon{
         public static final int flywheel = 17;
+        public static final int flywheel2 = 15;
         public static final int conveyor = 1;
         public static final int aimer = 8;
         public static final int wideright = 2;
         public static final int wideleft = 5;
-        public static final double flywheel_kP = 0.01; //0.1
-        public static final double flywheel_kF = 0.0506;
+        public static final double flywheel_kP = 0.058; 
+        public static final double flywheel_kF = 0.0511;
         public static final int tower = 6;
-        public static final int rack = 18;
+        public static final int rack = 25;
 
     }
     /**

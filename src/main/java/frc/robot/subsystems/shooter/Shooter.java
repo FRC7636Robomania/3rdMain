@@ -10,20 +10,28 @@ import frc.robot.Constants.PowCon;
 public class  Shooter extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true, 40, 50, 1);
   private TalonFX flywheel = new TalonFX(PowCon.flywheel);
-  double setVel = 0, vel = 0;
+  private TalonFX flywheelS = new TalonFX(PowCon.flywheel2);
+  double setVel = 0;
 
   public Shooter() {
     MotorFactory.setSensor(flywheel,FeedbackDevice.IntegratedSensor);
+    MotorFactory.setSensor(flywheelS, FeedbackDevice.IntegratedSensor);
     MotorFactory.configPF(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,0);
+    MotorFactory.configPF(flywheelS, PowCon.flywheel_kP, PowCon.flywheel_kF, 0);
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
-    //MotorFactory.configmotorlimit(flywheel,0.001, 1, -1, 1, 30);
+    flywheelS.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
+
     flywheel.configClosedloopRamp(0.5, 10);
+    flywheelS.configClosedloopRamp(0.5, 10);
     flywheel.setInverted(true);
+    flywheelS.follow(flywheel);
+    flywheelS.setInverted(InvertType.OpposeMaster);
+
     
   }
 
   public double getflywheelspeed(){
-    return flywheel.getSelectedSensorVelocity();
+    return (flywheel.getSelectedSensorVelocity() + flywheelS.getSelectedSensorVelocity()) / 2;
   }
 
   public double getSetValue(){
@@ -35,22 +43,21 @@ public class  Shooter extends Spinable{
   }
 
   public void velocity(double velocity){
-    setVel = vel;
+    setVel = velocity;
     flywheel.set(ControlMode.Velocity, velocity);
   }
   
   @Override
   public void forward() {
-    vel = 5 * 2000.0 * 2048.0 / 600.0;
-    flywheel.set(ControlMode.Velocity, 20000);
-    // setVel = vel;
+    setVel = 20000;
+    flywheel.set(ControlMode.Velocity, setVel);
     SmartDashboard.putString("Shooterstatue","ShooterFoward");
   }
 
   @Override
   public void stop() {
     setVel = 0;
-    flywheel.set(ControlMode.Velocity, 0);
+    flywheel.set(ControlMode.Velocity, setVel);
     SmartDashboard.putString("Shooterstatue","ShooterStop");
 
   }
@@ -64,7 +71,6 @@ public class  Shooter extends Spinable{
   @Override
   public void periodic() {
     SmartDashboard.putNumber("flyvel", flywheel.getSelectedSensorVelocity());
-    SmartDashboard.putNumber("flyvol", flywheel.getMotorOutputVoltage());
   }
 }
 
