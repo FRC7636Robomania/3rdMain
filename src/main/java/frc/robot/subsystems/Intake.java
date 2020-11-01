@@ -10,27 +10,38 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.subsystems.shooter.Spinable;
 
 public class Intake extends Spinable{
     private final WPI_TalonSRX intake = new WPI_TalonSRX(10);
-
+    private String status = "Stop";
     public Intake(){
         intake.configFactoryDefault();
+        Shuffleboard.getTab("Statue").addString("Intake", this::getStatus);
+
     }
     @Override
     public void forward() {
         intake.set(ControlMode.PercentOutput, 0.95);
+        status = "Forward";
     }
 
     @Override
     public void stop() {
         intake.set(ControlMode.PercentOutput, 0);
+        status = "Stop";
 
     }
 
     @Override
     public void reverse() {
         intake.set(ControlMode.PercentOutput, -0.95);
+        status = "Reverse";
+    }
+
+    @Override
+    public String getStatus() {
+        return status;
     }
 }

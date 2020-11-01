@@ -9,6 +9,7 @@ package frc.robot.subsystems.vision;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.*;
 /**
  * Add your docs here.
@@ -18,6 +19,12 @@ public class Limelight {
     
     public static double temp_tx;
     public static double temp_ty;
+    static {
+        Shuffleboard.getTab("Limelight").addNumber("LimelightDistance", Limelight::getDistance);
+        Shuffleboard.getTab("Limelight").addNumber("LimelightX", Limelight::getTx);
+        Shuffleboard.getTab("Limelight").addNumber("LimelightY", Limelight::getTy);
+        Shuffleboard.getTab("Limelight").addNumber("LimelightArea", Limelight::getTa);
+    }
 
     public static double getTx() {
         if(getTa() > 0){

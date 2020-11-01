@@ -12,7 +12,6 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -26,7 +25,6 @@ import frc.robot.subsystems.chassis.ControlDrivetrain;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
 import frc.robot.subsystems.pneumatic.Arm;
 import frc.robot.subsystems.shooter.*;
-import frc.robot.subsystems.vision.Limelight;
 
 
 /**
@@ -58,8 +56,7 @@ public class RobotContainer {
     driverStationMapping();
     teleop();
     modeSelector();
-    camServe();
-    limelight();
+    // camServe();
   }
   /**
    * Mapping joystick & command here.
@@ -105,14 +102,6 @@ public class RobotContainer {
                 .curvatureDrive(joystick.getY() * 0.5, joystick.getZ() * -0.5 , joystick.getTrigger()), 
           controlDrivetrain)
       );
-  }
-  private void limelight(){
-    m_rack.setDefaultCommand(new RunCommand(()->{
-        SmartDashboard.putNumber("LimelightDistance", Limelight.getDistance());
-        SmartDashboard.putNumber("LimelightX", Limelight.getTx());
-        SmartDashboard.putNumber("LimelightY", Limelight.getTy());
-        SmartDashboard.putNumber("LimelightArea", Limelight.getTa());
-    }, m_rack));
   }
 
   private void modeSelector(){

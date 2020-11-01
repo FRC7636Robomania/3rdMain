@@ -5,25 +5,30 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import frc.robot.motor.MotorFactory;
 import frc.robot.subsystems.vision.Limelight;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.PowCon;
 public class Tower extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true,
       40, 50, 1);
   private TalonSRX tower = new TalonSRX(PowCon.tower);
-  DigitalInput dot = new DigitalInput(0);
+  private DigitalInput dot = new DigitalInput(0);
+  private String status = "Stop";
 
   private static final int forwardL = -2900, reverseL = 1500;
   public Tower() {
     MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Absolute);
     tower.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
+    Shuffleboard.getTab("Statue").addString("Tower", this::getStatus);
+    Shuffleboard.getTab("Statue").addNumber("TowerPosition", this::getPosition);
+
   }
   private void isZero(){
-    if(dot.get() && Math.abs(position()) < 1000){
+    if(dot.get() && Math.abs(getPosition()) < 1000){
       tower.setSelectedSensorPosition(0);
     }
   }
-  private double position(){
+  private double getPosition(){
     return tower.getSelectedSensorPosition();
   }
 
@@ -41,7 +46,7 @@ public class Tower extends Spinable{
 
   @Override
   public void forward() {
-    SmartDashboard.putString("Towerstatue","TowerFoward");
+    status = "Foward";
     if(tower.getSelectedSensorPosition() < forwardL)
       tower.set(ControlMode.PercentOutput, 0);
     else 
@@ -51,7 +56,7 @@ public class Tower extends Spinable{
 
   @Override
   public void stop() {
-    SmartDashboard.putString("Towerstatue","TowerStop");
+    status = "Stop";
     tower.set(ControlMode.PercentOutput, 0);
     
   }
@@ -67,7 +72,7 @@ public class Tower extends Spinable{
   }
   @Override
   public void reverse() {
-    SmartDashboard.putString("Towerstatue","TowerReverse");
+    status = "Reverse";
     if(tower.getSelectedSensorPosition() > reverseL)
       tower.set(ControlMode.PercentOutput, 0);
     else 
@@ -76,6 +81,10 @@ public class Tower extends Spinable{
   }
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("towerPosition", tower.getSelectedSensorPosition());
+  }
+
+  @Override
+  public String getStatus() {
+    return status;
   }
 }

@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import frc.robot.motor.MotorFactory;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.Constants.PowCon;
@@ -11,6 +12,7 @@ public class  Shooter extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true, 40, 50, 1);
   private TalonFX flywheel = new TalonFX(PowCon.flywheel);
   private TalonFX flywheelS = new TalonFX(PowCon.flywheel2);
+  private String status = "Stop";
   double setVel = 0;
 
   public Shooter() {
@@ -26,8 +28,13 @@ public class  Shooter extends Spinable{
     flywheel.setInverted(true);
     flywheelS.follow(flywheel);
     flywheelS.setInverted(InvertType.OpposeMaster);
+    Shuffleboard.getTab("Statue").addString("Shooter", this::getStatus);
 
     
+  }
+  @Override
+  public String getStatus(){
+    return status;
   }
 
   public double getflywheelspeed(){
@@ -51,20 +58,20 @@ public class  Shooter extends Spinable{
   public void forward() {
     setVel = PowCon.flywheelVelocity;
     flywheel.set(ControlMode.Velocity, setVel);
-    SmartDashboard.putString("Shooterstatue","ShooterFoward");
+    status = "Foward";
   }
 
   @Override
   public void stop() {
     setVel = 0;
     flywheel.set(ControlMode.Velocity, setVel);
-    SmartDashboard.putString("Shooterstatue","ShooterStop");
+    status = "Stop";
 
   }
 
   @Override
   public void reverse() {
-    SmartDashboard.putString("Shooterstatue","Don't do that please");
+    status = "Don't do that please";
     System.out.println("Don't do that please");
   }
   

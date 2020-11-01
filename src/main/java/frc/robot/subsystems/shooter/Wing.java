@@ -8,11 +8,11 @@ import frc.robot.Constants.PowCon;
 public class Wing extends Spinable{
   private final WPI_VictorSPX wing = new WPI_VictorSPX(PowCon.wingRight);
   private final WPI_VictorSPX middle = new WPI_VictorSPX(PowCon.wingMiddle);
-  private String status = "WingStop";
+  private String status = "Stop";
   public Wing(){
     MotorFactory.setFollower(wing, middle);
     // MotorFactory.setInvert(middle, InvertType.OpposeMaster);
-    Shuffleboard.getTab("Statue").addString("WingStatus", this::getStatus);
+    Shuffleboard.getTab("Statue").addString("Wing", this::getStatus);
   }
   public String getStatus(){
     return status;

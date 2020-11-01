@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.chassis.DrivetrainBase;
@@ -29,7 +30,8 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
    * Creates a new Drivetrain.
    */
   public TrajectoryDrivetrain() {
-
+    Shuffleboard.getTab("Auto").addNumber("x", this::getX);
+    Shuffleboard.getTab("Auto").addNumber("y", this::getY);
   }
 
   /**
@@ -145,9 +147,7 @@ public class TrajectoryDrivetrain extends DrivetrainBase implements TrajectorySy
    * Show message
    */
   public void message(){
-    SmartDashboard.putNumber("x", getX());
-    SmartDashboard.putNumber("Y", getY());
-    //distants
+    //distance
     SmartDashboard.putNumber("leftDistants", getLeftPosition() * Motor.distancePerPulse);
     SmartDashboard.putNumber("rightDistants", getRigthtPosition() * Motor.distancePerPulse);
     SmartDashboard.putNumber("Yaw", ahrs.getYaw());

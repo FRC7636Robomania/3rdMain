@@ -3,13 +3,19 @@ package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.motor.MotorFactory;
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.Constants.PowCon;
+import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
+import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 
 public class Rack extends Spinable{
     private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
+    private String status = "Stop";
+    private double position = 0;
     public Rack(){
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Absolute);
         MotorFactory.configPF(rack, 0.01, 0.1, 0);
@@ -17,7 +23,10 @@ public class Rack extends Spinable{
         rack.configMotionCruiseVelocity(1500,10);
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
-        rack.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyClosed, 10);
+        rack.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyClosed);
+        rack.configClearPositionOnLimitR(true, 10);
+        Shuffleboard.getTab("Statue").addString("Rack", this::getStatus);
+        Shuffleboard.getTab("Statue").addNumber("RackPosition", this::getPosition);
 
     }
     public void zero(){
@@ -27,39 +36,44 @@ public class Rack extends Spinable{
         double unit = Rack.aim(Limelight.getDistance());
         double err = unit - rack.getSelectedSensorPosition();
         rack.set(ControlMode.PercentOutput, -0.0001 * err);
-
-
     }
     @Override
     public void forward() {
         if(!rack.getSensorCollection().isRevLimitSwitchClosed()){
-            zero();
+            // zero();
             stop();
         }else{
             rack.set(ControlMode.PercentOutput, 0.2);
-            SmartDashboard.putString("Rackstatue","Rackfoward");
+            status = "Foward";
         }
     }
 
     @Override
     public void stop() {
         rack.set(ControlMode.PercentOutput, 0);
-        SmartDashboard.putString("Rackstatue","Rackstop");
+        status = "Stop";
     }
 
     @Override
     public void reverse() {
         if(!rack.getSensorCollection().isRevLimitSwitchClosed()){
-            zero();
+            // zero();
             stop();
         }else{
             rack.set(ControlMode.PercentOutput, -0.2);
-            SmartDashboard.putString("Rackstatue","RackReverse");
+            status ="Reverse";
         }
     }
     @Override
+    public String getStatus() {
+        return status;
+    }
+    public double getPosition(){
+        return position;
+    }
+    @Override
     public void periodic() {
-        SmartDashboard.putNumber("RackPosition", rack.getSelectedSensorPosition());
+        position = rack.getSelectedSensorPosition();
         SmartDashboard.putNumber("unit", Rack.aim(Limelight.getDistance()));
         // aim();
     }
@@ -100,5 +114,7 @@ public class Rack extends Spinable{
         }
         return unit;
     }
+
+   
 
 }
