@@ -1,39 +1,38 @@
 package frc.robot.subsystems.shooter;
 
-import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import frc.robot.motor.MotorFactory;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.Constants.PowCon;
 
 public class Wing extends Spinable{
-  private final WPI_VictorSPX wideleft = new WPI_VictorSPX(PowCon.wideleft);
-  private final WPI_VictorSPX wideright = new WPI_VictorSPX(PowCon.wideright);
-  
-  private final WPI_VictorSPX middle = new WPI_VictorSPX(87);
-
+  private final WPI_VictorSPX wing = new WPI_VictorSPX(PowCon.wingRight);
+  private final WPI_VictorSPX middle = new WPI_VictorSPX(PowCon.wingMiddle);
+  private String status = "WingStop";
   public Wing(){
-    MotorFactory.setFollower(wideleft, wideright);
-    MotorFactory.setInvert(wideright, InvertType.OpposeMaster);
-    MotorFactory.setFollower(wideleft, middle);
+    MotorFactory.setFollower(wing, middle);
+    // MotorFactory.setInvert(middle, InvertType.OpposeMaster);
+    Shuffleboard.getTab("Statue").addString("WingStatus", this::getStatus);
   }
-
+  public String getStatus(){
+    return status;
+  }
   @Override
   public void forward() {
-    SmartDashboard.putString("Wingstatue","WingForward");
-    wideleft.set(-0.3);
+    status = "Forward";
+    wing.set(-0.3);
   }
 
   @Override
   public void stop() {
-    SmartDashboard.putString("Wingstatue","WingStop");
-    wideleft.set(0);
+    status = "Stop";
+    wing.set(0);
   }
 
   @Override
   public void reverse() {
-    SmartDashboard.putString("Wingstatue","WingReverse");
-    wideleft.set(0.3);
+    status = "Reverse";
+    wing.set(0.3);
   }
   
   @Override

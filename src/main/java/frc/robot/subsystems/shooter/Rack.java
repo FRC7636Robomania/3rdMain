@@ -11,28 +11,34 @@ import frc.robot.Constants.PowCon;
 public class Rack extends Spinable{
     private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
     public Rack(){
-        MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Relative);
+        MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Absolute);
         MotorFactory.configPF(rack, 0.01, 0.1, 0);
         rack.configMotionAcceleration(1600, 10);
         rack.configMotionCruiseVelocity(1500,10);
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
+        rack.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyClosed, 10);
 
     }
     public void zero(){
         rack.setSelectedSensorPosition(0);
     }
     public void aim(){
-        // rack_aim.getRack(Limelight.getDistance()
-        // rack.set(ControlMode.MotionMagic, rack_aim.getRack(Limelight.getDistance())
         double unit = Rack.aim(Limelight.getDistance());
         double err = unit - rack.getSelectedSensorPosition();
         rack.set(ControlMode.PercentOutput, -0.0001 * err);
+
+
     }
     @Override
     public void forward() {
-        rack.set(ControlMode.PercentOutput, 0.2);
-        SmartDashboard.putString("Rackstatue","Rackfoward");
+        if(!rack.getSensorCollection().isRevLimitSwitchClosed()){
+            zero();
+            stop();
+        }else{
+            rack.set(ControlMode.PercentOutput, 0.2);
+            SmartDashboard.putString("Rackstatue","Rackfoward");
+        }
     }
 
     @Override
@@ -43,9 +49,13 @@ public class Rack extends Spinable{
 
     @Override
     public void reverse() {
-        rack.set(ControlMode.PercentOutput, -0.2);        
-        SmartDashboard.putString("Rackstatue","Rackreverse");
-
+        if(!rack.getSensorCollection().isRevLimitSwitchClosed()){
+            zero();
+            stop();
+        }else{
+            rack.set(ControlMode.PercentOutput, -0.2);
+            SmartDashboard.putString("Rackstatue","RackReverse");
+        }
     }
     @Override
     public void periodic() {

@@ -67,14 +67,22 @@ public final class Constants {
     public static class PowCon{
         public static final int flywheel = 17;
         public static final int flywheel2 = 15;
+
         public static final int conveyor = 1;
+
         public static final int aimer = 8;
-        public static final int wideright = 2;
-        public static final int wideleft = 1;
-        public static final double flywheel_kP = 0.058; 
-        public static final double flywheel_kF = 0.0511;
+
+        public static final int wingRight = 2;
+        public static final int wingMiddle = 3;
+
+        public static final double flywheel_kP = 0.25; 
+        public static final double flywheel_kF = 1*1023/7200;
+
         public static final int tower = 6;
+
         public static final int rack = 25;
+
+        public static final int flywheelVelocity = 15000;
 
     }
     /**

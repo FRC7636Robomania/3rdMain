@@ -16,11 +16,12 @@ public class Conveyor extends Spinable{
 
   public void forceSpin(){
     conveyor.set(ControlMode.PercentOutput, -0.7);
+    SmartDashboard.putString("Conveyorstatue","forceSpin");  
   }
   
   @Override
   public void forward() {
-    if(shooter.getflywheelspeed() >= 12000 * 0.8){
+    if(shooter.getflywheelspeed() >= PowCon.flywheelVelocity * 0.8){
       conveyor.set(ControlMode.PercentOutput, 0.7);
       SmartDashboard.putString("Conveyorstatue","ConveyorForward");  
     }else{
@@ -37,7 +38,7 @@ public class Conveyor extends Spinable{
 
   @Override
   public void reverse() {
-    if(shooter.getflywheelspeed() >= 12000 * 0.8){
+    if(shooter.getflywheelspeed() >= PowCon.flywheelVelocity * 0.8){
       conveyor.set(ControlMode.PercentOutput, -0.7);
       SmartDashboard.putString("Conveyorstatue","ConveyorReverse");  
     }else{

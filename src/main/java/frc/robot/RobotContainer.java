@@ -75,7 +75,11 @@ public class RobotContainer {
    * Mapping driver station & command here
    */
   private void driverStationMapping(){
-    new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new DistantanceShoot(m_shooter));
+    // new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new DistantanceShoot(m_shooter));
+    new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new SpinForward(m_shooter));
+    /**
+     * 之後把convey加到飛輪裡
+     */
     new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new RunCommand(()->m_conveyor.forward()).withInterrupt(this::getConveyButton));
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
@@ -84,9 +88,9 @@ public class RobotContainer {
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake))
                                                             .whenHeld(new SpinForward(m_wing)); 
     new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim()).withInterrupt(this::getAimButton))
-                                                            // .whenHeld(new InstantCommand(()-> m_rack.aim()))
-                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower));
-                                                            // .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
+                                                            .whenHeld(new RunCommand(()-> m_rack.aim()).withInterrupt(this::getAimButton))
+                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower))
+                                                            .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
   }
   public boolean getAimButton(){
     return !driverStation.getRawButtonPressed(Button.autoAim);
