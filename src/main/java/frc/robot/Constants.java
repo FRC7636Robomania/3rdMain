@@ -72,13 +72,13 @@ public final class Constants {
 
         public static final int aimer = 8;
 
-        public static final int wingRight = 2;
-        public static final int wingMiddle = 3;
+        public static final int wingRight = 3;
+        public static final int wingMiddle = 2;
 
         public static final double flywheel_kP = 0.25; 
-        public static final double flywheel_kF = 1*1023/7200;
+        public static final double flywheel_kF = 1 * 1023 / 7200;
 
-        public static final int tower = 6;
+        public static final int tower = 52;
 
         public static final int rack = 25;
 
