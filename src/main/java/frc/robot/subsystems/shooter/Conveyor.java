@@ -29,7 +29,7 @@ public class Conveyor extends Spinable{
       status = "Forward";
     }else{
       status = "flywheelTooSlowly!!";
-
+      conveyor.set(ControlMode.PercentOutput, 0 );
     }
   }
 
