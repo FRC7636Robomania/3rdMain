@@ -17,14 +17,19 @@ public class Rack extends Spinable{
     private String status = "Stop";
     private double position = 0;
     public Rack(){
+        // rack.configFactoryDefault();
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Absolute);
         MotorFactory.configPF(rack, 0.01, 0.1, 0);
+
         rack.configMotionAcceleration(1600, 10);
         rack.configMotionCruiseVelocity(1500,10);
-        MotorFactory.setInvert(rack, false);
-        MotorFactory.setSensorPhase(rack, false);
-        rack.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyClosed);
+
+        MotorFactory.setInvert(rack, true);
+        MotorFactory.setSensorPhase(rack, true);
+
+        // rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
         rack.configClearPositionOnLimitR(true, 10);
+
         Shuffleboard.getTab("Statue").addString("Rack", this::getStatus);
         Shuffleboard.getTab("Statue").addNumber("RackPosition", this::getPosition);
 
@@ -39,13 +44,13 @@ public class Rack extends Spinable{
     }
     @Override
     public void forward() {
-        if(!rack.getSensorCollection().isRevLimitSwitchClosed()){
-            // zero();
-            stop();
-        }else{
-            rack.set(ControlMode.PercentOutput, 0.2);
+        // if(rack.getSensorCollection().isRevLimitSwitchClosed()){
+        //     // zero();
+        //     stop();
+        // }else{
+            rack.set(ControlMode.PercentOutput, 0.3);
             status = "Foward";
-        }
+        // }
     }
 
     @Override
@@ -56,20 +61,20 @@ public class Rack extends Spinable{
 
     @Override
     public void reverse() {
-        if(!rack.getSensorCollection().isRevLimitSwitchClosed()){
-            // zero();
-            stop();
-        }else{
-            rack.set(ControlMode.PercentOutput, -0.2);
+        // if(rack.getSensorCollection().isRevLimitSwitchClosed()){
+        //     // zero();
+        //     stop();
+        // }else{
+            rack.set(ControlMode.PercentOutput, -0.3);
             status ="Reverse";
-        }
+        // }
     }
     @Override
     public String getStatus() {
         return status;
     }
     public double getPosition(){
-        return position;
+        return rack.getSelectedSensorPosition();
     }
     @Override
     public void periodic() {
