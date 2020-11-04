@@ -67,6 +67,7 @@ public class RobotContainer {
     driverStationMapping();
     teleop();
     modeSelector();
+    new RunCommand(()->m_rack.forward(), m_rack).withInterrupt(m_rack::getLimit);
      
     // camServe();
   }
