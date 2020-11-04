@@ -26,7 +26,7 @@ public class Rack extends Spinable{
 
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
-
+        // use which limitswitch pin, use which port connect to encoder
         rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
         rack.configClearPositionOnLimitF(true, 10);
 
@@ -44,13 +44,8 @@ public class Rack extends Spinable{
     }
     @Override
     public void forward() {
-        // if(rack.getSensorCollection().isRevLimitSwitchClosed()){
-        //     // zero();
-        //     stop();
-        // }else{
-            rack.set(ControlMode.PercentOutput, 0.3);
-            status = "Foward";
-        // }
+        rack.set(ControlMode.PercentOutput, 0.3);
+        status = "Foward";
     }
 
     @Override
@@ -61,13 +56,8 @@ public class Rack extends Spinable{
 
     @Override
     public void reverse() {
-        // if(rack.getSensorCollection().isRevLimitSwitchClosed()){
-        //     // zero();
-        //     stop();
-        // }else{
-            rack.set(ControlMode.PercentOutput, -0.3);
-            status ="Reverse";
-        // }
+        rack.set(ControlMode.PercentOutput, -0.3);
+        status ="Reverse";
     }
     @Override
     public String getStatus() {
