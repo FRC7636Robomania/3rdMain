@@ -29,16 +29,20 @@ public class LeftUp extends SequentialCommandGroup {
               Conveyor conveyor, Shooter shooter, Arm arm, Wing wing, Rack rack, Tower tower) {
 
     super(
-      new AutoAim(rack, tower),
-      new Shooting(shooter, 12000, conveyor, wing),
-      new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.three)),
+      // new AutoAim(rack, tower),
+      // new Shooting(shooter, 15000, conveyor, wing),
+      // new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.three)),
+      // new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
+      // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.three), drivetrain, base),
+      new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.OneMeter)),
       new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.three), drivetrain, base),
+      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.OneMeter), drivetrain, base),
             // .andThen(()->drivetrain.setOutput(0, 0))
       new ArmOut(arm).withTimeout(0.3).andThen(()->intake.forward()).andThen(()->wing.forward()),
       
       new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.upSock), drivetrain, base)
+      // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.upSock), drivetrain, base)
+      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.OneMeter), drivetrain, base)
             .andThen(()->drivetrain.setOutput(0, 0))
             .andThen(()->intake.stop())
             .andThen(()->wing.stop()),
