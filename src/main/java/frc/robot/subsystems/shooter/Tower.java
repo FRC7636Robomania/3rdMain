@@ -15,8 +15,9 @@ public class Tower extends Spinable{
   private DigitalInput dot = new DigitalInput(0);
   private String status = "Stop";
 
-  private static final int forwardL = -2900, reverseL = 1500;
+  private static final int forwardL = -2900, reverseL = 2000;
   public Tower() {
+    tower.configFactoryDefault();
     MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Absolute);
     tower.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
     Shuffleboard.getTab("Statue").addString("Tower", this::getStatus);
@@ -24,9 +25,9 @@ public class Tower extends Spinable{
 
   }
   private void isZero(){
-    if(dot.get() && Math.abs(getPosition()) < 1000){
-      tower.setSelectedSensorPosition(0);
-    }
+    // if(dot.get() && Math.abs(getPosition()) < 1000){
+    //   tower.setSelectedSensorPosition(0);
+    // }
   }
   private double getPosition(){
     return tower.getSelectedSensorPosition();
@@ -50,7 +51,7 @@ public class Tower extends Spinable{
     if(tower.getSelectedSensorPosition() < forwardL)
       tower.set(ControlMode.PercentOutput, 0);
     else 
-      tower.set(ControlMode.PercentOutput, 0.5);
+      tower.set(ControlMode.PercentOutput, 0.2);
     isZero();
   }
 
@@ -80,7 +81,7 @@ public class Tower extends Spinable{
     if(tower.getSelectedSensorPosition() > reverseL)
       tower.set(ControlMode.PercentOutput, 0);
     else 
-      tower.set(ControlMode.PercentOutput, -0.5);
+      tower.set(ControlMode.PercentOutput, -0.2);
     isZero();
   }
   @Override

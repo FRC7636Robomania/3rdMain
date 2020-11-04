@@ -15,20 +15,20 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 public class Rack extends Spinable{
     private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
     private String status = "Stop";
-    private double position = 0;
+    // private double position = 0;
     public Rack(){
-        // rack.configFactoryDefault();
+        rack.configFactoryDefault();
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Absolute);
         MotorFactory.configPF(rack, 0.01, 0.1, 0);
 
         rack.configMotionAcceleration(1600, 10);
         rack.configMotionCruiseVelocity(1500,10);
 
-        MotorFactory.setInvert(rack, true);
-        MotorFactory.setSensorPhase(rack, true);
+        MotorFactory.setInvert(rack, false);
+        MotorFactory.setSensorPhase(rack, false);
 
-        // rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-        rack.configClearPositionOnLimitR(true, 10);
+        rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        rack.configClearPositionOnLimitF(true, 10);
 
         Shuffleboard.getTab("Statue").addString("Rack", this::getStatus);
         Shuffleboard.getTab("Statue").addNumber("RackPosition", this::getPosition);
@@ -78,8 +78,9 @@ public class Rack extends Spinable{
     }
     @Override
     public void periodic() {
-        position = rack.getSelectedSensorPosition();
+        // position = rack.getSelectedSensorPosition();
         SmartDashboard.putNumber("unit", Rack.aim(Limelight.getDistance()));
+        SmartDashboard.putBoolean("limit", rack.getSensorCollection().isFwdLimitSwitchClosed());
         // aim();
     }
 

@@ -7,9 +7,13 @@
 
 package frc.robot;
 
+import java.util.Map;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,8 +51,15 @@ public class RobotContainer {
   private final TrajectoryDrivetrain trajectoryDrivetrain         = new TrajectoryDrivetrain();
   private final SendableChooser<Command>    chooser               = new SendableChooser<Command>();
   private UsbCamera frontCamera, behindCamera;
+  NetworkTableEntry drive;
   public RobotContainer() {
     configureButtonBindings();
+    drive = Shuffleboard.getTab("Drive")
+    .add("Max Speed", 1)
+    .withWidget(BuiltInWidgets.kNumberSlider)
+    .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+    .getEntry();
+
   }
  
   private void configureButtonBindings() {
@@ -56,6 +67,7 @@ public class RobotContainer {
     driverStationMapping();
     teleop();
     modeSelector();
+     
     // camServe();
   }
   /**
@@ -99,7 +111,7 @@ public class RobotContainer {
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
         ()->controlDrivetrain
-                .curvatureDrive(joystick.getY() * 0.5, joystick.getZ() * -0.5 , joystick.getTrigger()), 
+                .curvatureDrive(joystick.getY() * drive.getDouble(0.5), joystick.getZ() * -drive.getDouble(0.4) * 0.7 , joystick.getTrigger()), 
           controlDrivetrain)
       );
   }
@@ -116,11 +128,10 @@ public class RobotContainer {
     frontCamera = CameraServer.getInstance().startAutomaticCapture();
     behindCamera = CameraServer.getInstance().startAutomaticCapture();
     frontCamera.setResolution(640, 480);
-    frontCamera.setFPS(8);
+    frontCamera.setFPS(5);
     behindCamera.setResolution(640, 480);
-    behindCamera.setFPS(8);
+    behindCamera.setFPS(5);
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
