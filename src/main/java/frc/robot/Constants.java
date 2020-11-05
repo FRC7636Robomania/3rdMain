@@ -123,5 +123,6 @@ public final class Constants {
         public static final int towerZero   = 5;
         public static final int rackZero    = 6;
         public static final int tempShoot   = 7;
+        public static final int zeroRack    = 8;
     }
 }

@@ -42,15 +42,11 @@ public class Rack extends Spinable{
         double err = unit - rack.getSelectedSensorPosition();
         rack.set(ControlMode.PercentOutput, -0.0001 * err);
     }
+
     @Override
     public void forward() {
-        // if(rack.getSensorCollection().isRevLimitSwitchClosed()){
-        //     // zero();
-        //     stop();
-        // }else{
-            rack.set(ControlMode.PercentOutput, 0.3);
-            status = "Foward";
-        // }
+        rack.set(ControlMode.PercentOutput, 0.5);
+        status = "Foward";
     }
 
     @Override
@@ -61,13 +57,8 @@ public class Rack extends Spinable{
 
     @Override
     public void reverse() {
-        // if(rack.getSensorCollection().isRevLimitSwitchClosed()){
-        //     // zero();
-        //     stop();
-        // }else{
-            rack.set(ControlMode.PercentOutput, -0.3);
-            status ="Reverse";
-        // }
+        rack.set(ControlMode.PercentOutput, -0.5);
+        status ="Reverse";
     }
     @Override
     public String getStatus() {
@@ -75,6 +66,10 @@ public class Rack extends Spinable{
     }
     public double getPosition(){
         return rack.getSelectedSensorPosition();
+    }
+    public boolean getLimit(){
+        // normorlly return false
+        return !rack.getSensorCollection().isFwdLimitSwitchClosed();
     }
     @Override
     public void periodic() {
@@ -120,6 +115,7 @@ public class Rack extends Spinable{
         }
         return unit;
     }
+    
 
    
 

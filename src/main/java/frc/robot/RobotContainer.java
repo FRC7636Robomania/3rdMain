@@ -67,6 +67,7 @@ public class RobotContainer {
     driverStationMapping();
     teleop();
     modeSelector();
+    new RunCommand(()->m_rack.forward(), m_rack).withInterrupt(m_rack::getLimit);
      
     // camServe();
   }
@@ -79,7 +80,8 @@ public class RobotContainer {
     new JoystickButton(joystick, Button.towerZero)     .whenHeld(new InstantCommand(()->m_tower.zero()));
     new JoystickButton(joystick, Button.rackZero)      .whenHeld(new InstantCommand(()->m_rack.zero()));
     new JoystickButton(joystick, Button.tempShoot)     .whenHeld(new SpinForward(m_shooter));
-  }
+    new JoystickButton(joystick, Button.zeroRack)      .whenHeld(new RunCommand(()->m_rack.forward(), m_rack).withInterrupt(m_rack::getLimit).withTimeout(1));
+    }
   /**
    * Mapping driver station & command here
    */
