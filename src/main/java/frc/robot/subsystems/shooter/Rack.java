@@ -45,7 +45,7 @@ public class Rack extends Spinable{
 
     @Override
     public void forward() {
-        rack.set(ControlMode.PercentOutput, 0.3);
+        rack.set(ControlMode.PercentOutput, 0.5);
         status = "Foward";
     }
 
@@ -57,7 +57,7 @@ public class Rack extends Spinable{
 
     @Override
     public void reverse() {
-        rack.set(ControlMode.PercentOutput, -0.3);
+        rack.set(ControlMode.PercentOutput, -0.5);
         status ="Reverse";
     }
     @Override
