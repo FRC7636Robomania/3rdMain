@@ -54,8 +54,8 @@ public class RobotContainer {
   NetworkTableEntry drive;
   public RobotContainer() {
     configureButtonBindings();
-    drive = Shuffleboard.getTab("Drive")
-    .add("Max Speed", 1)
+    drive = Shuffleboard.getTab("Adjusting")
+    .add("Chassic Speed", 1)
     .withWidget(BuiltInWidgets.kNumberSlider)
     .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
     .getEntry();
@@ -68,7 +68,7 @@ public class RobotContainer {
     teleop();
     modeSelector();
      
-    camServe();
+    // camServe();
   }
   /**
    * Mapping joystick & command here.
@@ -89,8 +89,7 @@ public class RobotContainer {
     /**
      * 之後把convey加到飛輪裡
      */
-    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new SpinForward(m_conveyor));
-     // new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new RunCommand(()->m_conveyor.forward()).withInterrupt(this::getConveyButton));
+    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new RunCommand(()->m_conveyor.forward()).withInterrupt(this::getConveyButton));
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
@@ -98,9 +97,9 @@ public class RobotContainer {
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake))
                                                             .whenHeld(new SpinForward(m_wing)); 
     new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim()).withInterrupt(this::getAimButton))
-                                                            .whenHeld(new RunCommand(()-> m_rack.aim()).withInterrupt(this::getAimButton))
-                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower))
-                                                            .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
+                                                            // .whenHeld(new RunCommand(()-> m_rack.aim()).withInterrupt(this::getAimButton))
+                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower));
+                                                            // .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
   }
   public boolean getAimButton(){
     return !driverStation.getRawButtonPressed(Button.autoAim);
