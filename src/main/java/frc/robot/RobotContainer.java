@@ -87,11 +87,13 @@ public class RobotContainer {
    */
   private void driverStationMapping(){
     // new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new DistantanceShoot(m_shooter));
-    new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new SpinForward(m_shooter));
-    /**
-     * 之後把convey加到飛輪裡
-     */
-    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new RunCommand(()->m_conveyor.forward()).withInterrupt(this::getConveyButton));
+    new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new SpinForward(m_shooter))
+    // new JoystickButton(driverStation, Button.conveyor)      
+                                                            .whenHeld(new SpinForward(m_wing))
+                                                            .whenHeld(new RunCommand(()->m_conveyor.forward()).withInterrupt(this::getConveyButton))
+                                                            .whenReleased(new InstantCommand(()->m_conveyor.stop(), m_conveyor));
+                                                            
+  
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
@@ -107,7 +109,7 @@ public class RobotContainer {
     return !driverStation.getRawButtonPressed(Button.autoAim);
   }
   public boolean getConveyButton(){
-    return !driverStation.getRawButtonPressed(Button.conveyor);
+    return !driverStation.getRawButtonPressed(Button.flySpin);
   }
   private void teleop(){
     controlDrivetrain.setDefaultCommand(

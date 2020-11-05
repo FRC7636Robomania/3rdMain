@@ -10,9 +10,10 @@ public class Wing extends Spinable{
   private final WPI_VictorSPX middle = new WPI_VictorSPX(PowCon.wingMiddle);
   private String status = "Stop";
   public Wing(){
-    MotorFactory.setFollower(wing,middle);
+    // MotorFactory.setFollower(wing,middle);
     // MotorFactory.setInvert(middle, InvertType.OpposeMaster);
     Shuffleboard.getTab("Statue").addString("Wing", this::getStatus);
+    middle.setInverted(true);
   }
   public String getStatus(){
     return status;
@@ -21,18 +22,21 @@ public class Wing extends Spinable{
   public void forward() {
     status = "Forward";
     wing.set(0.45);
+    middle.set(0.7);
   }
 
   @Override
   public void stop() {
     status = "Stop";
     wing.set(0);
+    middle.set(0);
   }
 
   @Override
   public void reverse() {
     status = "Reverse";
     wing.set(-0.45);
+    middle.set(0.7);
   }
   
   @Override

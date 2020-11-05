@@ -68,10 +68,10 @@ public class Tower extends Spinable{
     if(Math.abs(error) < 0.15){
       error = 0;
     }
-    if((error > 0 && tower.getSelectedSensorPosition() < forwardL) 
-      || (error < 0 && tower.getSelectedSensorPosition() > reverseL)){
+    // if((error > 0 && tower.getSelectedSensorPosition() < forwardL) 
+    //   || (error < 0 && tower.getSelectedSensorPosition() > reverseL)){
       tower.set(ControlMode.PercentOutput, 0.08 * error);
-    }
+    // }
     
     isZero();
   }

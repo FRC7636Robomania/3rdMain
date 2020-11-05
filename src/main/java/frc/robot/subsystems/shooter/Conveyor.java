@@ -14,18 +14,19 @@ public class Conveyor extends Spinable{
   public Conveyor(Shooter shooter) {
     this.shooter = shooter;
     Shuffleboard.getTab("Statue").addString("Conveyor", this::getStatus);
+    conveyor.setInverted(true);
 
   }
 
   public void forceSpin(){
-    conveyor.set(ControlMode.PercentOutput, -0.7);
+    conveyor.set(ControlMode.PercentOutput, -0.85);
     status = "forceSpin";  
   }
   
   @Override
   public void forward() {
-    if(shooter.getflywheelspeed() >= PowCon.flywheelVelocity * 0.8){
-      conveyor.set(ControlMode.PercentOutput, 0.7);
+    if(shooter.getflywheelspeed() >= 12500 * 0.8){
+      conveyor.set(ControlMode.PercentOutput, 0.85);
       status = "Forward";
     }else{
       status = "flywheelTooSlowly!!";
@@ -42,7 +43,7 @@ public class Conveyor extends Spinable{
   @Override
   public void reverse() {
     if(shooter.getflywheelspeed() >= PowCon.flywheelVelocity * 0.8){
-      conveyor.set(ControlMode.PercentOutput, -0.7);
+      conveyor.set(ControlMode.PercentOutput, -0.85);
       status = "ConveyorReverse";
     }else{
       status = "flywheelTooSlowly!!";
@@ -55,6 +56,7 @@ public class Conveyor extends Spinable{
   }
 
   @Override
+
   public String getStatus() {
     return status;
   }
