@@ -68,7 +68,7 @@ public class RobotContainer {
     teleop();
     modeSelector();
      
-    // camServe();
+    camServe();
   }
   /**
    * Mapping joystick & command here.
@@ -89,7 +89,8 @@ public class RobotContainer {
     /**
      * 之後把convey加到飛輪裡
      */
-    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new RunCommand(()->m_conveyor.forward()).withInterrupt(this::getConveyButton));
+    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new SpinForward(m_conveyor));
+     // new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new RunCommand(()->m_conveyor.forward()).withInterrupt(this::getConveyButton));
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
