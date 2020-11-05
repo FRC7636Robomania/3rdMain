@@ -37,8 +37,7 @@ public class Wing extends Spinable{
     status = "Reverse";
     wing.set(-0.45);
     middle.set(0.7);
-  }
-  
+  }  
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
