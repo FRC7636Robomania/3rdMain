@@ -18,8 +18,8 @@ public class ControlDrivetrain extends DrivetrainBase {
    
   }
   public void drive(double speed, double turn){
-      leftMas.set(ControlMode.PercentOutput,speed+turn);
-      rightMas.set(ControlMode.PercentOutput,speed-turn);
+      leftMas.set(ControlMode.PercentOutput,(speed+turn)*0.5);
+      rightMas.set(ControlMode.PercentOutput,(speed-turn)*0.5);
       SmartDashboard.putNumber("speed",speed);
       SmartDashboard.putNumber("turn",turn);
   }

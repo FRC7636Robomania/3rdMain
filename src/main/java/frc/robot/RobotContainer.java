@@ -115,9 +115,9 @@ public class RobotContainer {
   private void camServe(){
     frontCamera = CameraServer.getInstance().startAutomaticCapture();
     behindCamera = CameraServer.getInstance().startAutomaticCapture();
-    frontCamera.setResolution(640, 480);
+    frontCamera.setResolution(-640, -480);
     frontCamera.setFPS(8);
-    behindCamera.setResolution(640, 480);
+    behindCamera.setResolution(-640, -480);
     behindCamera.setFPS(8);
   }
 
