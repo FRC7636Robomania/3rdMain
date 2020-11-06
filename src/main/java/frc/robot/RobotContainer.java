@@ -55,6 +55,8 @@ public class RobotContainer {
   private final ControlDrivetrain    controlDrivetrain            = new ControlDrivetrain();
   private final TrajectoryDrivetrain trajectoryDrivetrain         = new TrajectoryDrivetrain();
   private final SendableChooser<Command>    chooser               = new SendableChooser<Command>();
+  private final Hanging                 hang                      = new Hanging();
+
   private UsbCamera frontCamera, behindCamera;
   // private CvSink front;
   // private CvSource source;
@@ -84,12 +86,13 @@ public class RobotContainer {
     new JoystickButton(joystick, Button.armOut)        .whenHeld(new ArmOut(m_arm));
     new JoystickButton(joystick, Button.armIn)         .whenHeld(new ArmIn(m_arm));
     new JoystickButton(joystick, Button.towerZero)     .whenHeld(new InstantCommand(()->m_tower.zero()));
-    new JoystickButton(joystick, Button.rackZero)      .whenHeld(new InstantCommand(()->m_rack.zero()));
+    new JoystickButton(joystick, Button.rackZero)      .whenHeld(new RunCommand(()->m_rack.forward(), m_rack).withInterrupt(m_rack::getLimit).withTimeout(1));
     new JoystickButton(joystick, Button.tempShoot)     .whenHeld(new SpinForward(m_shooter));
-    new JoystickButton(joystick, Button.zeroRack)      .whenHeld(new RunCommand(()->m_rack.forward(), m_rack).withInterrupt(m_rack::getLimit).withTimeout(1));
     new JoystickButton(joystick, Button.intake_opp)    .whenHeld(new SpinReverse(m_intake))
                                                        .whenHeld(new SpinReverse(m_wing))
                                                        .whenHeld(new SpinReverse(m_conveyor));
+    new JoystickButton(joystick, Button.hanging_out)   .whenHeld(new SpinForward(hang));
+    new JoystickButton(joystick, Button.hanging_in)    .whenHeld(new SpinReverse(hang));                                          
     }
   /**
    * Mapping driver station & command here

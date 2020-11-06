@@ -67,14 +67,14 @@ public final class Constants {
      * Some costants about powercell 
      */
     public static class PowCon{
-        public static final int flywheel = 17;
+        public static final int flywheel  = 17;
         public static final int flywheel2 = 15;
 
         public static final int conveyor = 1;
 
         public static final int aimer = 8;
 
-        public static final int wingRight = 3;
+        public static final int wingRight  = 3;
         public static final int wingMiddle = 2;
 
         public static final double flywheel_kP = 0.07; 
@@ -114,8 +114,8 @@ public final class Constants {
         public static final int conveyor    = 2;
         public static final int turretleft  = 3;
         public static final int turretright = 4;
-        public static final int rackdown      = 5;
-        public static final int rackup   = 6;
+        public static final int rackdown    = 5;
+        public static final int rackup      = 6;
         public static final int intake      = 7;
         public static final int autoAim     = 8;
 
@@ -127,6 +127,8 @@ public final class Constants {
         public static final int rackZero    = 6;
         public static final int tempShoot   = 7;
         public static final int zeroRack    = 8;
-        public static final int intake_opp = 9;
+        public static final int intake_opp  = 9;
+        public static final int hanging_out = 10;
+        public static final int hanging_in  = 11;
     }
 }
