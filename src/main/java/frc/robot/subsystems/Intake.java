@@ -8,13 +8,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.subsystems.shooter.Spinable;
 
 public class Intake extends Spinable{
-    private final WPI_TalonSRX intake = new WPI_TalonSRX(10);
+    private final WPI_VictorSPX intake = new WPI_VictorSPX(5);
     private String status = "Stop";
     public Intake(){
         intake.configFactoryDefault();
@@ -23,7 +23,7 @@ public class Intake extends Spinable{
     }
     @Override
     public void forward() {
-        intake.set(ControlMode.PercentOutput, 0.95);
+        intake.set(ControlMode.PercentOutput, 0.9);
         status = "Forward";
     }
 
@@ -36,7 +36,7 @@ public class Intake extends Spinable{
 
     @Override
     public void reverse() {
-        intake.set(ControlMode.PercentOutput, -0.95);
+        intake.set(ControlMode.PercentOutput, -0.9);
         status = "Reverse";
     }
 

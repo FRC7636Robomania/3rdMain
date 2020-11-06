@@ -22,12 +22,14 @@ public class  Shooter extends Spinable{
     MotorFactory.configPF(flywheelS, PowCon.flywheel_kP, PowCon.flywheel_kF, 0);
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
     flywheelS.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
+    flywheel.config_kD(0, PowCon.flywheel_kD);
 
     flywheel.configClosedloopRamp(0.5, 10);
     flywheelS.configClosedloopRamp(0.5, 10);
-    flywheel.setInverted(true);
-    flywheelS.follow(flywheel);
-    flywheelS.setInverted(InvertType.OpposeMaster);
+    flywheel.setInverted(false);
+    // flywheelS.follow(flywheel);
+    // flywheelS.setInverted(InvertType.OpposeMaster);
+    flywheelS.setInverted(true);
     Shuffleboard.getTab("Statue").addString("Shooter", this::getStatus);
 
     
@@ -38,7 +40,7 @@ public class  Shooter extends Spinable{
   }
 
   public double getflywheelspeed(){
-    return (flywheel.getSelectedSensorVelocity() + flywheelS.getSelectedSensorVelocity()) / 2;
+    return flywheel.getSelectedSensorVelocity();
   }
 
   public double getSetValue(){
@@ -52,12 +54,16 @@ public class  Shooter extends Spinable{
   public void velocity(double velocity){
     setVel = velocity;
     flywheel.set(ControlMode.Velocity, velocity);
+    
   }
   
   @Override
   public void forward() {
     setVel = PowCon.flywheelVelocity;
     flywheel.set(ControlMode.Velocity, setVel);
+    flywheelS.set(ControlMode.Velocity, setVel);
+    // flywheel.set(ControlMode.PercentOutput,0.8);
+    // flywheelS.set(ControlMode.PercentOutput, 0.8);
     status = "Foward";
   }
 
@@ -65,6 +71,10 @@ public class  Shooter extends Spinable{
   public void stop() {
     setVel = 0;
     flywheel.set(ControlMode.Velocity, setVel);
+    flywheelS.set(ControlMode.Velocity, setVel);
+    // flywheel.set(ControlMode.PercentOutput,0);
+    // flywheelS.set(ControlMode.PercentOutput, 0.);
+
     status = "Stop";
 
   }

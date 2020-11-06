@@ -20,6 +20,7 @@ public final class Constants {
      * Vision constants
      */
     public static class Vision{
+        public static final String limelightName = "limelight-unicorn";
         public static final double targetHigh = 206;
         public static final double limelightHigh = 58;
         public static final double limelightAngle = 36;
@@ -75,14 +76,15 @@ public final class Constants {
         public static final int wingRight = 3;
         public static final int wingMiddle = 2;
 
-        public static final double flywheel_kP = 0.; 
-        public static final double flywheel_kF = 1*1023/7200;
+        public static final double flywheel_kP = 0.07; 
+        public static final double flywheel_kD = 0.000;
+        public static final double flywheel_kF = 0.0505;//0.0565;
 
         public static final int tower = 52;
 
         public static final int rack = 25;
 
-        public static final int flywheelVelocity = 15000;
+        public static final int flywheelVelocity = 13500;
 
     }
     /**
@@ -90,8 +92,8 @@ public final class Constants {
      */
     public static class Pne{
         public static final int Solenoid = 0;
-        public static final int ArmDS_1 = 1;
-        public static final int ArmDS_2 = 2;
+        public static final int ArmDS_1 = 6;
+        public static final int ArmDS_2 = 7;
     }
     /**
      * DriverStation;s button and Joystick's button mapping
@@ -111,8 +113,8 @@ public final class Constants {
         public static final int conveyor    = 2;
         public static final int turretleft  = 3;
         public static final int turretright = 4;
-        public static final int rackup      = 5;
-        public static final int rackdoewn   = 6;
+        public static final int rackdown      = 5;
+        public static final int rackup   = 6;
         public static final int intake      = 7;
         public static final int autoAim     = 8;
 
@@ -123,5 +125,6 @@ public final class Constants {
         public static final int towerZero   = 5;
         public static final int rackZero    = 6;
         public static final int tempShoot   = 7;
+        public static final int zeroRack    = 8;
     }
 }

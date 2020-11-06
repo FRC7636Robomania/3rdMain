@@ -9,7 +9,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.Shoot.SpinForward;
 import frc.robot.subsystems.shooter.Conveyor;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.Wing;
@@ -20,10 +20,10 @@ public class Shooting extends ParallelCommandGroup {
    */
   public Shooting(Shooter shooter, double velocity, Conveyor conveyor, Wing wing) {
     super(
-      new VelocityShoot(shooter, velocity).withTimeout(3),
-      new StartEndCommand(()->wing.forward(), ()->wing.stop(), wing).withTimeout(3.3),
-      new WaitCommand(0.5),
-      new StartEndCommand(()->conveyor.forceSpin(), ()->conveyor.stop(), conveyor).withTimeout(3)
+      new VelocityShoot(shooter, velocity).withTimeout(4.5),
+      new StartEndCommand(()->wing.forward(), ()->wing.stop(), wing).withTimeout(4.5),
+      // new WaitCommand(0.5),
+      new SpinForward(conveyor).withTimeout(5)
     );
   }
 }
