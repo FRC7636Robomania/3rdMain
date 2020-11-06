@@ -28,8 +28,8 @@ public class Rack extends Spinable{
         rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
         rack.configClearPositionOnLimitF(false,10);
 
-        Shuffleboard.getTab("Statue").addString("Rack", this::getStatus);
-        Shuffleboard.getTab("Statue").addNumber("RackPosition", this::getPosition);
+        Shuffleboard.getTab("PoistionCombine").addString("Rack", this::getStatus);
+        Shuffleboard.getTab("PoistionCombine").addNumber("RackPosition", this::getPosition);
 
     }
     public void zero(){

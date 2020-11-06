@@ -22,7 +22,7 @@ public class Limelight {
     public static double temp_ty;
     static {
         Shuffleboard.getTab("Limelight").addNumber("LimelightDistance", Limelight::getDistance);
-        Shuffleboard.getTab("Limelight").addNumber("LimelightX", Limelight::getTx);
+        Shuffleboard.getTab("PoistionCombine").addNumber("LimelightX", Limelight::getTx);
         Shuffleboard.getTab("Limelight").addNumber("LimelightY", Limelight::getTy);
         Shuffleboard.getTab("Limelight").addNumber("LimelightArea", Limelight::getTa);
     }
