@@ -84,12 +84,14 @@ public class Tower extends Spinable{
     if(Math.abs(error) < 0.15 || Limelight.getTa() < 0){
       error = 0;
     }
-    SmartDashboard.putNumber("output", -0.007 * error);
-    System.out.println("output" + -0.007 * error);
+    if(error > 10){
+      tower.set(ControlMode.PercentOutput, -0.007 * error);
+    }else{
+      tower.set(ControlMode.PercentOutput, -0.02 * error);
+    }
+    SmartDashboard.putNumber("output", -0.01 * error);
     
-    // if((error > 0 && tower.getSelectedSensorPosition() < forwardL) 
-    //   || (error < 0 && tower.getSelectedSensorPosition() > reverseL)){
-    tower.set(ControlMode.PercentOutput, -0.01 * error);
+    // if((error > 0 && (tower.getSelectedSensorPosition() > forwardL && tower.getSelectedSensorPosition() < reverseL))){
     // }
     isZero();
   }

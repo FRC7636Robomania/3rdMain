@@ -20,7 +20,7 @@ public class AutoAim extends SequentialCommandGroup {
    */
   public AutoAim(Tower tower) {
     super(
-      new RunCommand(() -> tower.aim(), tower).withTimeout(0.3)
+      new RunCommand(() -> tower.aim(), tower).withTimeout(0.9)
     );
   }
 }

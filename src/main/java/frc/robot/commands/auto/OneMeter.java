@@ -7,7 +7,9 @@
 
 package frc.robot.commands.auto;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.Intake;
@@ -32,18 +34,23 @@ public class OneMeter extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(       
-    // new RunCommand(()->rack.forward(), rack).withTimeout(0.8),   
-    // new RunCommand(()->tower.aim(), tower).withTimeout(0.3),
-    // new Shooting(shooter, 15000, conveyor, wing),
-    new InstantCommand(()-> TrajectoryFactory.getTrajectory(Trajectory.OneMeter)),
-    new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-    new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base)
-          // .andThen(()->drivetrain.setOutput(0, 0))
+      new RunCommand(()->rack.forward(), rack).withTimeout(0.8),
+
+      new RunCommand(()->rack.aim(-9090), rack).withTimeout(1.0),
+
+      new RunCommand(() -> tower.aim(), tower).withTimeout(1.0)
+
+      // new Shooting(shooter, 13500, conveyor, wing),
+      // new InstantCommand(()-> TrajectoryFactory.getTrajectory(Trajectory.OneMeter)),
+      // new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
+      // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base)
+      //       .andThen(()->drivetrain.setOutput(0, 0))
     // new ArmOut(arm).withTimeout(0.5).andThen(()->intake.forward()),
     // new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
     // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base)
     //       .andThen(()->drivetrain.setOutput(0, 0))
     //       .andThen(()->intake.stop()),
+
     // new Shooting(shooter, 17000, conveyor, wing)
     //差瞄準拉
     

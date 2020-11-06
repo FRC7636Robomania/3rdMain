@@ -23,7 +23,7 @@ public class Intake extends Spinable{
     }
     @Override
     public void forward() {
-        intake.set(ControlMode.PercentOutput, 0.95);
+        intake.set(ControlMode.PercentOutput, 0.9);
         status = "Forward";
     }
 
@@ -36,7 +36,7 @@ public class Intake extends Spinable{
 
     @Override
     public void reverse() {
-        intake.set(ControlMode.PercentOutput, -0.95);
+        intake.set(ControlMode.PercentOutput, -0.9);
         status = "Reverse";
     }
 

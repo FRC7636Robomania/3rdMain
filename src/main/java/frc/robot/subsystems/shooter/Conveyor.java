@@ -19,19 +19,19 @@ public class Conveyor extends Spinable{
   }
 
   public void forceSpin(){
-    conveyor.set(ControlMode.PercentOutput, -0.85);
+    conveyor.set(ControlMode.PercentOutput, 0.8);
     status = "forceSpin";  
   }
   
   @Override
   public void forward() {
-    // if(shooter.getflywheelspeed() >= 12500 * 0.8){
+    if(shooter.getflywheelspeed() >= 12500 * 0.8){
       conveyor.set(ControlMode.PercentOutput, 0.85);
       status = "Forward";
-    // }else{
-    //   status = "flywheelTooSlowly!!";
-    //   conveyor.set(ControlMode.PercentOutput, 0 );
-    // }
+    }else{
+      status = "flywheelTooSlowly!!";
+      conveyor.set(ControlMode.PercentOutput, 0 );
+    }
   }
 
   @Override

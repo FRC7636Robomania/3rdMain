@@ -9,8 +9,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.motor.MotorFactory;
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.Constants.PowCon;
-import com.ctre.phoenix.motorcontrol.LimitSwitchSource;
-import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 
 public class Rack extends Spinable{
     private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
@@ -36,6 +34,11 @@ public class Rack extends Spinable{
     }
     public void zero(){
         rack.setSelectedSensorPosition(0);
+    }
+    public void aim(int position){
+        double error = position - rack.getSelectedSensorPosition();
+        rack.set(ControlMode.PercentOutput, 0.0002 * error);
+        SmartDashboard.putNumber("rackError", error);
     }
     public void aim(){
         double unit = Rack.aim(Limelight.getDistance());

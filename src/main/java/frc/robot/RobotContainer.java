@@ -101,7 +101,7 @@ public class RobotContainer {
     new JoystickButton(driverStation, Button.rackdown)     .whenHeld(new SpinReverse(m_rack));  
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake))
                                                             .whenHeld(new SpinForward(m_wing)); 
-    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim(), m_tower).withInterrupt(this::getAimButton))
+    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim(), m_tower))//.withInterrupt(this::getAimButton))
                                                             // .whenHeld(new RunCommand(()-> m_rack.aim()).withInterrupt(this::getAimButton))
                                                             .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower));
                                                             // .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
