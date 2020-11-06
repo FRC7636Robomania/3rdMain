@@ -20,7 +20,7 @@ public class Wing extends Spinable{
   @Override
   public void forward() {
     status = "Forward";
-    wing.set(-0.3);
+    wing.set(0.7);
   }
 
   @Override
@@ -32,7 +32,7 @@ public class Wing extends Spinable{
   @Override
   public void reverse() {
     status = "Reverse";
-    wing.set(0.3);
+    wing.set(-0.7);
   }
   
   @Override

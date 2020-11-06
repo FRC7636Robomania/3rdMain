@@ -46,7 +46,7 @@ public class RobotContainer {
   private final ControlDrivetrain    controlDrivetrain            = new ControlDrivetrain();
   private final TrajectoryDrivetrain trajectoryDrivetrain         = new TrajectoryDrivetrain();
   private final SendableChooser<Command>    chooser               = new SendableChooser<Command>();
-  private UsbCamera frontCamera, behindCamera;
+  private UsbCamera frontCamera ,behindCamera;
   public RobotContainer() {
     configureButtonBindings();
   }
@@ -56,7 +56,7 @@ public class RobotContainer {
     driverStationMapping();
     teleop();
     modeSelector();
-    // camServe();
+    CamServe();
   }
   /**
    * Mapping joystick & command here.
@@ -112,7 +112,7 @@ public class RobotContainer {
     Shuffleboard.getTab("Auto").add(chooser);
   }
 
-  private void camServe(){
+  private void CamServe(){
     frontCamera = CameraServer.getInstance().startAutomaticCapture();
     behindCamera = CameraServer.getInstance().startAutomaticCapture();
     frontCamera.setResolution(640, 480);

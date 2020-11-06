@@ -8,13 +8,13 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.subsystems.shooter.Spinable;
 
 public class Intake extends Spinable{
-    private final WPI_TalonSRX intake = new WPI_TalonSRX(10);
+    private final VictorSPX intake = new VictorSPX(5);
     private String status = "Stop";
     public Intake(){
         intake.configFactoryDefault();

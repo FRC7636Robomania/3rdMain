@@ -76,7 +76,7 @@ public final class Constants {
         public static final int wingMiddle = 2;
 
         public static final double flywheel_kP = 0.2; 
-        public static final double flywheel_kF = 1*1023/7200
+        public static final double flywheel_kF = 1*1023/7200;
 
         public static final int tower = 52;
 
@@ -90,8 +90,8 @@ public final class Constants {
      */
     public static class Pne{
         public static final int Solenoid = 0;
-        public static final int ArmDS_1 = 1;
-        public static final int ArmDS_2 = 2;
+        public static final int ArmDS_1 = 6;
+        public static final int ArmDS_2 = 7;
     }
     /**
      * DriverStation;s button and Joystick's button mapping
