@@ -55,7 +55,7 @@ public class RobotContainer {
   private final SendableChooser<Command>    chooser               = new SendableChooser<Command>();
   private final Hanging                 hang                      = new Hanging();
 
-  private UsbCamera frontCamera, behindCamera;
+  private UsbCamera frontCamera;//, behindCamera;
   // private CvSink front;
   // private CvSource source;
   NetworkTableEntry drive;
@@ -144,11 +144,11 @@ public class RobotContainer {
 
   private void CamServe(){
     frontCamera = CameraServer.getInstance().startAutomaticCapture();
-    behindCamera = CameraServer.getInstance().startAutomaticCapture();
+    // behindCamera = CameraServer.getInstance().startAutomaticCapture();
     frontCamera.setResolution(320, 240);
     frontCamera.setFPS(3);
-    behindCamera.setResolution(320, 240);
-    behindCamera.setFPS(3);
+    // behindCamera.setResolution(320, 240);
+    // behindCamera.setFPS(3);
     // front = CameraServer.getInstance().getVideo(frontCamera);
   }
 

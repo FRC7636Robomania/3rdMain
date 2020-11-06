@@ -49,10 +49,7 @@ public class LeftUp extends SequentialCommandGroup {
             .andThen(()->intake.stop())
             .andThen(()->wing.stop()),
       new AutoAim(rack, tower),
-      new Shooting(shooter, 13500, conveyor, wing)
-
-      //差瞄準拉
-      
+      new Shooting(shooter, 13500, conveyor, wing)      
       );
   }
 }
