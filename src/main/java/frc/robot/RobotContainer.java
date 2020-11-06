@@ -9,6 +9,8 @@ package frc.robot;
 
 import java.util.Map;
 
+import javax.annotation.meta.When;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -28,8 +30,9 @@ import frc.robot.commands.auto.*;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.chassis.ControlDrivetrain;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryDrivetrain;
-import frc.robot.subsystems.pneumatic.Arm;
+import frc.robot.subsystems.pneumatic.*;
 import frc.robot.subsystems.shooter.*;
+import frc.robot.subsystems.vision.Limelight;
 
 
 /**
@@ -46,6 +49,7 @@ public class RobotContainer {
   private final Intake            m_intake                        = new Intake();
   private final Wing              m_wing                          = new Wing();
   private final Rack              m_rack                          = new Rack();
+  private final Pneumatic         m_Pneumatic                     = new Pneumatic();
   private final Joystick          joystick                        = new Joystick(0);
   private final Joystick          driverStation                   = new Joystick(1);
   private final ControlDrivetrain    controlDrivetrain            = new ControlDrivetrain();
@@ -71,6 +75,7 @@ public class RobotContainer {
     teleop();
     modeSelector();
     CamServe();
+    Pneumatic();
   }
   /**
    * Mapping joystick & command here.
@@ -82,6 +87,9 @@ public class RobotContainer {
     new JoystickButton(joystick, Button.rackZero)      .whenHeld(new InstantCommand(()->m_rack.zero()));
     new JoystickButton(joystick, Button.tempShoot)     .whenHeld(new SpinForward(m_shooter));
     new JoystickButton(joystick, Button.zeroRack)      .whenHeld(new RunCommand(()->m_rack.forward(), m_rack).withInterrupt(m_rack::getLimit).withTimeout(1));
+    new JoystickButton(joystick, Button.intake_opp)    .whenHeld(new SpinReverse(m_intake))
+                                                       .whenHeld(new SpinReverse(m_wing))
+                                                       .whenHeld(new SpinReverse(m_conveyor));
     }
   /**
    * Mapping driver station & command here
@@ -98,13 +106,13 @@ public class RobotContainer {
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
-    new JoystickButton(driverStation, Button.rackdown)     .whenHeld(new SpinReverse(m_rack));  
+    new JoystickButton(driverStation, Button.rackdown)      .whenHeld(new SpinReverse(m_rack));  
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake))
                                                             .whenHeld(new SpinForward(m_wing)); 
     new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim(), m_tower))//.withInterrupt(this::getAimButton))
-                                                            // .whenHeld(new RunCommand(()-> m_rack.aim()).withInterrupt(this::getAimButton))
-                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower));
-                                                            // .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
+                                                            .whenHeld(new RunCommand(()-> m_rack.aim(Rack.unit(Limelight.getDistance()))).withInterrupt(this::getAimButton))
+                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower))
+                                                            .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
   }
 
   public boolean getAimButton(){
@@ -126,8 +134,9 @@ public class RobotContainer {
   private void modeSelector(){
     // chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     // chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
-    chooser.setDefaultOption("One Meter", new OneMeter(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
-    
+    chooser.setDefaultOption("LeftUp Base", new OneMeter(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
+    chooser.addOption("LeftUp Sock", new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
+    chooser.addOption("Middle", new Middle(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     Shuffleboard.getTab("Auto").add(chooser);
   }
 
@@ -139,6 +148,10 @@ public class RobotContainer {
     behindCamera.setResolution(320, 240);
     behindCamera.setFPS(3);
     // front = CameraServer.getInstance().getVideo(frontCamera);
+  }
+
+  private void Pneumatic(){
+    m_Pneumatic.Pneumatic_ON();
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

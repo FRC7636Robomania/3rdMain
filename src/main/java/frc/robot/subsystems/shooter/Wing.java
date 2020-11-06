@@ -36,7 +36,7 @@ public class Wing extends Spinable{
   public void reverse() {
     status = "Reverse";
     wing.set(-0.45);
-    middle.set(0.65);
+    middle.set(-0.65);
   }  
   @Override
   public void periodic() {

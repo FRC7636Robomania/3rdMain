@@ -18,7 +18,7 @@ public class Tower extends Spinable{
   private DigitalInput dot = new DigitalInput(1);
   private String status = "Stop";
   private NetworkTableEntry useLimit;
-  private static final int forwardL = -3000, reverseL = 3000;
+  private static final int forwardL = -2900, reverseL = 2900;
   public Tower() {
     // tower.configFactoryDefault();
     MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Absolute);
