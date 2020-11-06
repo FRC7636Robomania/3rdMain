@@ -23,8 +23,8 @@ public class Tower extends Spinable{
     // tower.configFactoryDefault();
     MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Absolute);
     tower.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
-    Shuffleboard.getTab("Statue").addString("Tower", this::getStatus);
-    Shuffleboard.getTab("Statue").addNumber("TowerPosition", this::getPosition);
+    Shuffleboard.getTab("PoistionCombine").addString("Tower", this::getStatus);
+    Shuffleboard.getTab("PoistionCombine").addNumber("TowerPosition", this::getPosition);
     useLimit = Shuffleboard.getTab("Adjusting")
     .add("Tower Limit", 1)
     .withWidget(BuiltInWidgets.kNumberSlider)
