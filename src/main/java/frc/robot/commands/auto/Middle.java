@@ -34,10 +34,10 @@ public class Middle extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(
-      new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.middle)),
-      new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.middle), drivetrain, base)
-        .andThen(()->drivetrain.setOutput(0, 0)),
+      // new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.middle)),
+      // new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
+      // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.middle), drivetrain, base)
+      //   .andThen(()->drivetrain.setOutput(0, 0)),
 
       new RunCommand(()->rack.forward(), rack).withTimeout(0.8),
 
