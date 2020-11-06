@@ -27,9 +27,9 @@ public class  Shooter extends Spinable{
     flywheel.configClosedloopRamp(0.5, 10);
     flywheelS.configClosedloopRamp(0.5, 10);
     flywheel.setInverted(false);
-    // flywheelS.follow(flywheel);
-    // flywheelS.setInverted(InvertType.OpposeMaster);
-    flywheelS.setInverted(true);
+    flywheelS.follow(flywheel);
+    flywheelS.setInverted(InvertType.OpposeMaster);
+    // flywheelS.setInverted(true);
     Shuffleboard.getTab("Statue").addString("Shooter", this::getStatus);
 
     
@@ -56,12 +56,15 @@ public class  Shooter extends Spinable{
     flywheel.set(ControlMode.Velocity, velocity);
     
   }
+  public void percentOutput(double value){
+
+  }
   
   @Override
   public void forward() {
     setVel = PowCon.flywheelVelocity;
     flywheel.set(ControlMode.Velocity, setVel);
-    flywheelS.set(ControlMode.Velocity, setVel);
+    // flywheelS.set(ControlMode.Velocity, setVel);
     // flywheel.set(ControlMode.PercentOutput,0.8);
     // flywheelS.set(ControlMode.PercentOutput, 0.8);
     status = "Foward";
@@ -71,7 +74,7 @@ public class  Shooter extends Spinable{
   public void stop() {
     setVel = 0;
     flywheel.set(ControlMode.Velocity, setVel);
-    flywheelS.set(ControlMode.Velocity, setVel);
+    // flywheelS.set(ControlMode.Velocity, setVel);
     // flywheel.set(ControlMode.PercentOutput,0);
     // flywheelS.set(ControlMode.PercentOutput, 0.);
 
