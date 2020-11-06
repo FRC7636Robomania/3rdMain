@@ -9,8 +9,6 @@ package frc.robot;
 
 import java.util.Map;
 
-import javax.annotation.meta.When;
-
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -130,7 +128,7 @@ public class RobotContainer {
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
         ()->controlDrivetrain
-                .curvatureDrive(joystick.getY() * drive.getDouble(0.5), joystick.getZ() * -drive.getDouble(0.4) * 0.8 , joystick.getTrigger()), 
+                .curvatureDrive(joystick.getY() * drive.getDouble(0.5), joystick.getZ() * -drive.getDouble(0.5) * 0.8 , joystick.getTrigger()), 
           controlDrivetrain)
       );
   }

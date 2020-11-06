@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.AutoAim;
 import frc.robot.commands.arm.ArmIn;
-import frc.robot.commands.arm.ArmOut;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.chassis.DrivetrainBase;
 import frc.robot.subsystems.chassis.trajectory.TrajectoryFactory;
