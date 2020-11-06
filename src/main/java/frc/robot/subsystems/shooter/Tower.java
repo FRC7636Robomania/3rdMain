@@ -16,12 +16,12 @@ public class Tower extends Spinable{
   private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true,
       40, 50, 1);
   private TalonSRX tower = new TalonSRX(PowCon.tower);
-  private DigitalInput dot = new DigitalInput(0);
+  private DigitalInput dot = new DigitalInput(1);
   private String status = "Stop";
   private NetworkTableEntry useLimit;
   private static final int forwardL = -2900, reverseL = 2000;
   public Tower() {
-    tower.configFactoryDefault();
+    // tower.configFactoryDefault();
     MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Absolute);
     tower.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
     Shuffleboard.getTab("Statue").addString("Tower", this::getStatus);
@@ -29,7 +29,6 @@ public class Tower extends Spinable{
     useLimit = Shuffleboard.getTab("Adjusting")
     .add("Tower Limit", 1)
     .withWidget(BuiltInWidgets.kNumberSlider)
-    .withProperties(Map.of("min", -1, "max", 1)) // specify widget properties here
     .getEntry();
   }
   private void isZero(){
@@ -82,19 +81,26 @@ public class Tower extends Spinable{
 
   public void aim(){
     double error = Limelight.getTx();
-    SmartDashboard.putNumber("error", error);
-    if(Math.abs(error) < 0.15){
+    // SmartDashboard.putNumber("error", error);
+    if(Math.abs(error) < 0.2){
       error = 0;
     }
+    SmartDashboard.putNumber("output", 0.03 * error);
+    System.out.println("output" + 0.03 * error);
+    
     // if((error > 0 && tower.getSelectedSensorPosition() < forwardL) 
     //   || (error < 0 && tower.getSelectedSensorPosition() > reverseL)){
-      tower.set(ControlMode.PercentOutput, 0.08 * error);
+    // tower.set(ControlMode.PercentOutput, 0.08 * error);
     // }
-    
     isZero();
   }
   @Override
   public void periodic() {
+    if(!dot.get()){
+      tower.setSelectedSensorPosition(0, 0, 10);
+    }
+    SmartDashboard.putBoolean("TowerLimit", dot.get());
+    SmartDashboard.putNumber("Tower Position", tower.getSelectedSensorPosition());
   }
 
   @Override

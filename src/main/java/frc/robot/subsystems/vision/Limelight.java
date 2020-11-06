@@ -10,12 +10,13 @@ package frc.robot.subsystems.vision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import frc.robot.Constants;
 import frc.robot.Constants.*;
 /**
  * Add your docs here.
  */
 public class Limelight {
-    private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-sexyboy");
+    private static NetworkTable table = NetworkTableInstance.getDefault().getTable(Constants.Vision.limelightName);
     
     public static double temp_tx;
     public static double temp_ty;
@@ -29,7 +30,7 @@ public class Limelight {
     public static double getTx() {
         if(getTa() > 0){
             temp_tx = table.getEntry("tx").getDouble(0.0);
-            return table.getEntry("tx").getDouble(0.0);
+            return temp_tx; 
         }
         else
             return temp_tx;
@@ -38,7 +39,7 @@ public class Limelight {
     public static double getTy() {
         if(getTa() > 0){
             temp_ty = table.getEntry("ty").getDouble(0.0);
-            return table.getEntry("ty").getDouble(0.0);
+            return temp_ty;
         }
         else
             return temp_ty;

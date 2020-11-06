@@ -9,13 +9,17 @@ package frc.robot;
 
 import java.util.Map;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
+import edu.wpi.cscore.VideoMode;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -51,6 +55,8 @@ public class RobotContainer {
   private final TrajectoryDrivetrain trajectoryDrivetrain         = new TrajectoryDrivetrain();
   private final SendableChooser<Command>    chooser               = new SendableChooser<Command>();
   private UsbCamera frontCamera, behindCamera;
+  // private CvSink front;
+  // private CvSource source;
   NetworkTableEntry drive;
   public RobotContainer() {
     configureButtonBindings();
@@ -67,9 +73,8 @@ public class RobotContainer {
     driverStationMapping();
     teleop();
     modeSelector();
-    new RunCommand(()->m_rack.forward(), m_rack).withInterrupt(m_rack::getLimit);
-     
-    // camServe();
+    // new RunCommand(()->m_rack.forward(), m_rack).withInterrupt(m_rack::getLimit);
+    camServe();
   }
   /**
    * Mapping joystick & command here.
@@ -100,12 +105,14 @@ public class RobotContainer {
     new JoystickButton(driverStation, Button.rackdoewn)     .whenHeld(new SpinReverse(m_rack));  
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake))
                                                             .whenHeld(new SpinForward(m_wing)); 
-    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim()).withInterrupt(this::getAimButton))
+    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim(), m_tower).withInterrupt(this::getAimButton))
                                                             // .whenHeld(new RunCommand(()-> m_rack.aim()).withInterrupt(this::getAimButton))
                                                             .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower));
                                                             // .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
   }
+
   public boolean getAimButton(){
+    System.out.println("aimButton" + !driverStation.getRawButton(Button.autoAim));
     return !driverStation.getRawButtonPressed(Button.autoAim);
   }
   public boolean getConveyButton(){
@@ -115,14 +122,14 @@ public class RobotContainer {
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
         ()->controlDrivetrain
-                .curvatureDrive(joystick.getY() * drive.getDouble(0.5), joystick.getZ() * -drive.getDouble(0.4) * 0.7 , joystick.getTrigger()), 
+                .curvatureDrive(joystick.getY() * drive.getDouble(0.5), joystick.getZ() * -drive.getDouble(0.4) * 0.8 , joystick.getTrigger()), 
           controlDrivetrain)
       );
   }
 
   private void modeSelector(){
-    chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
-    chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
+    // chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
+    // chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
     chooser.setDefaultOption("One Meter", new OneMeter(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing));
     
     Shuffleboard.getTab("Auto").add(chooser);
@@ -131,10 +138,11 @@ public class RobotContainer {
   private void camServe(){
     frontCamera = CameraServer.getInstance().startAutomaticCapture();
     behindCamera = CameraServer.getInstance().startAutomaticCapture();
-    frontCamera.setResolution(640, 480);
-    frontCamera.setFPS(5);
-    behindCamera.setResolution(640, 480);
-    behindCamera.setFPS(5);
+    frontCamera.setResolution(320, 240);
+    frontCamera.setFPS(3);
+    behindCamera.setResolution(320, 240);
+    behindCamera.setFPS(3);
+    // front = CameraServer.getInstance().getVideo(frontCamera);
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

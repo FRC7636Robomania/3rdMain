@@ -20,6 +20,7 @@ public final class Constants {
      * Vision constants
      */
     public static class Vision{
+        public static final String limelightName = "limelight-unicorn";
         public static final double targetHigh = 206;
         public static final double limelightHigh = 58;
         public static final double limelightAngle = 36;

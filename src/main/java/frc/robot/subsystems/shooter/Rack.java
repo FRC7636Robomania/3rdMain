@@ -17,7 +17,7 @@ public class Rack extends Spinable{
     private String status = "Stop";
     // private double position = 0;
     public Rack(){
-        rack.configFactoryDefault();
+        // rack.configFactoryDefault();
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Absolute);
         MotorFactory.configPF(rack, 0.01, 0.1, 0);
 
@@ -27,8 +27,8 @@ public class Rack extends Spinable{
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
         // use which limitswitch pin, use which port connect to encoder
-        rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-        rack.configClearPositionOnLimitF(true, 10);
+        // rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        // rack.configClearPositionOnLimitF(true, 10);
 
         Shuffleboard.getTab("Statue").addString("Rack", this::getStatus);
         Shuffleboard.getTab("Statue").addNumber("RackPosition", this::getPosition);
@@ -76,6 +76,8 @@ public class Rack extends Spinable{
         // position = rack.getSelectedSensorPosition();
         SmartDashboard.putNumber("unit", Rack.aim(Limelight.getDistance()));
         SmartDashboard.putBoolean("limit", rack.getSensorCollection().isFwdLimitSwitchClosed());
+        SmartDashboard.putNumber("Rack Position", rack.getSelectedSensorPosition());
+        SmartDashboard.putString("rackStatue", status);
         // aim();
     }
 

@@ -54,7 +54,8 @@ public class DrivetrainBase extends SubsystemBase {
 
     MotorFactory.configPF(leftMas,  Chassis.p, Chassis.f, 0);
     MotorFactory.configPF(rightMas, Chassis.p, Chassis.f, 0);
-    
+    leftFol.setControlFramePeriod(10, 10);
+    rightFol.setControlFramePeriod(10, 10);
     
     ahrs.reset();
   }

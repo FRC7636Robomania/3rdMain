@@ -32,17 +32,17 @@ public class OneMeter extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     super(       
     //差瞄準拉
-    new Shooting(shooter, 12000, conveyor, wing),
+    new Shooting(shooter, 15000, conveyor, wing),
     new InstantCommand(()-> TrajectoryFactory.getTrajectory(Trajectory.OneMeter)),
     new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-    new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base),
-          // .andThen(()->drivetrain.setOutput(0, 0))
-    new ArmOut(arm).withTimeout(0.5).andThen(()->intake.forward()),
-    new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
     new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base)
-          .andThen(()->drivetrain.setOutput(0, 0))
-          .andThen(()->intake.stop()),
-    new Shooting(shooter, 17000, conveyor, wing)
+          // .andThen(()->drivetrain.setOutput(0, 0))
+    // new ArmOut(arm).withTimeout(0.5).andThen(()->intake.forward()),
+    // new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
+    // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Trajectory.OneMeter), drivetrain, base)
+    //       .andThen(()->drivetrain.setOutput(0, 0))
+    //       .andThen(()->intake.stop()),
+    // new Shooting(shooter, 17000, conveyor, wing)
     //差瞄準拉
     
 
