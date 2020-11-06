@@ -63,7 +63,7 @@ public class RobotContainer {
   NetworkTableEntry drive;
   public RobotContainer() {
     configureButtonBindings();
-    drive = Shuffleboard.getTab("Adjusting")
+    drive = Shuffleboard.getTab("PositionCombine")
     .add("Chassic Speed", 1)
     .withWidget(BuiltInWidgets.kNumberSlider)
     .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
@@ -141,7 +141,7 @@ public class RobotContainer {
     chooser.setDefaultOption("LeftUp Base", new OneMeter(-8240, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     chooser.addOption("LeftUp Sock", new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     chooser.addOption("Middle", new OneMeter(-10157, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
-    Shuffleboard.getTab("Auto").add(chooser);
+    Shuffleboard.getTab("PositionCombine").add(chooser);
   }
 
   private void CamServe(){
