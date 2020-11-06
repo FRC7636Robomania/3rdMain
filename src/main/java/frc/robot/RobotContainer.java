@@ -110,8 +110,8 @@ public class RobotContainer {
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake))
                                                             .whenHeld(new SpinForward(m_wing)); 
     new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim(), m_tower))//.withInterrupt(this::getAimButton))
-                                                            .whenHeld(new RunCommand(()-> m_rack.aim(Rack.unit(Limelight.getDistance()))).withInterrupt(this::getAimButton))
                                                             .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower))
+                                                            .whenPressed(new RunCommand(()-> m_rack.aim(Rack.unit(Limelight.getDistance()))).withTimeout(1.0))
                                                             .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
   }
 
@@ -134,9 +134,9 @@ public class RobotContainer {
   private void modeSelector(){
     // chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     // chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
-    chooser.setDefaultOption("LeftUp Base", new OneMeter(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
+    chooser.setDefaultOption("LeftUp Base", new OneMeter(-8240, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     chooser.addOption("LeftUp Sock", new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
-    chooser.addOption("Middle", new Middle(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
+    chooser.addOption("Middle", new OneMeter(-10157, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     Shuffleboard.getTab("Auto").add(chooser);
   }
 

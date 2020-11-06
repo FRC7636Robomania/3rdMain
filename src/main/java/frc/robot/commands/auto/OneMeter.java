@@ -30,13 +30,13 @@ public class OneMeter extends SequentialCommandGroup {
   /**
    * Creates a new OneMeter.
    */
-  public OneMeter(TrajectorySystem drivetrain, DrivetrainBase base, Intake intake, Conveyor conveyor, Shooter shooter, Arm arm, Wing wing, Rack rack, Tower tower) {
+  public OneMeter(double rackPosition, TrajectorySystem drivetrain, DrivetrainBase base, Intake intake, Conveyor conveyor, Shooter shooter, Arm arm, Wing wing, Rack rack, Tower tower) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(       
       new RunCommand(()->rack.forward(), rack).withTimeout(0.8),
 
-      new RunCommand(()->rack.aim(-9090), rack).withTimeout(1.0),
+      new RunCommand(()->rack.aim(rackPosition), rack).withTimeout(1.0),
 
       new RunCommand(() -> tower.aim(), tower).withTimeout(1.0),
 
