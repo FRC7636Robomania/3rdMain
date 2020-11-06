@@ -36,6 +36,7 @@ public final class Constants {
         public static final String two      = "output/TwoBall.wpilib.json";
         public static final String OneMeter = "output/OneMeter.wpilib.json";
         public static final String upSock   = "output/UpSock.wpilib.json";
+        public static final String middle   = "output/Middle.wpilib.json";
     }
     /**
      * Chassis's PID, recommend not used.
@@ -126,5 +127,6 @@ public final class Constants {
         public static final int rackZero    = 6;
         public static final int tempShoot   = 7;
         public static final int zeroRack    = 8;
+        public static final int intake_opp = 9;
     }
 }

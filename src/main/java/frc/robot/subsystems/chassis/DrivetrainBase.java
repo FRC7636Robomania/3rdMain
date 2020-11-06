@@ -58,6 +58,7 @@ public class DrivetrainBase extends SubsystemBase {
     leftFol.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 255);
     rightFol.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 255);
     
+    
     ahrs.reset();
   }
 

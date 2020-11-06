@@ -25,6 +25,9 @@ public class ControlDrivetrain extends DrivetrainBase {
   }
   public void curvatureDrive(double xSpeed, double zRotation, boolean isQuickTurn) {
     xSpeed = MathUtil.clamp(xSpeed, -1.0, 1.0);
+    if(xSpeed < 0.05 & xSpeed > -0.05){
+      xSpeed = 0;
+    }//簡易死區設定
     if(Math.abs(zRotation)<0.05){
       zRotation =0;
      }else{

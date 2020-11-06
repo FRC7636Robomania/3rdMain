@@ -8,9 +8,11 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants;
 import frc.robot.commands.AutoAim;
+import frc.robot.commands.arm.ArmIn;
 import frc.robot.commands.arm.ArmOut;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.chassis.DrivetrainBase;
@@ -30,19 +32,24 @@ public class LeftUp extends SequentialCommandGroup {
 
     super(
       new AutoAim(rack, tower),
-      new Shooting(shooter, 12000, conveyor, wing),
-      new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.three)),
-      new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.three), drivetrain, base),
+      new RunCommand(()->rack.forward(), rack).withTimeout(0.8),
+
+      new RunCommand(()->rack.aim(-9090), rack).withTimeout(1.0),
+
+      new RunCommand(() -> tower.aim(), tower).withTimeout(1.0),
+      new Shooting(shooter, 13500, conveyor, wing),
+      // new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.three)),
+      // new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
+      // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.three), drivetrain, base),
             // .andThen(()->drivetrain.setOutput(0, 0))
-      new ArmOut(arm).withTimeout(0.3).andThen(()->intake.forward()).andThen(()->wing.forward()),
+      new ArmIn(arm).withTimeout(1).andThen(()->intake.forward()).andThen(()->wing.forward())
       
-      new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.upSock), drivetrain, base)
-            .andThen(()->drivetrain.setOutput(0, 0))
-            .andThen(()->intake.stop())
-            .andThen(()->wing.stop()),
-      new Shooting(shooter, 17000, conveyor, wing)
+      // new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
+      // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.upSock), drivetrain, base)
+      //       .andThen(()->drivetrain.setOutput(0, 0))
+      //       .andThen(()->intake.stop())
+      //       .andThen(()->wing.stop()),
+      // new Shooting(shooter, 17000, conveyor, wing)
 
       //差瞄準拉
       

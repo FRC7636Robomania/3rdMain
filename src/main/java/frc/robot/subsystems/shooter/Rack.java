@@ -26,7 +26,7 @@ public class Rack extends Spinable{
         MotorFactory.setSensorPhase(rack, false);
         // use which limitswitch pin, use which port connect to encoder
         rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-        // rack.configClearPositionOnLimitF(false, 10);
+        rack.configClearPositionOnLimitF(false,10);
 
         Shuffleboard.getTab("Statue").addString("Rack", this::getStatus);
         Shuffleboard.getTab("Statue").addNumber("RackPosition", this::getPosition);
@@ -35,15 +35,15 @@ public class Rack extends Spinable{
     public void zero(){
         rack.setSelectedSensorPosition(0);
     }
-    public void aim(int position){
+    public void aim(double position){
         double error = position - rack.getSelectedSensorPosition();
         rack.set(ControlMode.PercentOutput, 0.0002 * error);
         SmartDashboard.putNumber("rackError", error);
     }
     public void aim(){
-        double unit = Rack.aim(Limelight.getDistance());
+        double unit = Rack.unit(Limelight.getDistance());
         double err = unit - rack.getSelectedSensorPosition();
-        rack.set(ControlMode.PercentOutput, -0.0001 * err);
+        rack.set(ControlMode.PercentOutput, 0.0002 * err);
     }
     public void isZero(){
         if(!rack.getSensorCollection().isFwdLimitSwitchClosed()){
@@ -52,7 +52,7 @@ public class Rack extends Spinable{
     }
     @Override
     public void forward() {
-        rack.set(ControlMode.PercentOutput, 0.4);
+        rack.set(ControlMode.PercentOutput, 0.2);
         status = "Foward";
         isZero();
     }
@@ -65,7 +65,7 @@ public class Rack extends Spinable{
 
     @Override
     public void reverse() {
-        rack.set(ControlMode.PercentOutput, -0.4);
+        rack.set(ControlMode.PercentOutput, -0.2);
         status ="Reverse";
         isZero();   
     }
@@ -90,33 +90,31 @@ public class Rack extends Spinable{
         // aim();
     }
 
-    public static double aim(double Dist){
+    public static double unit(double Dist){
         double unit;
-        if (Dist>600){
-            unit= 11200+100*(Dist-600)/50;
-        }else if(Dist>500){
-            unit=11000+200*(Dist-500)/50;
+        if(Dist>500){
+            unit= -10150 - 275 * (Dist - 500) / 50;
         }
         else if(Dist>450){
-            unit =8600-1100*(Dist-450)/50;
+            unit = -9875 + 1345 * (Dist - 450) / 50;
         }
         else if(Dist>400){
-            unit=8450+150*(Dist-400)/50;
+            unit= -11220 + 1345 * (Dist - 400) / 50;
         }
         else if(Dist>350){
-            unit =8000+450*(Dist-350)/50;
+            unit =-10090 - 1130 * (Dist - 350) / 50;
         }
         else if(Dist>300){
-            unit = 8050-50*(Dist-300)/50;
+            unit = -9045 - 1045 *(Dist-300)/50;
         }
         else if(Dist>250){
-            unit = 7300+750*(Dist-250)/50;
+            unit = -8890 - 155 * (Dist - 250) / 50;
         }
         else if(Dist>200){
-            unit = 6100+1200*(Dist-200)/50;
+            unit = -7790 - 900 * (Dist - 200) / 50;
         }
         else if(Dist>150){
-            unit = 5200+900*(Dist-150)/50;
+            unit = -6601 - 1189 / 50 * (Dist - 150);
         }
         else if(Dist>100){
             unit=941+4260*(Dist-100)/50;
