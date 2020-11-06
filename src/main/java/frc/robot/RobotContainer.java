@@ -7,11 +7,16 @@
 
 package frc.robot;
 
+import java.util.Map;
+
 import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -46,9 +51,18 @@ public class RobotContainer {
   private final ControlDrivetrain    controlDrivetrain            = new ControlDrivetrain();
   private final TrajectoryDrivetrain trajectoryDrivetrain         = new TrajectoryDrivetrain();
   private final SendableChooser<Command>    chooser               = new SendableChooser<Command>();
-  private UsbCamera frontCamera ,behindCamera;
+  private UsbCamera frontCamera, behindCamera;
+  // private CvSink front;
+  // private CvSource source;
+  NetworkTableEntry drive;
   public RobotContainer() {
     configureButtonBindings();
+    drive = Shuffleboard.getTab("Adjusting")
+    .add("Chassic Speed", 1)
+    .withWidget(BuiltInWidgets.kNumberSlider)
+    .withProperties(Map.of("min", 0, "max", 1)) // specify widget properties here
+    .getEntry();
+
   }
  
   private void configureButtonBindings() {
@@ -67,47 +81,52 @@ public class RobotContainer {
     new JoystickButton(joystick, Button.towerZero)     .whenHeld(new InstantCommand(()->m_tower.zero()));
     new JoystickButton(joystick, Button.rackZero)      .whenHeld(new InstantCommand(()->m_rack.zero()));
     new JoystickButton(joystick, Button.tempShoot)     .whenHeld(new SpinForward(m_shooter));
-  }
+    new JoystickButton(joystick, Button.zeroRack)      .whenHeld(new RunCommand(()->m_rack.forward(), m_rack).withInterrupt(m_rack::getLimit).withTimeout(1));
+    }
   /**
    * Mapping driver station & command here
    */
   private void driverStationMapping(){
     // new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new DistantanceShoot(m_shooter));
     new JoystickButton(driverStation, Button.flySpin)       .whenHeld(new SpinForward(m_shooter));
-    /**
-     * 之後把convey加到飛輪裡
-     */
-    new JoystickButton(driverStation, Button.conveyor)      .whenHeld(new RunCommand(()->m_conveyor.forward()).withInterrupt(this::getConveyButton));
+    new JoystickButton(driverStation, Button.conveyor)      
+                                                            .whenHeld(new SpinForward(m_wing))
+                                                            .whenHeld(new RunCommand(()->m_conveyor.forward()))//.withInterrupt(this::getConveyButton))
+                                                            .whenReleased(new InstantCommand(()->m_conveyor.stop(), m_conveyor));
+                                                            
+  
     new JoystickButton(driverStation, Button.turretleft)    .whenHeld(new SpinForward(m_tower));    
     new JoystickButton(driverStation, Button.turretright)   .whenHeld(new SpinReverse(m_tower));  
     new JoystickButton(driverStation, Button.rackup)        .whenHeld(new SpinForward(m_rack));
-    new JoystickButton(driverStation, Button.rackdoewn)     .whenHeld(new SpinReverse(m_rack));  
+    new JoystickButton(driverStation, Button.rackdown)     .whenHeld(new SpinReverse(m_rack));  
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake))
                                                             .whenHeld(new SpinForward(m_wing)); 
-    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim()).withInterrupt(this::getAimButton))
-                                                            .whenHeld(new RunCommand(()-> m_rack.aim()).withInterrupt(this::getAimButton))
-                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower))
-                                                            .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
+    new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim(), m_tower).withInterrupt(this::getAimButton))
+                                                            // .whenHeld(new RunCommand(()-> m_rack.aim()).withInterrupt(this::getAimButton))
+                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower));
+                                                            // .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
   }
+
   public boolean getAimButton(){
-    return !driverStation.getRawButtonPressed(Button.autoAim);
+    SmartDashboard.putBoolean("aimButton", driverStation.getRawButton(Button.autoAim));
+    return driverStation.getRawButtonReleased(Button.autoAim);
   }
   public boolean getConveyButton(){
-    return !driverStation.getRawButtonPressed(Button.conveyor);
+    return !driverStation.getRawButtonPressed(Button.flySpin);
   }
   private void teleop(){
     controlDrivetrain.setDefaultCommand(
       new RunCommand(
         ()->controlDrivetrain
-                .curvatureDrive(joystick.getY() * 0.5, joystick.getZ() * -0.5 , joystick.getTrigger()), 
+                .curvatureDrive(joystick.getY() * drive.getDouble(0.5), joystick.getZ() * -drive.getDouble(0.4) * 0.8 , joystick.getTrigger()), 
           controlDrivetrain)
       );
   }
 
   private void modeSelector(){
-    chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
-    chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
-    chooser.setDefaultOption("One Meter", new OneMeter(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing));
+    // chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
+    // chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
+    chooser.setDefaultOption("One Meter", new OneMeter(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     
     Shuffleboard.getTab("Auto").add(chooser);
   }
@@ -115,12 +134,12 @@ public class RobotContainer {
   private void CamServe(){
     frontCamera = CameraServer.getInstance().startAutomaticCapture();
     behindCamera = CameraServer.getInstance().startAutomaticCapture();
-    frontCamera.setResolution(640, 480);
-    frontCamera.setFPS(8);
-    behindCamera.setResolution(640, 480);
-    behindCamera.setFPS(8);
+    frontCamera.setResolution(320, 240);
+    frontCamera.setFPS(3);
+    behindCamera.setResolution(320, 240);
+    behindCamera.setFPS(3);
+    // front = CameraServer.getInstance().getVideo(frontCamera);
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

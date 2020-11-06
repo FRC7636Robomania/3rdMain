@@ -15,16 +15,21 @@ import com.ctre.phoenix.motorcontrol.LimitSwitchNormal;
 public class Rack extends Spinable{
     private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
     private String status = "Stop";
-    private double position = 0;
+    // private double position = 0;
     public Rack(){
+        rack.configFactoryDefault();
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Absolute);
         MotorFactory.configPF(rack, 0.01, 0.1, 0);
+
         rack.configMotionAcceleration(1600, 10);
         rack.configMotionCruiseVelocity(1500,10);
+
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
-        rack.configReverseLimitSwitchSource(LimitSwitchSource.RemoteTalonSRX, LimitSwitchNormal.NormallyClosed);
-        rack.configClearPositionOnLimitR(true, 10);
+        // use which limitswitch pin, use which port connect to encoder
+        rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        // rack.configClearPositionOnLimitF(false, 10);
+
         Shuffleboard.getTab("Statue").addString("Rack", this::getStatus);
         Shuffleboard.getTab("Statue").addNumber("RackPosition", this::getPosition);
 
@@ -37,15 +42,16 @@ public class Rack extends Spinable{
         double err = unit - rack.getSelectedSensorPosition();
         rack.set(ControlMode.PercentOutput, -0.0001 * err);
     }
+    public void isZero(){
+        if(!rack.getSensorCollection().isFwdLimitSwitchClosed()){
+            zero();
+        }
+    }
     @Override
     public void forward() {
-        if(!rack.getSensorCollection().isRevLimitSwitchClosed()){
-            // zero();
-            stop();
-        }else{
-            rack.set(ControlMode.PercentOutput, 0.2);
-            status = "Foward";
-        }
+        rack.set(ControlMode.PercentOutput, 0.4);
+        status = "Foward";
+        isZero();
     }
 
     @Override
@@ -56,25 +62,28 @@ public class Rack extends Spinable{
 
     @Override
     public void reverse() {
-        if(!rack.getSensorCollection().isRevLimitSwitchClosed()){
-            // zero();
-            stop();
-        }else{
-            rack.set(ControlMode.PercentOutput, -0.2);
-            status ="Reverse";
-        }
+        rack.set(ControlMode.PercentOutput, -0.4);
+        status ="Reverse";
+        isZero();   
     }
     @Override
     public String getStatus() {
         return status;
     }
     public double getPosition(){
-        return position;
+        return rack.getSelectedSensorPosition();
+    }
+    public boolean getLimit(){
+        // normorlly return false
+        return !rack.getSensorCollection().isFwdLimitSwitchClosed();
     }
     @Override
     public void periodic() {
-        position = rack.getSelectedSensorPosition();
-        SmartDashboard.putNumber("unit", Rack.aim(Limelight.getDistance()));
+        // position = rack.getSelectedSensorPosition();
+        // SmartDashboard.putNumber("unit", Rack.aim(Limelight.getDistance()));
+        SmartDashboard.putBoolean("limit", rack.getSensorCollection().isFwdLimitSwitchClosed());
+        SmartDashboard.putNumber("Rack Position", rack.getSelectedSensorPosition());
+        SmartDashboard.putString("rackStatue", status);
         // aim();
     }
 
@@ -114,7 +123,4 @@ public class Rack extends Spinable{
         }
         return unit;
     }
-
-   
-
 }

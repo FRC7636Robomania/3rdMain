@@ -25,7 +25,7 @@ public class  Shooter extends Spinable{
 
     flywheel.configClosedloopRamp(0.5, 10);
     flywheelS.configClosedloopRamp(0.5, 10);
-    flywheel.setInverted(true);
+    flywheel.setInverted(false);
     flywheelS.follow(flywheel);
     flywheelS.setInverted(InvertType.OpposeMaster);
     Shuffleboard.getTab("Statue").addString("Shooter", this::getStatus);

@@ -8,6 +8,7 @@
 package frc.robot.subsystems.chassis;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
@@ -54,7 +55,8 @@ public class DrivetrainBase extends SubsystemBase {
 
     MotorFactory.configPF(leftMas,  Chassis.p, Chassis.f, 0);
     MotorFactory.configPF(rightMas, Chassis.p, Chassis.f, 0);
-    
+    leftFol.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 255);
+    rightFol.setStatusFramePeriod(StatusFrameEnhanced.Status_1_General, 255);
     
     ahrs.reset();
   }
