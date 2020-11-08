@@ -22,8 +22,8 @@ public class AutoAim extends SequentialCommandGroup {
    */
   public AutoAim(Tower tower, Rack rack) {
     super(
-      new RunCommand(() -> tower.aim(), tower).withTimeout(0.9),
-      new RunCommand(() -> rack.aim(Rack.unit(Limelight.getDistance()))).withTimeout(0.9)
+      new RunCommand(() -> tower.aim(), tower).withTimeout(0.9)
+      // new RunCommand(() -> rack.aim(Rack.unit(Limelight.getDistance()))).withTimeout(0.9)
     );
   }
 }

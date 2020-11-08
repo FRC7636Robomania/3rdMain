@@ -12,7 +12,7 @@ public class Pneumatic extends SubsystemBase {
   }
 
   public void Pneumatic_ON(){
-    c.setClosedLoopControl(false);
+    c.setClosedLoopControl(true);
   }
   
   @Override

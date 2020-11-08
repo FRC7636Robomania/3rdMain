@@ -25,8 +25,8 @@ public class Rack extends Spinable{
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
         // use which limitswitch pin, use which port connect to encoder
-        rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-        rack.configClearPositionOnLimitF(false,10);
+        // rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        // rack.configClearPositionOnLimitF(false,10);
 
         Shuffleboard.getTab("PositionCombine").addString("Rack", this::getStatus);
         Shuffleboard.getTab("PositionCombine").addNumber("RackPosition", this::getPosition);
@@ -46,9 +46,9 @@ public class Rack extends Spinable{
         rack.set(ControlMode.PercentOutput, 0.0002 * err);
     }
     public void isZero(){
-        if(!rack.getSensorCollection().isFwdLimitSwitchClosed()){
-            zero();
-        }
+        // if(!rack.getSensorCollection().isFwdLimitSwitchClosed()){
+        //     zero();
+        // }
     }
     @Override
     public void forward() {

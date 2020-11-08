@@ -18,7 +18,7 @@ public class Tower extends Spinable{
   private DigitalInput dot = new DigitalInput(1);
   private String status = "Stop";
   private NetworkTableEntry useLimit;
-  private static final int forwardL = -2900, reverseL = 2900;
+  // private static final int forwardL = -2900, reverseL = 2900;
   public Tower() {
     // tower.configFactoryDefault();
     MotorFactory.setSensor(tower, FeedbackDevice.CTRE_MagEncoder_Absolute);
@@ -31,11 +31,11 @@ public class Tower extends Spinable{
     .getEntry();
   }
   private void isZero(){
-    if(useLimit.getDouble(-1) > 0){
-      if(!dot.get() && Math.abs(getPosition()) < 1000){
-        tower.setSelectedSensorPosition(0);
-      }
-    }
+      // if(useLimit.getDouble(-1) > 0){
+      //   if(!dot.get() && Math.abs(getPosition()) < 1000){
+      //     tower.setSelectedSensorPosition(0);
+      //   }
+      // }
   }
   private double getPosition(){
     return tower.getSelectedSensorPosition();
@@ -56,18 +56,18 @@ public class Tower extends Spinable{
   @Override
   public void forward() {
     status = "Foward";
-    if(tower.getSelectedSensorPosition() < forwardL)
-      tower.set(ControlMode.PercentOutput, 0);
-    else 
+    // if(tower.getSelectedSensorPosition() < forwardL)
+    //   tower.set(ControlMode.PercentOutput, 0);
+    // else 
       tower.set(ControlMode.PercentOutput, 0.1);
     isZero();
   }
   @Override
   public void reverse() {
     status = "Reverse";
-    if(tower.getSelectedSensorPosition() > reverseL)
-      tower.set(ControlMode.PercentOutput, 0);
-    else 
+    // if(tower.getSelectedSensorPosition() > reverseL)
+    //   tower.set(ControlMode.PercentOutput, 0);
+    // else 
       tower.set(ControlMode.PercentOutput, -0.1);
     isZero();
   }

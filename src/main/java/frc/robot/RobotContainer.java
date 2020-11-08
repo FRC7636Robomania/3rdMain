@@ -54,6 +54,7 @@ public class RobotContainer {
   private final TrajectoryDrivetrain trajectoryDrivetrain         = new TrajectoryDrivetrain();
   private final SendableChooser<Command>    chooser               = new SendableChooser<Command>();
   private final Hanging                 hang                      = new Hanging();
+  private final Fol  fol = new Fol();
 
   private UsbCamera frontCamera;//, behindCamera;
   // private CvSink front;
@@ -74,7 +75,7 @@ public class RobotContainer {
     driverStationMapping();
     teleop();
     modeSelector();
-    CamServe();
+    // CamServe();
     Pneumatic();
   }
   /**
@@ -90,8 +91,10 @@ public class RobotContainer {
     new JoystickButton(joystick, Button.intake_opp)    .whenHeld(new SpinReverse(m_intake))
                                                        .whenHeld(new SpinReverse(m_wing))
                                                        .whenHeld(new SpinReverse(m_conveyor));
-    new JoystickButton(joystick, Button.hanging_out)   .whenHeld(new SpinForward(hang));
-    new JoystickButton(joystick, Button.hanging_in)    .whenHeld(new SpinReverse(hang));                                          
+    new JoystickButton(joystick, 12)   .whenHeld(new SpinForward(hang));
+    new JoystickButton(joystick, Button.hanging_in)    .whenHeld(new SpinReverse(hang));   
+    new JoystickButton(joystick, 8).whenHeld(new SpinForward(fol));
+    new JoystickButton(joystick, 10)   .whenHeld(new SpinReverse(fol));                         
     }
   /**
    * Mapping driver station & command here
@@ -112,9 +115,10 @@ public class RobotContainer {
     new JoystickButton(driverStation, Button.intake)        .whenHeld(new SpinForward(m_intake))
                                                             .whenHeld(new SpinForward(m_wing)); 
     new JoystickButton(driverStation, Button.autoAim)       .whenHeld(new RunCommand(()->m_tower.aim(), m_tower))//.withInterrupt(this::getAimButton))
-                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower))
-                                                            .whenPressed(new RunCommand(()-> m_rack.aim(Rack.unit(Limelight.getDistance()))).withTimeout(1.0))
-                                                            .whenReleased(new InstantCommand(()->m_rack.stop(), m_rack));
+                                                            .whenReleased(new InstantCommand(()->m_tower.stop(), m_tower));
+                                                            // .whenPressed(new RunCommand(()-> m_rack.aim(Rack.unit(Limelight.getDistance()))).withTimeout(1.0))
+                                                            // .whenReleased(new InstantCommand(()->m_rack.stop(),
+                                                            //  m_rack));
   }
 
   public boolean getAimButton(){
@@ -136,9 +140,10 @@ public class RobotContainer {
   private void modeSelector(){
     // chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     // chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
-    chooser.setDefaultOption("LeftUp Base", new OneMeter(-8240, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
-    chooser.addOption("LeftUp Sock", new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
-    chooser.addOption("Middle", new OneMeter(-10157, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
+    // chooser.setDefaultOption("LeftUp Base", new OneMeter(-8240, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
+    chooser.addOption("OnlyShoot", new Shooting(m_shooter, 13500, m_conveyor, m_wing));
+    chooser.addOption("Null", null);
+    chooser.addOption("OneMeter", new OneMeter(-10157, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     Shuffleboard.getTab("PositionCombine").add(chooser);
   }
 

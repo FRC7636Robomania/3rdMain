@@ -33,13 +33,13 @@ public class OneMeter extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     super(       
-      new RunCommand(()->rack.forward(), rack).withTimeout(0.8),
+      // new RunCommand(()->rack.forward(), rack).withTimeout(0.8),
 
-      new RunCommand(()->rack.aim(rackPosition), rack).withTimeout(1.0),
+      // new RunCommand(()->rack.aim(rackPosition), rack).withTimeout(1.0),
 
-      new RunCommand(() -> tower.aim(), tower).withTimeout(1.0),
-
-      new Shooting(shooter, 13500, conveyor, wing),
+      // new RunCommand(() -> tower.aim(), tower).withTimeout(1.0),
+      // new AutoAim(tower, rack),
+      // new Shooting(shooter, 13500, conveyor, wing),
 
       new InstantCommand(()-> TrajectoryFactory.getTrajectory(Trajectory.OneMeter)),
       new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
