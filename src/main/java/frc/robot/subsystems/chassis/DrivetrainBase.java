@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.motor.MotorFactory;
@@ -72,7 +73,7 @@ public class DrivetrainBase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    
+    SmartDashboard.putNumber("left", leftMas.getSelectedSensorPosition());
     // This method will be called once per scheduler run
   }
 }
