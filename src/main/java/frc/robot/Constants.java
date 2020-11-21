@@ -85,7 +85,7 @@ public final class Constants {
 
         public static final int rack = 25;
 
-        public static final int flywheelVelocity = 13500;
+        public static final int flywheelVelocity = 11000;
 
     }
     /**

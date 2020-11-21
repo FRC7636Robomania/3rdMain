@@ -7,23 +7,18 @@
 
 package frc.robot.subsystems.pneumatic;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.shooter.Spinable;
 
-public class Hanging extends Spinable {
-  WPI_TalonSRX master = new WPI_TalonSRX(36);
-//   WPI_VictorSPX slaver = new WPI_VictorSPX(4);
+public class Fol extends Spinable {
+  WPI_VictorSPX slaver = new WPI_VictorSPX(4);
   /**
-   * Creates a new Hanging.
+   * Creates a new Fol.
    */
-  public Hanging() {
-    // slaver.follow(master);
-    // slaver.setInverted(InvertType.FollowMaster);
+  public Fol() {
+
   }
 
   @Override
@@ -33,29 +28,22 @@ public class Hanging extends Spinable {
 
   @Override
   public void forward() {
-    master.set(ControlMode.PercentOutput,0.8);  
-    SmartDashboard.putString("Hang", "Foward");  
+    slaver.set(0.8);
   }
 
   @Override
   public void stop() {
-    master.set(ControlMode.PercentOutput,0);
-    SmartDashboard.putString("Hang", "Stop");  
-
-
+    slaver.set(0);
   }
 
   @Override
   public void reverse() {
-    master.set(ControlMode.PercentOutput,-0.8);
-    SmartDashboard.putString("Hang", "Reverse");  
-
-
+    slaver.set(-0.8);
   }
 
   @Override
   public String getStatus() {
-    
+    // TODO Auto-generated method stub
     return null;
   }
 }

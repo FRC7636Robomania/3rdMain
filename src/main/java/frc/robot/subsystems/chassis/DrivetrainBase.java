@@ -9,6 +9,7 @@ package frc.robot.subsystems.chassis;
 
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
+import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI;
@@ -30,7 +31,8 @@ public class DrivetrainBase extends SubsystemBase {
   protected static WPI_TalonFX rightFol = new WPI_TalonFX(Constants.Motor.rightFollower);
   protected static AHRS ahrs = new AHRS(SPI.Port.kMXP);
   private   static boolean isFirst = true; 
-  
+  private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true, 40, 50, 1);
+
   /**
    * Creates a new DrivetrainBase.
    */
@@ -48,7 +50,10 @@ public class DrivetrainBase extends SubsystemBase {
     MotorFactory.setSensor(leftMas, FeedbackDevice.IntegratedSensor);
     MotorFactory.setSensorPhase(leftMas, Motor.isLeftPhaseInvert);
     MotorFactory.configLikePrevious(leftFol, Motor.isLeftPhaseInvert, Motor.isLeftMotorInvert);
+    leftMas.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
+
     MotorFactory.setFollower(rightMas, rightFol);
+    rightMas.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
     MotorFactory.configLikePrevious(rightMas, Motor.isRightPhaseInvert, Motor.isRightMotorInvert);
     MotorFactory.configLikePrevious(rightFol, Motor.isRightPhaseInvert, Motor.isRightMotorInvert);
     MotorFactory.voltageCompSaturation(rightMas, 11);
@@ -73,7 +78,8 @@ public class DrivetrainBase extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("left", leftMas.getSelectedSensorPosition());
+    SmartDashboard.putNumber("left", leftMas.getSelectedSensorVelocity());
+    SmartDashboard.putNumber("right", rightMas.getSelectedSensorVelocity());
     // This method will be called once per scheduler run
   }
 }

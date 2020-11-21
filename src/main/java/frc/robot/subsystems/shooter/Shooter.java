@@ -9,7 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.PowCon;
 
 public class  Shooter extends Spinable{
-  private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true, 40, 50, 1);
+  private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration 
+            = new SupplyCurrentLimitConfiguration(true, 35, 40, 1);
   private TalonFX flywheel = new TalonFX(PowCon.flywheel);
   private TalonFX flywheelS = new TalonFX(PowCon.flywheel2);
   private String status = "Stop";
@@ -17,18 +18,15 @@ public class  Shooter extends Spinable{
 
   public Shooter() {
     MotorFactory.setSensor(flywheel,FeedbackDevice.IntegratedSensor);
-    MotorFactory.setSensor(flywheelS, FeedbackDevice.IntegratedSensor);
     MotorFactory.configPF(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,0);
-    MotorFactory.configPF(flywheelS, PowCon.flywheel_kP, PowCon.flywheel_kF, 0);
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
-    flywheelS.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
     flywheel.config_kD(0, PowCon.flywheel_kD);
 
     flywheel.configClosedloopRamp(0.5, 10);
-    flywheelS.configClosedloopRamp(0.5, 10);
     flywheel.setInverted(false);
     flywheelS.follow(flywheel);
     flywheelS.setInverted(InvertType.OpposeMaster);
+    flywheelS.setStatusFramePeriod(255, 10);
     // flywheelS.setInverted(true);
     Shuffleboard.getTab("Statue").addString("Shooter", this::getStatus);
 

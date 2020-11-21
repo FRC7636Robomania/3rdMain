@@ -15,7 +15,7 @@ public class Conveyor extends Spinable{
     this.shooter = shooter;
     Shuffleboard.getTab("Statue").addString("Conveyor", this::getStatus);
     conveyor.setInverted(true);
-
+    
   }
 
   public void forceSpin(){

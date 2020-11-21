@@ -36,13 +36,13 @@ public class Middle extends SequentialCommandGroup {
       // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.middle), drivetrain, base)
       //   .andThen(()->drivetrain.setOutput(0, 0)),
 
-      new RunCommand(()->rack.forward(), rack).withTimeout(0.8),
+      // new RunCommand(()->rack.forward(), rack).withTimeout(0.8),
 
-      new RunCommand(()->rack.aim(Rack.unit(Limelight.getDistance())), rack).withTimeout(1.0),
+      // new RunCommand(()->rack.aim(Rack.unit(Limelight.getDistance())), rack).withTimeout(1.0),
 
-      new RunCommand(() -> tower.aim(), tower).withTimeout(1.0),
+      // new RunCommand(() -> tower.aim(), tower).withTimeout(1.0),
 
-      new Shooting(shooter, 13500, conveyor, wing)
+      // new Shooting(shooter, 13500, conveyor, wing)
     );
   }
 }

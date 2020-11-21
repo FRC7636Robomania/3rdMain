@@ -20,10 +20,10 @@ public class Shooting extends ParallelCommandGroup {
    */
   public Shooting(Shooter shooter, double velocity, Conveyor conveyor, Wing wing) {
     super(
-      new VelocityShoot(shooter, velocity).withTimeout(4.5),
-      new StartEndCommand(()->wing.forward(), ()->wing.stop(), wing).withTimeout(4.5),
+      new VelocityShoot(shooter, velocity).withTimeout(6),
+      new StartEndCommand(()->wing.forward(), ()->wing.stop(), wing).withTimeout(6),
       // new WaitCommand(0.5),
-      new SpinForward(conveyor).withTimeout(5)
+      new SpinForward(conveyor).withTimeout(6)
     );
   }
 }

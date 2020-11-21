@@ -11,13 +11,19 @@ import frc.robot.subsystems.vision.Limelight;
 import frc.robot.Constants.PowCon;
 
 public class Rack extends Spinable{
+    private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration 
+                    = new SupplyCurrentLimitConfiguration(true, 8, 10, 1);
+
     private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
     private String status = "Stop";
+    private int lastPosition = 0;
     // private double position = 0;
     public Rack(){
+        lastPosition = rack.getSelectedSensorPosition();
         rack.configFactoryDefault();
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Absolute);
         MotorFactory.configPF(rack, 0.01, 0.1, 0);
+        rack.setSelectedSensorPosition(lastPosition);
 
         rack.configMotionAcceleration(1600, 10);
         rack.configMotionCruiseVelocity(1500,10);
@@ -25,12 +31,13 @@ public class Rack extends Spinable{
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
         // use which limitswitch pin, use which port connect to encoder
-        rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-        rack.configClearPositionOnLimitF(false,10);
+        // rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        // rack.configClearPositionOnLimitF(false,10);
+
+        rack.configSupplyCurrentLimit(supplyCurrentLimitConfiguration, 10);
 
         Shuffleboard.getTab("PositionCombine").addString("Rack", this::getStatus);
         Shuffleboard.getTab("PositionCombine").addNumber("RackPosition", this::getPosition);
-
     }
     public void zero(){
         rack.setSelectedSensorPosition(0);
@@ -46,9 +53,9 @@ public class Rack extends Spinable{
         rack.set(ControlMode.PercentOutput, 0.0002 * err);
     }
     public void isZero(){
-        if(!rack.getSensorCollection().isFwdLimitSwitchClosed()){
-            zero();
-        }
+        // if(!rack.getSensorCollection().isFwdLimitSwitchClosed()){
+        //     zero();
+        // }
     }
     @Override
     public void forward() {
