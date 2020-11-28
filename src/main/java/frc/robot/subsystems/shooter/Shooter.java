@@ -29,8 +29,6 @@ public class  Shooter extends Spinable{
     flywheelS.setStatusFramePeriod(255, 10);
     // flywheelS.setInverted(true);
     Shuffleboard.getTab("Statue").addString("Shooter", this::getStatus);
-
-    
   }
   @Override
   public String getStatus(){
