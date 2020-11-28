@@ -2,6 +2,7 @@ package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix.motorcontrol.*;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+
 import frc.robot.motor.MotorFactory;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +28,6 @@ public class  Shooter extends Spinable{
     flywheelS.follow(flywheel);
     flywheelS.setInverted(InvertType.OpposeMaster);
     flywheelS.setStatusFramePeriod(255, 10);
-    // flywheelS.setInverted(true);
     Shuffleboard.getTab("Statue").addString("Shooter", this::getStatus);
   }
   @Override
@@ -60,9 +60,6 @@ public class  Shooter extends Spinable{
   public void forward() {
     setVel = PowCon.flywheelVelocity;
     flywheel.set(ControlMode.Velocity, setVel);
-    // flywheelS.set(ControlMode.Velocity, setVel);
-    // flywheel.set(ControlMode.PercentOutput,0.8);
-    // flywheelS.set(ControlMode.PercentOutput, 0.8);
     status = "Foward";
   }
 
@@ -70,10 +67,6 @@ public class  Shooter extends Spinable{
   public void stop() {
     setVel = 0;
     flywheel.set(ControlMode.Velocity, setVel);
-    // flywheelS.set(ControlMode.Velocity, setVel);
-    // flywheel.set(ControlMode.PercentOutput,0);
-    // flywheelS.set(ControlMode.PercentOutput, 0.);
-
     status = "Stop";
 
   }
