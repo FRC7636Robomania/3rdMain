@@ -13,6 +13,7 @@ public class Wing extends Spinable{
     // MotorFactory.setInvert(middle, InvertType.OpposeMaster);
     Shuffleboard.getTab("Statue").addString("Wing", this::getStatus);
     middle.setInverted(true);
+    wing.setInverted(true);
     
   }
   public String getStatus(){

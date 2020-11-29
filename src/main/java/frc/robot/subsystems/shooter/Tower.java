@@ -18,7 +18,7 @@ public class Tower extends Spinable {
   private DigitalInput dot = new DigitalInput(1);
   private String status = "Stop";
   private NetworkTableEntry useLimit;
-  private static final int forwardL = -2900, reverseL = 2900;
+  private static final int forwardL = 5000, reverseL = -5000;
 
   public Tower() {
     // tower.configFactoryDefault();
@@ -52,21 +52,25 @@ public class Tower extends Spinable {
 
   @Override
   public void forward() {
-    status = "Foward";
-    if(tower.getSelectedSensorPosition() < forwardL)
+    
+    if(tower.getSelectedSensorPosition() > forwardL)
       tower.set(ControlMode.PercentOutput, 0);
-    else
-      tower.set(ControlMode.PercentOutput, 0.1);
+    else{
+      status = "Foward";
+      tower.set(ControlMode.PercentOutput, 0.21);
+    }
     isZero();
   }
 
   @Override
   public void reverse() {
-    status = "Reverse";
-    if(tower.getSelectedSensorPosition() > reverseL)
+    if(tower.getSelectedSensorPosition() < reverseL)
       tower.set(ControlMode.PercentOutput, 0);
-    else
-      tower.set(ControlMode.PercentOutput, -0.1);
+    else{
+      status = "Reverse";
+      tower.set(ControlMode.PercentOutput, -0.21);
+
+    }
     isZero();
   }
 

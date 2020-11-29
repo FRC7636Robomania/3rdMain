@@ -70,18 +70,18 @@ public final class Constants {
         public static final int flywheel  = 17;
         public static final int flywheel2 = 15;
 
-        public static final int conveyor = 1;
+        public static final int conveyor = 6;
 
         public static final int aimer = 8;
 
-        public static final int wingRight  = 3;
+        public static final int wingRight  = 1;
         public static final int wingMiddle = 2;
 
         public static final double flywheel_kP = 0.07; 
         public static final double flywheel_kD = 0.000;
         public static final double flywheel_kF = 0.0505;//0.0565;
 
-        public static final int tower = 52;
+        public static final int tower = 36;
 
         public static final int rack = 25;
 

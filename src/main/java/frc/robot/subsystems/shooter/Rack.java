@@ -31,8 +31,8 @@ public class Rack extends Spinable{
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
         // use which limitswitch pin, use which port connect to encoder
-        // rack.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
-        // rack.configClearPositionOnLimitF(false,10);
+        rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        // rack.configClearPositionOnLimitR(false,10);
 
         rack.configSupplyCurrentLimit(supplyCurrentLimitConfiguration, 10);
 

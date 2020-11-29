@@ -25,7 +25,7 @@ public class Conveyor extends Spinable{
   
   @Override
   public void forward() {
-    if(shooter.getflywheelspeed() >= 12500 * 0.8){
+    if(shooter.getflywheelspeed() >= 11000 * 0.8){
       conveyor.set(ControlMode.PercentOutput, 0.85);
       status = "Forward";
     }else{
