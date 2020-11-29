@@ -157,6 +157,10 @@ public class RobotContainer {
   private void Pneumatic(){
     m_Pneumatic.Pneumatic_ON();
   }
+
+  public void initialRack(){
+    m_rack.initial();
+  }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

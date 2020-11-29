@@ -31,8 +31,8 @@ public class Rack extends Spinable{
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
         // use which limitswitch pin, use which port connect to encoder
-        rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
-        // rack.configClearPositionOnLimitR(false,10);
+        // rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        // rack.configClearPositionOnLimitR(true,10);
 
         rack.configSupplyCurrentLimit(supplyCurrentLimitConfiguration, 10);
 
@@ -56,6 +56,37 @@ public class Rack extends Spinable{
         // if(!rack.getSensorCollection().isFwdLimitSwitchClosed()){
         //     zero();
         // }
+    }
+    public void initial(){
+        double[] history = new double[10];
+        int count = 0;
+        while(true){
+            double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
+            rack.set(ControlMode.PercentOutput, -0.18);
+            history[count] = rack.getSelectedSensorPosition();
+            count++;
+            //超出十個就從最舊的開始覆蓋
+            if(count >= 10){
+                count = 0;
+            }
+            //找出最大最小
+            for(int i = 0; i < history.length; i++){
+                if(history[i] > max)
+                    max = history[i];
+                if(history[i] < min) 
+                    min = history[i];
+            }
+            //判斷是否有改變
+            if((max - min) < 50){
+                break;
+            }
+        }
+        //會出來代表已經到最底，並且限位被按下
+        if(rack.isRevLimitSwitchClosed() == 1){
+            rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
+        }else if(rack.isRevLimitSwitchClosed() == 0){
+            rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        }
     }
     @Override
     public void forward() {
@@ -91,7 +122,8 @@ public class Rack extends Spinable{
     public void periodic() {
         // position = rack.getSelectedSensorPosition();
         // SmartDashboard.putNumber("unit", Rack.aim(Limelight.getDistance()));
-        SmartDashboard.putBoolean("limit", rack.getSensorCollection().isFwdLimitSwitchClosed());
+        //不論常開/常閉設置如何，關閉的傳感器在所有情況下均返回true，而打開的傳感器在所有情況下均返回false。這樣可以確保函數名稱沒有歧義。
+        SmartDashboard.putBoolean("limit", rack.getSensorCollection().isRevLimitSwitchClosed());
         SmartDashboard.putNumber("Rack Position", rack.getSelectedSensorPosition());
         SmartDashboard.putString("rackStatue", status);
         // aim();
