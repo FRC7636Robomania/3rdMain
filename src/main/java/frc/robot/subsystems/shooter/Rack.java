@@ -10,15 +10,16 @@ import frc.robot.motor.MotorFactory;
 import frc.robot.subsystems.vision.Limelight;
 import frc.robot.Constants.PowCon;
 
-public class Rack extends Spinable{
-    private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration 
-                    = new SupplyCurrentLimitConfiguration(true, 8, 10, 1);
+public class Rack extends Spinable {
+    private SupplyCurrentLimitConfiguration supplyCurrentLimitConfiguration = new SupplyCurrentLimitConfiguration(true,
+            8, 10, 1);
 
-    private WPI_TalonSRX rack =new WPI_TalonSRX(PowCon.rack);
+    private WPI_TalonSRX rack = new WPI_TalonSRX(PowCon.rack);
     private String status = "Stop";
     private int lastPosition = 0;
+
     // private double position = 0;
-    public Rack(){
+    public Rack() {
         lastPosition = rack.getSelectedSensorPosition();
         rack.configFactoryDefault();
         MotorFactory.setSensor(rack, FeedbackDevice.CTRE_MagEncoder_Absolute);
@@ -26,12 +27,13 @@ public class Rack extends Spinable{
         rack.setSelectedSensorPosition(lastPosition);
 
         rack.configMotionAcceleration(1600, 10);
-        rack.configMotionCruiseVelocity(1500,10);
+        rack.configMotionCruiseVelocity(1500, 10);
 
         MotorFactory.setInvert(rack, false);
         MotorFactory.setSensorPhase(rack, false);
         // use which limitswitch pin, use which port connect to encoder
-        // rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
+        // rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector,
+        // LimitSwitchNormal.NormallyClosed);
         // rack.configClearPositionOnLimitR(true,10);
 
         rack.configSupplyCurrentLimit(supplyCurrentLimitConfiguration, 10);
@@ -39,52 +41,76 @@ public class Rack extends Spinable{
         Shuffleboard.getTab("PositionCombine").addString("Rack", this::getStatus);
         Shuffleboard.getTab("PositionCombine").addNumber("RackPosition", this::getPosition);
     }
-    public void zero(){
+
+    public void zero() {
         rack.setSelectedSensorPosition(0);
     }
-    public void aim(double position){
+
+    public void aim(double position) {
         double error = position - rack.getSelectedSensorPosition();
         rack.set(ControlMode.PercentOutput, 0.0002 * error);
         SmartDashboard.putNumber("rackError", error);
     }
-    public void aim(){
+
+    public void aim() {
         double unit = Rack.unit(Limelight.getDistance());
         double err = unit - rack.getSelectedSensorPosition();
         rack.set(ControlMode.PercentOutput, 0.0002 * err);
     }
-    public void isZero(){
+
+    public void isZero() {
         // if(!rack.getSensorCollection().isFwdLimitSwitchClosed()){
-        //     zero();
+        // zero();
         // }
     }
-    public void initial(){
+
+    public void initial() {
+        rack.overrideLimitSwitchesEnable(false);
         double[] history = new double[10];
         int count = 0;
-        while(true){
+        while (true) {
             double max = Double.MIN_VALUE, min = Double.MAX_VALUE;
             rack.set(ControlMode.PercentOutput, -0.18);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             history[count] = rack.getSelectedSensorPosition();
             count++;
-            //超出十個就從最舊的開始覆蓋
-            if(count >= 10){
+            // 超出十個就從最舊的開始覆蓋
+            if (count >= 10) {
                 count = 0;
             }
-            //找出最大最小
-            for(int i = 0; i < history.length; i++){
-                if(history[i] > max)
+            // 找出最大最小
+            for (int i = 0; i < history.length; i++) {
+                if (history[i] > max)
                     max = history[i];
-                if(history[i] < min) 
+                if (history[i] < min)
                     min = history[i];
             }
-            //判斷是否有改變
-            if((max - min) < 50){
+            SmartDashboard.putNumber("temp max", max);
+            SmartDashboard.putNumber("temp min", min);
+            // 判斷是否有改變
+            if ((max - min) < 50) {
                 break;
             }
         }
-        //會出來代表已經到最底，並且限位被按下
+        rack.set(ControlMode.PercentOutput, 0);
+        rack.overrideLimitSwitchesEnable(true);
+        // 會出來代表已經到最底，並且限位被按下
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         if(rack.isRevLimitSwitchClosed() == 1){
+            SmartDashboard.putString("limitType", "NO");
             rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
         }else if(rack.isRevLimitSwitchClosed() == 0){
+            SmartDashboard.putString("limitType", "NC");
             rack.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyClosed);
         }
     }
