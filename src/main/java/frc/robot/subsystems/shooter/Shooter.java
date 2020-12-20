@@ -22,7 +22,7 @@ public class  Shooter extends Spinable{
     MotorFactory.configPF(flywheel,PowCon.flywheel_kP,PowCon.flywheel_kF,0);
     flywheel.configSupplyCurrentLimit(supplyCurrentLimitConfiguration);
     flywheel.config_kD(0, PowCon.flywheel_kD);
-
+    
     flywheel.configClosedloopRamp(0.5, 10);
     flywheel.setInverted(false);
     flywheelS.follow(flywheel);

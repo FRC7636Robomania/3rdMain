@@ -138,9 +138,10 @@ public class RobotContainer {
     // chooser.addOption("Left Up",          new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     // chooser.addOption("Left Down ",       new LeftDown(trajectoryDrivetrain, controlDrivetrain));
     // chooser.setDefaultOption("LeftUp Base", new OneMeter(-8240, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
-    chooser.addOption("OnlyShoot", new Shooting(m_shooter, 13500, m_conveyor, m_wing));
+    // chooser.addOption("OnlyShoot", new Shooting(m_shooter, 13500, m_conveyor, m_wing));
     chooser.addOption("Null", null);
     chooser.addOption("OneMeter", new OneMeter(-10157, trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
+    chooser.addOption("three", new LeftUp(trajectoryDrivetrain, controlDrivetrain, m_intake, m_conveyor, m_shooter, m_arm, m_wing, m_rack, m_tower));
     Shuffleboard.getTab("PositionCombine").add(chooser);
   }
 

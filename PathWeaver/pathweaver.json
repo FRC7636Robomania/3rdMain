@@ -1,5 +1,6 @@
 {
   "lengthUnit": "Meter",
+  "exportUnit": "Always Meters",
   "maxVelocity": 0.4,
   "maxAcceleration": 0.2,
   "wheelBase": 0.7407,

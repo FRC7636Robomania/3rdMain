@@ -30,26 +30,26 @@ public class LeftUp extends SequentialCommandGroup {
               Conveyor conveyor, Shooter shooter, Arm arm, Wing wing, Rack rack, Tower tower) {
 
     super(
-      new AutoAim(rack, tower),
+      // new AutoAim(rack, tower),
       // new RunCommand(()->rack.forward(), rack).withTimeout(0.8),
 
       // new RunCommand(()->rack.aim(-9090), rack).withTimeout(1.0),
 
       // new RunCommand(() -> tower.aim(), tower).withTimeout(1.0),
-      new Shooting(shooter, 13500, conveyor, wing),
+      // new Shooting(shooter, 13500, conveyor, wing),
       new InstantCommand(()-> TrajectoryFactory.getTrajectory(Constants.Trajectory.three)),
       new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
       new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.three), drivetrain, base)
-            .andThen(()->drivetrain.setOutput(0, 0)),
-      new ArmIn(arm).withTimeout(1).andThen(()->intake.forward()).andThen(()->wing.forward()),
-      
-      new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
-      new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.upSock), drivetrain, base)
             .andThen(()->drivetrain.setOutput(0, 0))
-            .andThen(()->intake.stop())
-            .andThen(()->wing.stop()),
-      // new AutoAim(rack, tower),
-      new Shooting(shooter, 13500, conveyor, wing)      
+      // new ArmIn(arm).withTimeout(1).andThen(()->intake.forward()).andThen(()->wing.forward()),
+      
+      // new InstantCommand(()-> TrajectoryFactory.initPose(drivetrain)),
+      // new TrajectoryCommand(TrajectoryFactory.getTrajectory(Constants.Trajectory.upSock), drivetrain, base)
+      //       .andThen(()->drivetrain.setOutput(0, 0))
+      //       .andThen(()->intake.stop())
+      //       .andThen(()->wing.stop()),
+      // // new AutoAim(rack, tower),
+      // new Shooting(shooter, 13500, conveyor, wing)      
       );
   }
 }
